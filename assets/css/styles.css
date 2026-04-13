@@ -1054,6 +1054,23 @@ html[lang="he"] .contact__headline a {
   margin-block: 26px 12px;
 }
 .modal__body .chips { margin-block-start: 12px; }
+.modal--wide .modal__dialog { max-inline-size: 1140px; }
+.modal__embed {
+  position: relative;
+  inline-size: 100%;
+  margin-block-end: 24px;
+  background: var(--paper-3);
+  border: 1px solid var(--line);
+}
+.modal__embed iframe {
+  display: block;
+  inline-size: 100% !important;
+  max-inline-size: 100%;
+  aspect-ratio: 1088 / 637;
+  block-size: auto !important;
+  min-block-size: 360px;
+  border: 0;
+}
 
 /* ---------- Mobile nav ---------- */
 @media (max-width: 900px) {

@@ -100,13 +100,21 @@
       const toolsLabel = isHE ? 'כלים' : 'Tools';
       const statusLabel = isHE ? 'סטטוס' : 'Status';
       const statusText = card.getAttribute('data-status') || '';
+      const embedTpl = card.querySelector('template[data-embed]');
+      const embedHTML = embedTpl ? embedTpl.innerHTML : '';
+      const embedBlock = embedHTML
+        ? '<div class="modal__embed">' + embedHTML + '</div>'
+        : '';
       modalBody.innerHTML =
+        embedBlock +
         '<p>' + escapeHTML(detail) + '</p>' +
         '<h4>' + toolsLabel + '</h4>' +
         '<div class="chips">' +
           tools.map(function (t) { return '<span class="chip">' + escapeHTML(t) + '</span>'; }).join('') +
         '</div>' +
         (statusText ? '<h4>' + statusLabel + '</h4><p>' + escapeHTML(statusText) + '</p>' : '');
+      // Wide layout when embed is present
+      modal.classList.toggle('modal--wide', !!embedHTML);
       modal.classList.add('is-open');
       modal.setAttribute('aria-hidden', 'false');
       document.body.style.overflow = 'hidden';
