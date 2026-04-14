@@ -81,32 +81,29 @@
             </a>
           </div>
         </div>
-        <div class="hero__art" aria-hidden="true" data-reveal>
-          <svg viewBox="0 0 520 520" xmlns="http://www.w3.org/2000/svg">
-            <!-- Editorial mark: ink-on-paper concentric composition -->
-            <circle cx="260" cy="260" r="244" fill="none" stroke="#1B1714" stroke-width="1" opacity="0.35"/>
-            <circle cx="260" cy="260" r="200" fill="none" stroke="#1B1714" stroke-width="1" opacity="0.5" stroke-dasharray="2 6"/>
+        <div class="hero__art hero__art--portrait" aria-hidden="true" data-reveal>
+          <svg class="hero__art-frame" viewBox="0 0 520 520" xmlns="http://www.w3.org/2000/svg">
+            <!-- Outer orbit (slow rotation) -->
+            <g class="hero__orbit hero__orbit--outer">
+              <circle cx="260" cy="260" r="244" fill="none" stroke="#1B1714" stroke-width="1" opacity="0.35"/>
+              <circle cx="76"  cy="76"  r="2.5" fill="#1B1714" opacity="0.7"/>
+              <circle cx="444" cy="76"  r="2.5" fill="#1B1714" opacity="0.7"/>
+              <circle cx="76"  cy="444" r="2.5" fill="#1B1714" opacity="0.7"/>
+              <circle cx="444" cy="444" r="2.5" fill="#1B1714" opacity="0.7"/>
+            </g>
+            <!-- Middle dashed orbit (slower counter-rotation) -->
+            <g class="hero__orbit hero__orbit--middle">
+              <circle cx="260" cy="260" r="200" fill="none" stroke="#1B1714" stroke-width="1" opacity="0.5" stroke-dasharray="2 6"/>
+            </g>
+            <!-- Inner static ring -->
             <circle cx="260" cy="260" r="156" fill="none" stroke="#1B1714" stroke-width="1" opacity="0.7"/>
-            <circle cx="260" cy="260" r="118" fill="#FBF7EC" stroke="#1B1714" stroke-width="1.5"/>
-            <text x="260" y="260" text-anchor="middle" dominant-baseline="central" font-family="Frank Ruhl Libre, Georgia, serif" font-weight="900" font-size="200" fill="#1B1714" letter-spacing="-10">ב</text>
-            <!-- Tick marks at compass points -->
+            <!-- Compass tick marks (static) -->
             <g stroke="#B8421A" stroke-width="2" stroke-linecap="round">
               <line x1="260" y1="6"   x2="260" y2="26"/>
               <line x1="260" y1="494" x2="260" y2="514"/>
               <line x1="6"   y1="260" x2="26"  y2="260"/>
               <line x1="494" y1="260" x2="514" y2="260"/>
             </g>
-            <!-- Decorative dots -->
-            <g fill="#B8421A">
-              <circle cx="260" cy="260" r="4"/>
-            </g>
-            <g fill="#1B1714" opacity="0.7">
-              <circle cx="76"  cy="76"  r="2.5"/>
-              <circle cx="444" cy="76"  r="2.5"/>
-              <circle cx="76"  cy="444" r="2.5"/>
-              <circle cx="444" cy="444" r="2.5"/>
-            </g>
-            <!-- Editorial label arc text (rotation marks) -->
             <g fill="none" stroke="#1B1714" stroke-width="1" opacity="0.4">
               <line x1="260" y1="40"  x2="260" y2="50"/>
               <line x1="260" y1="470" x2="260" y2="480"/>
@@ -114,6 +111,9 @@
               <line x1="470" y1="260" x2="480" y2="260"/>
             </g>
           </svg>
+          <div class="hero__portrait">
+            <img src="assets/img/ben-portrait.png" alt="בן לוי — תמונת פרופיל מאויירת" loading="eager" decoding="async">
+          </div>
         </div>
       </div>
     </section>

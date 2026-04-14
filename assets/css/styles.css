@@ -501,7 +501,81 @@ html[lang="he"] .hero__tagline {
 }
 .hero__art svg { inline-size: 100%; block-size: 100%; }
 @media (max-width: 768px) {
-  .hero__art { max-inline-size: 320px; opacity: 0.85; }
+  .hero__art { max-inline-size: 320px; }
+}
+
+/* Portrait variant — photo inside the editorial orbit frame */
+.hero__art--portrait {
+  inline-size: 100%;
+}
+.hero__art--portrait .hero__art-frame {
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+}
+.hero__art--portrait .hero__portrait {
+  position: absolute;
+  inset-block-start: 50%;
+  inset-inline-start: 50%;
+  inline-size: 45.5%;
+  aspect-ratio: 1 / 1;
+  margin-inline-start: -22.75%;
+  margin-block-start: -22.75%;
+  border-radius: 50%;
+  overflow: hidden;
+  background: var(--paper);
+  box-shadow:
+    0 0 0 2px var(--ink),
+    0 30px 60px -20px rgba(27, 23, 20, 0.35),
+    0 12px 30px -10px rgba(184, 66, 26, 0.18);
+  animation: hero-float 6.5s ease-in-out infinite;
+}
+.hero__art--portrait .hero__portrait img {
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: cover;
+  object-position: center 22%;
+  filter: saturate(1.02) contrast(1.02);
+}
+
+/* Slow concentric rotation for orbit rings */
+.hero__orbit {
+  transform-origin: 260px 260px;
+  transform-box: fill-box;
+}
+.hero__orbit--outer {
+  animation: hero-orbit-cw 80s linear infinite;
+}
+.hero__orbit--middle {
+  animation: hero-orbit-ccw 120s linear infinite;
+}
+
+@keyframes hero-orbit-cw {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+@keyframes hero-orbit-ccw {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(-360deg); }
+}
+
+@keyframes hero-float {
+  0%, 100% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-8px) scale(1.015);
+  }
+}
+
+/* Respect motion-reduction preference */
+@media (prefers-reduced-motion: reduce) {
+  .hero__orbit--outer,
+  .hero__orbit--middle,
+  .hero__art--portrait .hero__portrait {
+    animation: none;
+  }
 }
 
 /* ---------- About ---------- */
