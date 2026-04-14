@@ -39,9 +39,91 @@
 }
 
 html[lang="he"] {
-  --font-display: 'Frank Ruhl Libre', 'David Libre', Georgia, serif;
+  --font-display: 'Noto Serif Hebrew', 'Frank Ruhl Libre', 'David Libre', Georgia, serif;
   --font-body:    'Frank Ruhl Libre', 'David Libre', Georgia, serif;
-  --font-ui:      'Frank Ruhl Libre', 'David Libre', system-ui, sans-serif;
+  --font-ui:      'Heebo', 'Assistant', 'Frank Ruhl Libre', system-ui, sans-serif;
+}
+
+/* Hebrew typography refinements — editorial gravitas */
+html[lang="he"] body {
+  font-family: 'Frank Ruhl Libre', 'David Libre', Georgia, serif;
+  font-weight: 500;
+  letter-spacing: 0.003em;
+}
+
+/* Display: Noto Serif Hebrew at extra-bold — modern editorial serif with real contrast */
+html[lang="he"] .hero__title,
+html[lang="he"] .section__title,
+html[lang="he"] .writing__display,
+html[lang="he"] .contact__headline {
+  font-family: 'Noto Serif Hebrew', 'Frank Ruhl Libre', Georgia, serif;
+  font-weight: 900;
+  letter-spacing: -0.025em;
+  line-height: 0.95;
+  font-stretch: 75%; /* Noto Serif Hebrew supports condensed; tightens silhouette */
+}
+html[lang="he"] .hero__title { font-size: clamp(58px, 10.5vw, 156px); }
+
+/* Card / role headlines — slightly lighter editorial weight */
+html[lang="he"] .card__title,
+html[lang="he"] .timeline__role,
+html[lang="he"] .edu-card__degree,
+html[lang="he"] .skill-card__title,
+html[lang="he"] .modal__title {
+  font-family: 'Noto Serif Hebrew', 'Frank Ruhl Libre', Georgia, serif;
+  font-weight: 800;
+  letter-spacing: -0.012em;
+  font-stretch: 85%;
+}
+
+/* Stats: heavy editorial numerals — Bellefair has elegant didone forms */
+html[lang="he"] .stat__num {
+  font-family: 'Bellefair', 'Noto Serif Hebrew', 'Frank Ruhl Libre', Georgia, serif;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+}
+
+/* Accent name — full editorial weight */
+html[lang="he"] .accent {
+  font-family: 'Noto Serif Hebrew', 'Frank Ruhl Libre', Georgia, serif;
+  font-weight: 900;
+  font-stretch: 75%;
+}
+
+/* UI / micro-typography in Heebo */
+html[lang="he"] .nav__link,
+html[lang="he"] .btn,
+html[lang="he"] .chip,
+html[lang="he"] .card__tag,
+html[lang="he"] .section__eyebrow,
+html[lang="he"] .hero__eyebrow,
+html[lang="he"] .timeline__meta,
+html[lang="he"] .edu-card__meta,
+html[lang="he"] .modal__tag,
+html[lang="he"] .stat__label,
+html[lang="he"] .writing__meta,
+html[lang="he"] .lang-toggle,
+html[lang="he"] .footer {
+  font-family: 'Heebo', 'Assistant', system-ui, sans-serif;
+  letter-spacing: 0.035em;
+}
+html[lang="he"] .nav__link,
+html[lang="he"] .btn,
+html[lang="he"] .card__tag,
+html[lang="he"] .section__eyebrow,
+html[lang="he"] .hero__eyebrow,
+html[lang="he"] .timeline__meta,
+html[lang="he"] .edu-card__meta,
+html[lang="he"] .modal__tag {
+  font-weight: 500;
+}
+
+/* Reading body weight bump for HE */
+html[lang="he"] .hero__lede,
+html[lang="he"] .section__lede,
+html[lang="he"] .about__text p,
+html[lang="he"] .card__desc {
+  font-weight: 500;
 }
 
 /* ---------- Reset ---------- */
@@ -1070,6 +1152,310 @@ html[lang="he"] .contact__headline a {
   block-size: auto !important;
   min-block-size: 360px;
   border: 0;
+}
+
+.modal__lede {
+  font-family: var(--font-display);
+  font-size: 18px;
+  line-height: 1.55;
+  color: var(--ink);
+  margin-block-start: 8px;
+}
+
+/* ---- Rich narrative block inside modal ---- */
+.modal__narrative {
+  border-inline-start: 3px solid var(--ink);
+  padding-inline-start: 18px;
+  color: var(--ink-soft);
+  font-size: 15px;
+  line-height: 1.75;
+}
+html[dir="rtl"] .modal__narrative { border-inline-start: 3px solid var(--ink); }
+.modal__narrative h5 {
+  font-family: var(--font-ui);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--ink);
+  margin-block: 14px 6px;
+}
+.modal__narrative ul {
+  list-style: none;
+  padding: 0;
+  margin-block-start: 8px;
+}
+.modal__narrative li {
+  position: relative;
+  padding-inline-start: 16px;
+  margin-block-end: 6px;
+}
+.modal__narrative li::before {
+  content: '';
+  position: absolute;
+  inset-inline-start: 2px;
+  inset-block-start: 10px;
+  inline-size: 6px;
+  block-size: 1.5px;
+  background: var(--accent);
+}
+.modal__narrative p + p { margin-block-start: 10px; }
+
+/* ---- Download links ---- */
+.modal__downloads {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-block-start: 6px;
+}
+.modal__downloads a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 18px;
+  border: 1px solid var(--ink);
+  color: var(--ink);
+  background: var(--paper);
+  font-family: var(--font-ui);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  text-decoration: none;
+  transition: background var(--t-fast), color var(--t-fast);
+}
+.modal__downloads a:hover {
+  background: var(--ink);
+  color: var(--paper);
+}
+.modal__downloads a::before {
+  content: '↓';
+  font-weight: 700;
+}
+html[dir="rtl"] .modal__downloads a::before { content: '↓'; }
+
+/* ---- PDF viewer ---- */
+.modal__pdf {
+  inline-size: 100%;
+  aspect-ratio: 4 / 5;
+  max-block-size: 78vh;
+  min-block-size: 420px;
+  border: 1px solid var(--line);
+  background: var(--paper-3);
+  margin-block-end: 24px;
+}
+.modal__pdf object,
+.modal__pdf embed,
+.modal__pdf iframe {
+  inline-size: 100%;
+  block-size: 100%;
+  border: 0;
+}
+
+/* ---- Video ---- */
+.modal__video {
+  inline-size: 100%;
+  background: #000;
+  border: 1px solid var(--line);
+  margin-block-end: 24px;
+}
+.modal__video video {
+  display: block;
+  inline-size: 100%;
+  block-size: auto;
+  max-block-size: 70vh;
+}
+
+/* ---- Multi-video tab set ---- */
+.modal__videoset {
+  margin-block-end: 24px;
+}
+.modal__video-tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  margin-block-end: 18px;
+  border: 1px solid var(--line);
+}
+.modal__video-tab {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 20px;
+  background: var(--paper-3);
+  border: 0;
+  border-inline-end: 1px solid var(--line);
+  cursor: pointer;
+  text-align: start;
+  font-family: var(--font-ui);
+  color: var(--muted);
+  transition: background var(--t-fast), color var(--t-fast);
+}
+html[dir="rtl"] .modal__video-tab { border-inline-end: 1px solid var(--line); }
+.modal__video-tab:last-child { border-inline-end: 0; }
+.modal__video-tab:hover { background: var(--paper); color: var(--ink); }
+.modal__video-tab.is-active {
+  background: var(--ink);
+  color: var(--paper);
+}
+.modal__video-tab-num {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  opacity: 0.7;
+}
+.modal__video-tab.is-active .modal__video-tab-num { color: var(--accent); opacity: 1; }
+.modal__video-tab-label {
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+.modal__video-pane { display: none; }
+.modal__video-pane.is-active { display: block; }
+.modal__video-pane .modal__video { margin-block-end: 12px; }
+.modal__video-caption {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--muted);
+  font-style: italic;
+  padding-inline: 4px;
+}
+@media (max-width: 600px) {
+  .modal__video-tabs { grid-template-columns: 1fr; }
+  .modal__video-tab { border-inline-end: 0; border-block-end: 1px solid var(--line); }
+  .modal__video-tab:last-child { border-block-end: 0; }
+}
+
+/* ---- Placeholder / coming-soon card ---- */
+.card--placeholder {
+  opacity: 0.78;
+}
+.card--placeholder .card__thumb {
+  background: var(--paper-3);
+  color: var(--muted);
+}
+.card--placeholder .card__tag {
+  color: var(--muted);
+  letter-spacing: 0.18em;
+}
+.card__view--disabled {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  font-family: var(--font-ui);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+  cursor: not-allowed;
+}
+
+/* ---- Gallery ---- */
+.modal__gallery {
+  margin-block-end: 24px;
+}
+.modal__gallery-stage {
+  position: relative;
+  background: var(--paper-3);
+  border: 1px solid var(--line);
+  display: grid;
+  place-items: center;
+  padding: 12px;
+  min-block-size: 320px;
+}
+.modal__gallery-stage img {
+  display: block;
+  max-inline-size: 100%;
+  max-block-size: 58vh;
+  inline-size: auto;
+  block-size: auto;
+}
+.modal__gallery-stage figcaption {
+  display: block;
+  margin-block-start: 12px;
+  font-family: var(--font-ui);
+  font-size: 12px;
+  color: var(--muted);
+  text-align: center;
+  letter-spacing: 0.04em;
+}
+.modal__gallery-nav {
+  position: absolute;
+  inset-block-start: 50%;
+  transform: translateY(-50%);
+  inline-size: 38px;
+  block-size: 38px;
+  border: 1px solid var(--ink);
+  border-radius: 50%;
+  background: var(--paper);
+  color: var(--ink);
+  display: grid;
+  place-items: center;
+  font-size: 18px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background var(--t-fast), color var(--t-fast);
+}
+.modal__gallery-nav:hover { background: var(--ink); color: var(--paper); }
+.modal__gallery-nav--prev { inset-inline-start: 14px; }
+.modal__gallery-nav--next { inset-inline-end: 14px; }
+.modal__gallery-thumbs {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(76px, 1fr));
+  gap: 8px;
+  margin-block-start: 12px;
+}
+.modal__gallery-thumb {
+  aspect-ratio: 16 / 10;
+  background: var(--paper-3);
+  border: 1.5px solid var(--line);
+  padding: 0;
+  cursor: pointer;
+  overflow: hidden;
+  transition: border-color var(--t-fast), transform var(--t-fast);
+}
+.modal__gallery-thumb img {
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: cover;
+  display: block;
+}
+.modal__gallery-thumb:hover { border-color: var(--ink); }
+.modal__gallery-thumb.is-active {
+  border-color: var(--accent);
+  transform: translateY(-1px);
+}
+
+/* ---- Two-item side-by-side for presentations ---- */
+.modal__split {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  margin-block-end: 24px;
+}
+@media (min-width: 820px) {
+  .modal__split { grid-template-columns: 1fr 1fr; }
+}
+.modal__split-item {
+  border: 1px solid var(--line);
+  background: var(--paper-3);
+  padding: 18px;
+}
+.modal__split-item h5 {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-block-end: 6px;
+}
+.modal__split-item p {
+  font-size: 13px;
+  color: var(--muted);
+  margin-block-end: 12px;
 }
 
 /* ---------- Mobile nav ---------- */

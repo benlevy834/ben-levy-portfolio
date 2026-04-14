@@ -1,0 +1,358 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <title>LOSER_HUNT 2.0 — A short story by Ben Levy</title>
+  <meta name="description" content="LOSER_HUNT 2.0 — a short psychological horror story by Ben Levy.">
+  <meta name="theme-color" content="#F2EBDB">
+
+  <link rel="icon" type="image/svg+xml" href="../assets/img/favicon.svg">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@400;500;700;900&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,700;0,9..144,900;1,9..144,400;1,9..144,700;1,9..144,900&family=Instrument+Sans:ital,wght@0,400;0,500;0,700;1,400&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../assets/css/styles.css">
+
+  <style>
+    .story {
+      max-inline-size: 720px;
+      margin: 0 auto;
+      padding: clamp(40px, 6vw, 80px) clamp(20px, 5vw, 40px) 120px;
+    }
+    .story__back {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-ui);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      margin-block-end: 56px;
+      transition: color var(--t-fast);
+    }
+    .story__back:hover { color: var(--ink); }
+    .story__back::before { content: '←'; font-size: 16px; }
+
+    .story__eyebrow {
+      font-family: var(--font-ui);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-block-end: 18px;
+    }
+    .story__title {
+      font-family: var(--font-display);
+      font-size: clamp(40px, 7vw, 76px);
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      line-height: 1.0;
+      color: var(--ink);
+      margin-block-end: 18px;
+    }
+    .story__byline {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: 18px;
+      color: var(--muted);
+      margin-block-end: 8px;
+    }
+    .story__meta {
+      font-family: var(--font-ui);
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      padding-block-end: 24px;
+      border-block-end: 1px solid var(--line);
+      margin-block-end: 48px;
+    }
+
+    .story__body {
+      font-family: var(--font-reading, 'Newsreader', Georgia, serif);
+      font-size: 19px;
+      line-height: 1.78;
+      color: var(--ink);
+    }
+    .story__body p {
+      margin-block-end: 22px;
+      text-align: justify;
+      hyphens: auto;
+    }
+    .story__body p:first-of-type::first-letter {
+      font-family: var(--font-display);
+      font-size: 4.6em;
+      font-weight: 900;
+      float: left;
+      line-height: 0.85;
+      padding-block-start: 6px;
+      padding-inline-end: 10px;
+      color: var(--accent);
+    }
+
+    .story__divider {
+      display: block;
+      text-align: center;
+      margin-block: 40px;
+      color: var(--muted);
+      font-size: 16px;
+      letter-spacing: 1em;
+    }
+    .story__divider::before { content: '· · ·'; }
+
+    /* Chat block */
+    .story__chat {
+      margin-block: 28px;
+      padding: 22px 26px;
+      background: var(--paper-3);
+      border: 1px solid var(--line);
+      font-family: var(--font-ui);
+      font-size: 14.5px;
+      line-height: 1.65;
+    }
+    .story__chat-line {
+      margin-block-end: 6px;
+    }
+    .story__chat-line strong {
+      display: inline-block;
+      min-inline-size: 60px;
+      font-weight: 700;
+      color: var(--ink);
+    }
+    .story__chat-line.daniel strong { color: var(--accent); }
+    .story__chat-line.indent {
+      padding-inline-start: 60px;
+      color: var(--ink-soft);
+    }
+
+    /* Recipe block */
+    .story__recipe {
+      margin-block: 28px;
+      padding: 22px 28px 22px 56px;
+      border-inline-start: 3px solid var(--accent);
+      background: var(--paper-3);
+      font-family: var(--font-reading, 'Newsreader', Georgia, serif);
+      font-size: 17px;
+      line-height: 1.7;
+      color: var(--ink-soft);
+      font-style: italic;
+    }
+    .story__recipe ol {
+      padding-inline-start: 0;
+      margin: 0;
+    }
+    .story__recipe li {
+      margin-block-end: 8px;
+    }
+
+    /* Forum / bet block */
+    .story__forum {
+      margin-block: 32px;
+      padding: 24px 28px;
+      background: #1B1714;
+      color: #FBF7EC;
+      border: 1px solid #1B1714;
+      font-family: 'Courier New', monospace;
+      font-size: 14px;
+      line-height: 1.7;
+    }
+    .story__forum-date {
+      font-family: var(--font-ui);
+      font-size: 11px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-block-end: 10px;
+    }
+    .story__forum-prompt {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: 17px;
+      line-height: 1.5;
+      color: #FBF7EC;
+      margin-block-end: 18px;
+    }
+    .story__forum-bet {
+      font-size: 12px;
+      letter-spacing: 0.06em;
+    }
+    .story__forum-bet div {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+      margin-block-end: 4px;
+    }
+    .story__forum-bet .lbl {
+      inline-size: 40px;
+      color: var(--accent);
+      font-weight: 700;
+    }
+    .story__forum-bet .bar {
+      flex: 1;
+      color: rgba(251,247,236,0.5);
+      letter-spacing: 0;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+    .story__forum-bet .amt {
+      color: #FBF7EC;
+      font-weight: 700;
+    }
+
+    .story__signal {
+      display: block;
+      margin-block: 28px;
+      text-align: center;
+      font-family: 'Courier New', monospace;
+      font-size: 16px;
+      letter-spacing: 0.2em;
+      color: var(--accent);
+      padding: 16px;
+      border-block: 1px solid var(--line);
+    }
+
+    .story__end {
+      display: block;
+      margin-block-start: 60px;
+      text-align: center;
+      font-family: var(--font-ui);
+      font-size: 11px;
+      letter-spacing: 0.4em;
+      color: var(--muted);
+    }
+    .story__end::before, .story__end::after {
+      content: '';
+      display: inline-block;
+      inline-size: 40px;
+      block-size: 1px;
+      background: var(--muted);
+      vertical-align: middle;
+      margin-inline: 14px;
+    }
+
+    @media (max-width: 600px) {
+      .story__body { font-size: 17px; }
+      .story__forum { font-size: 12.5px; padding: 18px 20px; }
+      .story__forum-bet .bar { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <main class="story">
+    <a class="story__back" href="../index.html#writing">Back to portfolio</a>
+
+    <div class="story__eyebrow">Short Story · Fiction · English</div>
+    <h1 class="story__title">LOSER_HUNT<span style="color: var(--accent);">2.0</span></h1>
+    <div class="story__byline">by Ben Levy</div>
+    <div class="story__meta">Written during English Literature studies, Ben-Gurion University</div>
+
+    <div class="story__body">
+
+      <p>I was at work when I received the email. It said, "You have been chosen to take part in our journey to become messengers of the law," or something along those fancy lines. For a moment it felt like a good thing. I finally was presented with the opportunity of becoming a man. But it was far. Miles away, which in other circumstances would be awesome, yet the reality was real. I had to announce it to my mother. I had to have her blessing.</p>
+
+      <p>She was sitting in the living room watching <em>The Big Brother</em>, her favorite TV show, eating Tapuchips, and drinking Yarden Cabernet Sauvignon. Subtly, I opened the door, she didn't notice my presence. My bare feet were glued to the ground; each step was a nightmare. I felt sick, something about thinking of how to bring up the words brought up something else. "Mama," I said. "Yes darling." "I bear some news." "Well let's hear them. Are they pleasant news?" she said with slight excitement. "Are you finally getting this promotion that you desired?" Ultimately, it was a promotion, just not the kind she was hoping for. "No mama. It isn't that," I mumbled. "So, speak up! What is it?" "I received an email. I was elected to this prestigious school." She grinned. I saw her calculating the various possibilities arising from this opportunity. Hope filled me up. I could see myself wandering among those halls, smiling, and waving my hands to those people who know me and appreciate me. The black cloak will fit me well, I can see it now. But then she asked this horrifying question. "Where is this school, honey?" I froze. "Don't be mad Mama, but it is kinda far." "Far?" She panicked. Something about her tone implied that this cloak wouldn't fit me so well, and those people are never going to know me. She finally switched the topic. Redemption, I thought. It was too soon to think that, because she started by saying "I was at the doctor's yesterday."</p>
+
+      <p>She tended to start to talk about her medical problems in these kinds of moments. She believed that it would make me stay. She believed that my love for her and my conscience will make me stay. And she was right. I always stayed. I have turned down countless job and study applications. Some of them crushed my heart; it's difficult to take your own dreams and take a huge dump on them all. And somehow, I kept sending those applications, hoping that one day she'll understand. Yet, there she was. "The doctor said that the tumor in my leg is actually in a severe potential of becoming malignant," tears were pooling in the corners of her eyes. Every day she had a new potentially malignant tumor and new revelation regarding her illnesses. "Honey, he says that I might die soon." My heart sank. Maybe this time it is dangerous, I thought. I didn't know, and I didn't want to lose her. And if so, and she was destined to die, I wanted to be near her at all times. "Mama, if it is malignant, how much time do you have left?" I asked, shivering. "Honey, don't worry, he said that if it is the case, most likely that I'll have to amputate. And you are here to help me through it, aren't you?" "Yes, I am, mama." Once again, I had to let go of my ambitions and stay here. To stay at this lousy job in the supermarket in this shitty kibbutz. Yes, she needed me more than ever, but this time I had a feeling that it'll be different.</p>
+
+      <span class="story__divider"></span>
+
+      <p>Life in kibbutz Revivim is rather uninteresting, and unless you're Daniel, it's hardly a place to grow into a scholar or a great businessman. Daniel was my sole (and best) friend. He was a very accomplished and affluent man, and I approached him whenever I needed help or advice, like this time. So, I stepped outdoors for some fresh air and texted him.</p>
+
+      <div class="story__chat">
+        <div class="story__chat-line"><strong>Isaac:</strong> Hey…</div>
+        <div class="story__chat-line daniel"><strong>Daniel:</strong> Hey man</div>
+        <div class="story__chat-line indent">Is everything alright?</div>
+        <div class="story__chat-line"><strong>Isaac:</strong> Idk what to do about her… She's sick again and she expects me to stay nearby</div>
+        <div class="story__chat-line indent">Idk if I should believe her after everything…</div>
+        <div class="story__chat-line daniel"><strong>Daniel:</strong> I'll tell you what you should do</div>
+        <div class="story__chat-line indent">First of all, you must be grateful for having a mother who loves you so much and wants you near her like that, that's a special kind of love man…</div>
+        <div class="story__chat-line"><strong>Isaac:</strong> Yeah, I know…</div>
+        <div class="story__chat-line indent">FML!</div>
+        <div class="story__chat-line daniel"><strong>Daniel:</strong> Secondly, I think that I have something for you that might help you earn lots of money</div>
+        <div class="story__chat-line indent">You'll be able to hire a nurse for your mother if you desire!</div>
+        <div class="story__chat-line"><strong>Isaac:</strong> Idk about that… You should stay away from those kinds of things</div>
+        <div class="story__chat-line daniel"><strong>Daniel:</strong> Have you heard of the Deep Web?</div>
+        <div class="story__chat-line"><strong>Isaac:</strong> NO. What is that?</div>
+        <div class="story__chat-line indent">Is it fishing?</div>
+        <div class="story__chat-line indent">I hate fishing!</div>
+        <div class="story__chat-line indent">It's tedious…</div>
+        <div class="story__chat-line daniel"><strong>Daniel:</strong> No moron, it's not fishing</div>
+        <div class="story__chat-line indent">It's a place on the internet, deep inside, where the law can't reach you.</div>
+        <div class="story__chat-line indent">Absolutely anonymously, you can do a job or two and then disappear.</div>
+        <div class="story__chat-line indent">Just choose one! Easy money!!</div>
+        <div class="story__chat-line"><strong>Isaac:</strong> Idk man…</div>
+        <div class="story__chat-line daniel"><strong>Daniel:</strong> Just read about that FFS</div>
+        <div class="story__chat-line indent">Try TOR PROJECT.</div>
+      </div>
+
+      <p>I usually stay away from trouble. That's why in high school Daniel and I weren't exactly best friends. So how has it changed you might ask? I actually don't know. One day he appeared on my doorstep with a wide grin, asking to use the bathroom. He had this charm. Even in high school, he was incredibly popular, dated the prettiest girl, and was the soccer team's star player. He just knew how to talk everyone into doing what he wanted. I guess it explains why I didn't like him then. He appeared to be so phony, and I didn't exactly live the lifestyle he did. But on that particular day at my house, his smile and manner of speaking won me over. We quickly became best friends. Me and Daniel are best buddies. I, who was this shy insecure little kid, am friends with the most popular kid in school. Who would have imagined? So, it is understandable why despite my moral code I did as he said and searched for some information about this Deep Web. After reading and doing small research online I realized that in order to get a real sense of what it is, I have to experience it firsthand. After all, it is deep inside the internet because it contains illegal stuff, so reading about it on the regular internet is kind of pointless. I downloaded the TOR browser. At first, it seemed pretty regular, maybe some pot selling and prostitution but nothing radical. After a few hours of surfing this Deep Web, I decided to go to bed. But then a message popped.</p>
+
+      <div class="story__signal">3$O999: OPEN</div>
+
+      <p>I unconsciously clicked.</p>
+
+      <p>Suddenly many windows appeared and when I say many, I mean loads of them. Countless forums on topics that I didn't even know existed. From "How to use 'Special K'", which is apparently Ketamine, a common kind of roofie, to "Recipes and Meat supplies." As a carnivore myself I decided to take a look. New meat recipes are a no-brainer for me. Meat is kind of an addiction of mine. Sometimes in the supermarket when we get new cuts of meat, I like to organize them myself. Just thinking about them cooking and sizzling on the grill makes me drool. Man what I would do for a nice Prime Rib steak, I thought. Well, very quickly I discovered that this is not the kind of meat I tend to cook. The prices were very high; $1,000 for breasts is just outrageous, I thought. Then I clicked on an image link that said, "Thank you." I immediately threw up. It was a selfie of a bearded sweaty old man with shiny eyes, devouring a human hand. He wrote: "Thank you GINGER6MEAT for this delicious piece." He even attached a recipe.</p>
+
+      <div class="story__recipe">
+        <ol>
+          <li>Drain the blood into a ball. (Keep it, you'll need it).</li>
+          <li>Take the skin off — salt it — and put it in the oven for dehydration.</li>
+          <li>Now make a marinade out of blood, soy sauce, garlic, and chopped fingernails.</li>
+          <li>Put the whole hand inside…</li>
+        </ol>
+      </div>
+
+      <p>Cannibals! I got sick again. Who are those people?! Why would someone do it and pay so much money for this kind of crap?! And most importantly, how did they get those meat cuts?! They might have chopped it off fresh corpses, slaughtered people for it, or even severed a living person to keep it young. The possibilities kept rising in my mind. I quickly closed up this window. It was then that I noticed all of those forums with people's names in their titles. So many names. I didn't expect anything, yet curiosity got the better of me, and I searched for my name.</p>
+
+      <p>There it was. A forum with my name. At first, I thought it might be related to someone else with my name, but the pictures and the description convinced me otherwise. I didn't have anything left to vomit. Pictures of me, from the age of 7 till now. Lots of them. My work at the supermarket, my family, and even my wish list which included my dream of leaving home and becoming a lawyer, everything was there. Tears filled up my eyes. The forum had about 130 users, and all of them were active. Mean words, so many mean and ominous words. "Loser, hopeless, pathetic, hideous, dumb, miserable, why does he think that he has a future XD," and many more, mean mean words. So many folders, so many years. Somebody was documenting my life and uploading it to the Deep Web. Money bars everywhere. I was shivering. People bet my life decisions.</p>
+
+      <div class="story__forum">
+        <div class="story__forum-date">07 / 09 / 2016</div>
+        <div class="story__forum-prompt">Will our worthless Isaac quit his job after discovering that his boss is fucking his girlfriend?</div>
+        <div class="story__forum-bet">
+          <div><span class="lbl">YES</span><span class="bar">────────</span><span class="amt">$12,706</span></div>
+          <div><span class="lbl">NO</span><span class="bar">─────────────────────────────</span><span class="amt">$62,909</span></div>
+        </div>
+      </div>
+
+      <p>I loved Rachel. She was my first (and last) girlfriend, and we were deeply in love or so I thought. Daniel arranged this fix-up. "Isaac, haven't you got tired from this loneliness? You have to find someone already, and guess what… I think that I know just the perfect one for you!" He knew just how to sell you whatever idea was in his mind, witchcraft, magic, name it how you want. You can't resist him. If he says that this is perfect for me, so it is. He liked to say that "life is a shitty mess. Sometimes you have to spray some air freshener to expose happiness," whatever that means. Daniel worked at a successful accounting firm, and Rachel was one of the secretaries. She was beautiful, a real perfection, and I didn't believe someone like her would even look at me. We dated for a while and I was overjoyed beyond words, but after some time, I got this feeling that something was wrong with her. She would've disappeared for days and then come back as if nothing happened. I was afraid to confront her about that. She was the only good thing in my life and I was afraid of losing the one good thing in my life. One day, I was on my way home from the supermarket. It was a long grueling shift and I was fuzzy and tired. It wasn't until I was close to home that I realized I had forgotten to pick up the groceries my mother had requested. Every day she would've remembered a new thing missing from the refrigerator, and I had to bring it home with me. I barely got back there, and when I was about to get in, I heard screaming. Loud screaming of a girl. I was never the hero kind of guy but I acted out of instinct. Maybe someone is in danger, I thought. I was worried, so I ran in as fast as I can, and there they were. My boss Alex and Rachel, doing it right over my things. They didn't notice me, yet I can't delete the sight. He was right over her with his straining ugly face he does every time we carry new goods from the truck, and she was bending over the desk screaming so loudly. Something I never made her do, definitely not like that. I stayed in the relationship with her regardless and made no mention of it to her or to Alex. She dumped my ass a week later because she needed some "alone time." But then I realized, something was strange about this page. The date of this forum page was 07/09/2016. And as much as I tried to forget this disastrous day I saw her screaming and moaning over my desk, I couldn't, so I was sure it was a day after this date, which led to the question of how on earth could they possibly know.</p>
+
+      <p>I immediately called Daniel and told him everything. I believed that if someone would know how to fix it it'd be him. He tried to calm me down. He said that this kind of thing is reversible, and I should not be worried. Yet something in his voice told me otherwise. His regular, reasonable, calm tone shifted into something unstable and eerie. I could hear the uncertainty in his words, but very quickly he gathered himself together and gave me the number of someone he said was an expert in this subject. His name was Gabriel and he sounded very nice on the phone. He said that he'll be at my place in one hour which sounded a bit weird, but I wasn't in a place to be picky. I wanted to get rid of that as fast as I could. Gabriel looked like those action movie stars. He was a handsome Latin man with the whitest smile. When he came into my house he approached my Mother like a real gentleman to say hello. "Hello madam," he said with his white grin. "Hello and who are you?" she said quite suspiciously. Well, my mother wasn't so good at hospitality. Since my father died we had almost no company in the house. She and my father weren't exactly the dream couple. She left him with me immediately after giving birth and moved abroad for a job or something like that; until now I have no idea what her profession is. She came back when I was about seven years old and since then she was a mother and wife again, which felt like my father didn't fully accept. Well, I think, I actually don't remember anything of what was before the age of seven, but I guess nobody does. So, I can't actually compare how my father was before she came. "I am your son's friend," Gabriel continued, still smiling. "You're welcome to eat and drink as much as you want, feel at home," Mama replied with a smile. Something was wrong with the vibe between them. So much smiling. Mama never was so nice to any of my guests, especially not smiling at them. Maybe Gabriel's looks got her attention, I thought, which made me nauseous. We got inside my room. Gabriel gave me a feeling that he knew what he did, and after ten minutes he said he was done and I shouldn't worry about it anymore. I felt relieved. Like a stone came off my chest. I tried to ask him for more details like who were the people that ran this forum. How would I know that they would not go after me? How is he so sure that this malicious forum is closed for good? But he was out before I could blink. Even though it was behind me now, I was very confused and upset. How come such a large chunk of the internet is concealed and authorities do nothing about it? About those horrible things and people that go wild there, being monsters. I could not stop thinking about it, and I didn't want to stop thinking about it. I refused to let it go. Someone was messing with my life, and I deserved answers.</p>
+
+      <p>I started by googling "Deep Web crimes." A bunch of articles came up. Disturbing things like hit men that gave service through Deep Web platforms, drug trafficking, child trafficking, women trafficking, organ trafficking, which I came across earlier, child porn, and the list goes on. After hours of feeding my fears and my nausea, I came across one particular article that got my attention; "The Dark Web Organization that Controls People's Future." It was a brief article with little content, yet the description fitted the forums I discovered and the one on myself. Live forums that document people's lives and bet on their life decisions. I was nervous. I saw something that caused my heart to beat so quickly and loudly that I couldn't hear myself think. It was a picture of a man. A Latin handsome man with the whitest smile on earth. This wasn't a smile I could forget. <em>"Please let us know if you know who this man is. Please be cautious since he is extremely dangerous and deceptive."</em> Gabriel was wanted for the felony of being one of the leaders of this organization. My chest felt heavier. My head got dizzy. I couldn't believe it. He struck me as a good fellow. He came to my house, talked to my mother, and made me feel that everything was behind me, and I bought his show. What a fool am I? Suddenly it hit me, Daniel sent Gabriel's number to me, so maybe he knows something, or maybe Gabriel deceived him as well. No, Daniel, unlike myself, was not the type of person who could be easily misled. I felt like I was going to faint. They got into my house. They know everything about me.</p>
+
+      <p>I got up to get a drink. I felt that if I didn't drink some water right away I'll pass out. Mama was taking a shower and her laptop was on the kitchen island, which wasn't typical of us. Normally you wouldn't find private belongings lying around the house, "privacy is crucial for healthy cohabitation." This is what Mama always said when I was little and wanted to play with her stuff. The house was silent, the kind of silence that makes your loud thoughts reverberate, and they didn't stop. They all were inside my head and they knew what was next to come. My future is in their hands. I grabbed a glass of water and drank the whole thing in seconds. My hands were trembling, and the rhythm of my heart made my chest ache. I grabbed another glass of water. A sudden loud DING caused me to drop the glass on the floor. I always hated notifications. They always scare the shit out of me. Fragments of glass were everywhere now, but I didn't care. I wanted to find out who was the fucker that caused this ding, so I walked towards the laptop. I stepped on the fragments on the floor. My feet bled all over the floor, but I didn't give a shit at that stage. I opened the laptop, and a message popped on the screen. It was on the TOR browser. Mama had fucking TOR on her computer! My chest was going to burst. <em>"Congratulations, $2,234 in bitcoins received in your account from LOSER_HUNT2.0."</em> I clicked on the link, and there it was. My forum, my damned forum.</p>
+
+      <div class="story__forum">
+        <div class="story__forum-date">15 / 08 / 2023</div>
+        <div class="story__forum-prompt">Our petty loser got accepted to a revered law school. Just like he wanted. Will he fuck up this opportunity as well?</div>
+        <div class="story__forum-bet">
+          <div><span class="lbl">YES</span><span class="bar">─────────────────────────</span><span class="amt">$25,613</span></div>
+          <div><span class="lbl">NO</span><span class="bar">────────</span><span class="amt">$6,802</span></div>
+        </div>
+      </div>
+
+      <p>Many possibilities came up in my head. Many voices told me different stories. Those fuckers were inside my head. I wanted to shush them, so I punched and scratched my head, over and over again, harder and harder. They did not stop! My head bled but I felt no pain. Why would she do it to me? Why would Daniel do it to me? A mother selling her own son, her only son. I gave up everything for her and she made money from my sacrifices. If my mother and my closest friend are in it, it must mean everyone I know is in it too. Yes, everyone is involved. Yes, I know it. I can feel it, I thought. What a horrible feeling. I got inside my room and locked myself in. I was there, in the dark, for three days, listening to them talking, whispering, and sometimes screaming. I didn't eat for three days, and I peed and crapped my pants. My mother tried to convince me to get out. "Honey, you have to eat something. You'll hurt yourself." The possibility of hurting myself wasn't something that would scare me out of the room, and her desperate attempts to get me out of the room were without success. That was until Daniel came and knocked on my door. "Isaac GET OUT! I'll break the door if you wouldn't!" he urged. "Do not listen to him," they shouted. They told me that "he knows everything I know and everything I'll know," they said it repeatedly, and they became louder with each second. He started breaking the door, so I came out. They became angrier. They shouted "DON'T!" something like a million times a second in million different pitches. It sounded like a waterfall smashing onto rocks. I felt my brain coming out of my skull. I slowly hobbled after Mama and Daniel to the living room. They quietly sat down. "I know EVERYTHING," I shouted while they kept screaming in my head "THEY know everything!" "SHUTTT UPPP," I cried. Mama and Daniel solemnly looked at me and said nothing. "Say it! Say you control my future! Say you control my life!" I pulled the bottle of wine from the table and crushed it on my head, the voices stopped. Small fragments of glass got into my left eye. My sight was blurry. I took the broken bottle and pressed it onto my hand. "I have to hear that. Fucking tell me!" I yelled. Mama and Daniel looked into my eyes and grinned. From ear to ear, they had a huge, horrendous grin on their faces. The TV turned on. Live footage of the living room was displayed, and on the side, a money bar appeared.</p>
+
+      <div class="story__forum">
+        <div class="story__forum-date">18 / 08 / 2023</div>
+        <div class="story__forum-prompt">Will this pathetic pussy finally kill himself?</div>
+        <div class="story__forum-bet">
+          <div><span class="lbl">YES</span><span class="bar">─────────────────────────────────────────</span><span class="amt">$3,000,889</span></div>
+          <div><span class="lbl">NO</span><span class="bar">───</span><span class="amt">$92,510</span></div>
+        </div>
+      </div>
+
+      <div class="story__end">END</div>
+    </div>
+  </main>
+
+</body>
+</html>

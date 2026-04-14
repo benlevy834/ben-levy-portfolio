@@ -98,28 +98,112 @@
       const detail = card.getAttribute('data-detail') || '';
       const tools = (card.getAttribute('data-tools') || '').split('|').filter(Boolean);
       const toolsLabel = isHE ? 'כלים' : 'Tools';
+      const downloadsLabel = isHE ? 'קבצים להורדה' : 'Downloads';
       const statusLabel = isHE ? 'סטטוס' : 'Status';
+      const narrativeLabel = isHE ? 'על התהליך' : 'Behind the work';
       const statusText = card.getAttribute('data-status') || '';
-      const embedTpl = card.querySelector('template[data-embed]');
-      const embedHTML = embedTpl ? embedTpl.innerHTML : '';
-      const embedBlock = embedHTML
-        ? '<div class="modal__embed">' + embedHTML + '</div>'
+
+      // Media template (gallery/video/iframe/pdf/etc) — raw HTML from <template data-embed>
+      const mediaTpl = card.querySelector('template[data-embed]');
+      const mediaHTML = mediaTpl ? mediaTpl.innerHTML : '';
+
+      // Narrative template (optional rich body)
+      const narrativeTpl = card.querySelector('template[data-narrative]');
+      const narrativeHTML = narrativeTpl ? narrativeTpl.innerHTML : '';
+
+      // Downloads template (optional <a> links)
+      const downloadsTpl = card.querySelector('template[data-downloads]');
+      const downloadsHTML = downloadsTpl ? downloadsTpl.innerHTML : '';
+
+      const toolsBlock = tools.length
+        ? '<h4>' + toolsLabel + '</h4><div class="chips">' +
+            tools.map(function (t) { return '<span class="chip">' + escapeHTML(t) + '</span>'; }).join('') +
+          '</div>'
         : '';
+
+      const narrativeBlock = narrativeHTML
+        ? '<h4>' + narrativeLabel + '</h4><div class="modal__narrative">' + narrativeHTML + '</div>'
+        : '';
+
+      const downloadsBlock = downloadsHTML
+        ? '<h4>' + downloadsLabel + '</h4><div class="modal__downloads">' + downloadsHTML + '</div>'
+        : '';
+
       modalBody.innerHTML =
-        embedBlock +
-        '<p>' + escapeHTML(detail) + '</p>' +
-        '<h4>' + toolsLabel + '</h4>' +
-        '<div class="chips">' +
-          tools.map(function (t) { return '<span class="chip">' + escapeHTML(t) + '</span>'; }).join('') +
-        '</div>' +
+        mediaHTML +
+        (detail ? '<p class="modal__lede">' + escapeHTML(detail) + '</p>' : '') +
+        narrativeBlock +
+        toolsBlock +
+        downloadsBlock +
         (statusText ? '<h4>' + statusLabel + '</h4><p>' + escapeHTML(statusText) + '</p>' : '');
-      // Wide layout when embed is present
-      modal.classList.toggle('modal--wide', !!embedHTML);
+
+      // Wide layout whenever there is any media
+      modal.classList.toggle('modal--wide', !!mediaHTML);
       modal.classList.add('is-open');
       modal.setAttribute('aria-hidden', 'false');
       document.body.style.overflow = 'hidden';
-      // Focus first focusable
+
+      // Activate simple gallery lightbox (next/prev via thumbnails already inline)
+      const gallery = modalBody.querySelector('[data-gallery]');
+      if (gallery) initGallery(gallery);
+
+      // Activate video tab switcher
+      const videoset = modalBody.querySelector('.modal__videoset');
+      if (videoset) initVideoTabs(videoset);
+
       setTimeout(function () { modalClose.focus(); }, 10);
+    }
+
+    function initVideoTabs(root) {
+      const tabs = root.querySelectorAll('[data-video-tab]');
+      const panes = root.querySelectorAll('[data-video-pane]');
+      tabs.forEach(function (tab) {
+        tab.addEventListener('click', function () {
+          const target = tab.getAttribute('data-video-tab');
+          tabs.forEach(function (t) {
+            const on = t === tab;
+            t.classList.toggle('is-active', on);
+            t.setAttribute('aria-selected', on ? 'true' : 'false');
+          });
+          panes.forEach(function (p) {
+            const on = p.getAttribute('data-video-pane') === target;
+            p.classList.toggle('is-active', on);
+            // Pause videos in inactive panes
+            const v = p.querySelector('video');
+            if (v && !on) { try { v.pause(); } catch (e) {} }
+          });
+        });
+      });
+    }
+
+    function initGallery(root) {
+      const stage = root.querySelector('[data-gallery-stage]');
+      const thumbs = root.querySelectorAll('[data-gallery-thumb]');
+      if (!stage || !thumbs.length) return;
+      thumbs.forEach(function (t, idx) {
+        t.addEventListener('click', function () {
+          const src = t.getAttribute('data-src');
+          const caption = t.getAttribute('data-caption') || '';
+          stage.querySelector('img').src = src;
+          stage.querySelector('img').alt = caption;
+          const cap = stage.querySelector('figcaption');
+          if (cap) cap.textContent = caption;
+          thumbs.forEach(function (x) { x.classList.remove('is-active'); });
+          t.classList.add('is-active');
+          stage.setAttribute('data-index', idx);
+        });
+      });
+      // Prev/Next buttons
+      const prev = root.querySelector('[data-gallery-prev]');
+      const next = root.querySelector('[data-gallery-next]');
+      function go(delta) {
+        const cur = parseInt(stage.getAttribute('data-index') || '0', 10);
+        const n = thumbs.length;
+        const nx = (cur + delta + n) % n;
+        thumbs[nx].click();
+      }
+      if (prev) prev.addEventListener('click', function () { go(-1); });
+      if (next) next.addEventListener('click', function () { go(1); });
     }
 
     function closeModal() {
