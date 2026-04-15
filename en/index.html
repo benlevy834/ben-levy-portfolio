@@ -162,20 +162,32 @@
 
           <!-- Card 1 -->
           <article class="card" data-reveal data-card
-            data-tag="Storyline"
-            data-title="Articulate Storyline Modules"
-            data-tools="Articulate Storyline|Vyond|Adobe Audition|SCORM"
-            data-detail="End-to-end interactive modules: branching scenarios, assessment paths, embedded Vyond animation, deployed as SCORM on Israel's Gefen portal. Learners get personalized feedback and a live guide they can return to."
-            data-status="Due to client information-security constraints, Storyline modules aren't publicly viewable. I'm happy to walk you through them in a call or share a private review link — just email me.">
+            data-tag="Storyline &amp; Simulations"
+            data-title="Training Simulation · Backup Plans"
+            data-tools="Storyline-style Simulations|Needs Analysis|Scenario Design|Git/GH Pages"
+            data-detail="A scenario-based simulation module I built for Kidum's Gefen program instructors — training them to handle real-time classroom disruptions. Instructors learn both pedagogical and technological tools, then practice them on realistic scenarios: projector failure, missing workbooks, students without materials. A &quot;backup plan&quot; for every situation.">
+            <template data-embed>
+              <div class="modal__embed">
+                <iframe src="https://benlevy834.github.io/kidum-simulation-course/" aria-label="Backup Plans Simulation — Kidum" width="1088" height="720" frameborder="0" allowfullscreen="allowfullscreen"></iframe>
+              </div>
+            </template>
             <template data-narrative>
-              <p>My Storyline work is part of Israel's Gefen learning program — scenario-based modules, decision-driven navigation, and feedback that adapts to the learner's path. Deliverables ship as SCORM packages on the client's corporate LMS.</p>
-              <h5>What you'll see in a walkthrough</h5>
+              <p><strong>The gap:</strong> Kidum's Gefen instructors encounter classroom-breaking disruptions in the field — projector failures, missing workbooks, logistics collapsing. The lack of real-time problem-solving skill generates complaints, damages the company's reputation, and even costs deals.</p>
+              <p><strong>The solution:</strong> A simulation module that blends tool acquisition — both pedagogical and technological — with active practice on real scenarios pulled from the field. The instructor sees a failure, picks a tool, and gets feedback. Two tracks running in parallel: knowledge and application.</p>
+              <h5>Module structure</h5>
               <ul>
-                <li>Branching scenarios with adaptive feedback</li>
-                <li>Interactive video integration + Vyond animations</li>
-                <li>SCORM packaging and LMS integration</li>
-                <li>The needs analysis that shaped the module</li>
+                <li>Introduction to internal administrative processes</li>
+                <li>Classic pedagogical tools for handling tech failures</li>
+                <li>Technological tools for handling non-tech failures</li>
+                <li>Visual simulations built on real field cases</li>
+                <li>Strengthening the sense of belonging and responsibility as an org representative</li>
               </ul>
+              <h5>Behind the build</h5>
+              <p>The module was built after a full needs analysis — gap identification, mapping across perception/knowledge/skill, defining interim goals, and building personas of the actual instructor in the field. The full characterization document is available for download.</p>
+            </template>
+            <template data-downloads>
+              <a href="https://benlevy834.github.io/kidum-simulation-course/" target="_blank" rel="noopener">Open module in new window</a>
+              <a href="../assets/portfolio/storyline/needs-analysis-backup-plans.docx" download>Full needs analysis (DOCX)</a>
             </template>
             <div class="card__thumb">
               <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
@@ -186,18 +198,18 @@
               </svg>
             </div>
             <div class="card__body">
-              <span class="card__tag">Storyline · Available on Request</span>
-              <h3 class="card__title">Articulate Storyline Modules</h3>
-              <p class="card__desc">Scenario-based modules with branching and assessment paths, shipped as SCORM on the Gefen portal. Shown in live walkthroughs due to client security constraints.</p>
+              <span class="card__tag">Training Simulation</span>
+              <h3 class="card__title">Backup Plans Simulation</h3>
+              <p class="card__desc">A full simulation module for training Gefen instructors on real-time classroom troubleshooting through realistic scenarios, with a full needs analysis behind it. Open for direct viewing.</p>
               <div class="chips">
-                <span class="chip">Articulate Storyline</span>
-                <span class="chip">Vyond</span>
-                <span class="chip">SCORM</span>
+                <span class="chip">Simulation</span>
+                <span class="chip">Scenario Design</span>
+                <span class="chip">Needs Analysis</span>
               </div>
             </div>
             <div class="card__footer">
               <button class="card__view" data-view type="button">
-                Read more
+                Enter the module
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" data-flip><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
               </button>
             </div>

@@ -1,14 +1,14 @@
 <!doctype html>
-<html lang="he" dir="rtl">
+<html lang="he" dir="rtl" data-active="he">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>בן לוי — קורות חיים 2026</title>
-  <meta name="description" content="קורות חיים של בן לוי — מפתח הדרכה ומעצב למידה">
+  <title>בן לוי · Ben Levy — קורות חיים 2026</title>
+  <meta name="description" content="Ben Levy — Learning Developer · Resume 2026">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@400;500;700;900&family=Heebo:wght@300;400;500;700;800&family=Noto+Serif+Hebrew:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@400;500;700;900&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,700;0,9..144,900&family=Heebo:wght@300;400;500;700;800&family=Instrument+Sans:ital,wght@0,400;0,500;0,700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700&family=Noto+Serif+Hebrew:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
   <style>
     :root {
@@ -20,9 +20,12 @@
       --muted: #7A6F60;
       --line: #D9CFB6;
       --accent: #B8421A;
-      --font-display: 'Noto Serif Hebrew', 'Frank Ruhl Libre', Georgia, serif;
-      --font-body: 'Frank Ruhl Libre', Georgia, serif;
-      --font-ui: 'Heebo', system-ui, sans-serif;
+      --font-display-he: 'Noto Serif Hebrew', 'Frank Ruhl Libre', Georgia, serif;
+      --font-body-he: 'Frank Ruhl Libre', Georgia, serif;
+      --font-ui-he: 'Heebo', system-ui, sans-serif;
+      --font-display-en: 'Fraunces', 'Newsreader', Georgia, serif;
+      --font-body-en: 'Newsreader', 'Fraunces', Georgia, serif;
+      --font-ui-en: 'Instrument Sans', system-ui, sans-serif;
     }
 
     * {
@@ -36,13 +39,61 @@
     body {
       background: #E8DFC5;
       color: var(--ink);
-      font-family: var(--font-body);
-      font-weight: 500;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
     }
 
-    /* A4 page frame — tight to fit on ONE page */
+    /* ---------- Language toggle pill ---------- */
+    .toggle {
+      position: fixed;
+      inset-block-start: 20px;
+      inset-inline-end: 20px;
+      z-index: 100;
+      display: inline-flex;
+      background: var(--ink);
+      border-radius: 999px;
+      padding: 4px;
+      box-shadow: 0 12px 30px -8px rgba(27,23,20,0.4);
+      font-family: 'Instrument Sans', system-ui, sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+    .toggle button {
+      background: transparent;
+      color: var(--paper);
+      border: 0;
+      padding: 8px 18px;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+    }
+    .toggle button.is-active {
+      background: var(--accent);
+      color: var(--paper);
+    }
+
+    .print-btn {
+      position: fixed;
+      inset-block-end: 20px;
+      inset-inline-end: 20px;
+      padding: 12px 22px;
+      background: var(--ink);
+      color: var(--paper);
+      border: 0;
+      border-radius: 999px;
+      font-family: 'Instrument Sans', system-ui, sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      cursor: pointer;
+      box-shadow: 0 12px 30px -8px rgba(27,23,20,0.4);
+      z-index: 100;
+    }
+    .print-btn:hover { background: var(--accent); }
+
+    /* ---------- A4 page frame ---------- */
     .page {
       inline-size: 210mm;
       block-size: 297mm;
@@ -54,7 +105,6 @@
       overflow: hidden;
     }
 
-    /* Subtle dot grid texture matching site */
     .page::before {
       content: '';
       position: absolute;
@@ -64,6 +114,57 @@
       pointer-events: none;
     }
     .page > * { position: relative; }
+
+    /* Lang toggling — only one visible at a time on screen */
+    html[data-active="he"] .page--en { display: none; }
+    html[data-active="en"] .page--he { display: none; }
+
+    /* ---------- HE typography ---------- */
+    .page--he {
+      direction: rtl;
+      font-family: var(--font-body-he);
+      font-weight: 500;
+    }
+    .page--he .head__name {
+      font-family: var(--font-display-he);
+      font-stretch: 75%;
+    }
+    .page--he .head__eyebrow,
+    .page--he .section__eyebrow,
+    .page--he .exp__date,
+    .page--he .edu__date,
+    .page--he .head__contact,
+    .page--he .skills-list .label,
+    .page--he .foot {
+      font-family: var(--font-ui-he);
+    }
+    .page--he .section__title {
+      font-family: var(--font-display-he);
+      font-stretch: 85%;
+    }
+
+    /* ---------- EN typography ---------- */
+    .page--en {
+      direction: ltr;
+      font-family: var(--font-body-en);
+      font-weight: 400;
+    }
+    .page--en .head__name {
+      font-family: var(--font-display-en);
+      font-style: normal;
+    }
+    .page--en .head__eyebrow,
+    .page--en .section__eyebrow,
+    .page--en .exp__date,
+    .page--en .edu__date,
+    .page--en .head__contact,
+    .page--en .skills-list .label,
+    .page--en .foot {
+      font-family: var(--font-ui-en);
+    }
+    .page--en .section__title {
+      font-family: var(--font-display-en);
+    }
 
     /* ---------- Header ---------- */
     .head {
@@ -76,7 +177,6 @@
       margin-block-end: 14px;
     }
     .head__eyebrow {
-      font-family: var(--font-ui);
       font-size: 9px;
       font-weight: 700;
       letter-spacing: 0.24em;
@@ -94,43 +194,46 @@
       margin-inline-end: 8px;
     }
     .head__name {
-      font-family: var(--font-display);
-      font-size: 54px;
+      font-size: 60px;
       font-weight: 900;
       letter-spacing: -0.03em;
       line-height: 0.92;
       color: var(--ink);
-      font-stretch: 75%;
       margin: 0;
     }
     .head__name .accent { color: var(--accent); }
     .head__title {
-      font-family: var(--font-body);
-      font-size: 12px;
+      font-size: 13px;
       font-weight: 700;
       letter-spacing: 0.02em;
       color: var(--ink-soft);
-      margin-block-start: 6px;
+      margin-block-start: 8px;
     }
     .head__title .dot { color: var(--accent); margin-inline: 6px; }
     .head__contact {
-      font-family: var(--font-ui);
       font-size: 9.5px;
       font-weight: 500;
       letter-spacing: 0.04em;
       color: var(--ink-soft);
-      text-align: start;
+      text-align: left;
+      direction: ltr;
       line-height: 1.8;
     }
-    .head__contact a { color: inherit; text-decoration: none; }
+    .head__contact a {
+      color: inherit;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .head__contact a:hover { color: var(--accent); }
+    .head__contact a.link {
+      border-bottom: 1px solid var(--accent);
+      padding-bottom: 1px;
+    }
     .head__contact div { white-space: nowrap; }
 
     /* ---------- Sections ---------- */
-    .section {
-      margin-block-end: 12px;
-    }
+    .section { margin-block-end: 16px; }
     .section__eyebrow {
-      font-family: var(--font-ui);
       font-size: 8.5px;
       font-weight: 700;
       letter-spacing: 0.22em;
@@ -143,31 +246,58 @@
       font-weight: 800;
     }
     .section__title {
-      font-family: var(--font-display);
       font-size: 18px;
       font-weight: 900;
       letter-spacing: -0.015em;
       color: var(--ink);
       line-height: 1;
       margin: 0 0 8px;
-      font-stretch: 85%;
     }
 
     /* ---------- Summary ---------- */
     .summary {
-      font-family: var(--font-body);
-      font-size: 10.5px;
-      line-height: 1.6;
+      font-size: 11.5px;
+      line-height: 1.7;
       color: var(--ink-soft);
       font-weight: 500;
       max-inline-size: 100%;
     }
     .summary strong { color: var(--ink); font-weight: 700; }
+    .page--en .summary {
+      font-weight: 400;
+      font-size: 10.5px;
+      line-height: 1.6;
+    }
+    .page--en .summary strong { font-weight: 700; }
+    .page--en .section { margin-block-end: 12px; }
+    .page--en .exp { margin-block-end: 10px; padding-inline-start: 12px; }
+    .page--en .exp__role { font-size: 12px; }
+    .page--en .exp__org { font-size: 10px; margin-block-end: 3px; }
+    .page--en .exp__bullets li {
+      font-size: 9.5px;
+      line-height: 1.55;
+      margin-block-end: 2px;
+    }
+    .page--en .exp__bullets li::before { inset-block-start: 7px; }
+    .page--en .skills-list li {
+      font-size: 9.5px;
+      line-height: 1.5;
+      margin-block-end: 6px;
+    }
+    .page--en .skills-list .label { font-size: 8.5px; }
+    .page--en .edu { margin-block-end: 8px; }
+    .page--en .edu__degree { font-size: 11px; }
+    .page--en .edu__school { font-size: 10px; }
+    .page--en .lang { font-size: 10px; line-height: 1.6; }
+    .page--en .head__name { font-size: 56px; }
+    .page--en .head__title { font-size: 12px; }
+    .page--en .head { margin-block-end: 12px; }
+    .page--en .cols { gap: 16px; }
 
     /* ---------- Experience ---------- */
     .exp {
-      margin-block-end: 10px;
-      padding-inline-start: 12px;
+      margin-block-end: 13px;
+      padding-inline-start: 13px;
       border-inline-start: 2px solid var(--ink);
       break-inside: avoid;
     }
@@ -179,16 +309,14 @@
       margin-block-end: 1px;
     }
     .exp__role {
-      font-family: var(--font-body);
-      font-size: 12px;
+      font-size: 13px;
       font-weight: 900;
       color: var(--ink);
       margin: 0;
       letter-spacing: -0.005em;
     }
     .exp__date {
-      font-family: var(--font-ui);
-      font-size: 8.5px;
+      font-size: 9px;
       font-weight: 700;
       letter-spacing: 0.12em;
       text-transform: uppercase;
@@ -196,37 +324,37 @@
       white-space: nowrap;
     }
     .exp__org {
-      font-family: var(--font-body);
-      font-size: 10px;
+      font-size: 10.5px;
       font-weight: 600;
       color: var(--muted);
-      margin-block-end: 3px;
+      margin-block-end: 4px;
     }
     .exp__bullets {
       list-style: none;
       padding: 0;
-      margin: 3px 0 0;
+      margin: 4px 0 0;
     }
     .exp__bullets li {
       position: relative;
-      padding-inline-start: 12px;
-      font-size: 9.5px;
-      line-height: 1.5;
+      padding-inline-start: 13px;
+      font-size: 10.5px;
+      line-height: 1.6;
       color: var(--ink-soft);
-      margin-block-end: 2px;
+      margin-block-end: 3px;
       font-weight: 500;
     }
+    .page--en .exp__bullets li { font-weight: 400; }
     .exp__bullets li::before {
       content: '';
       position: absolute;
       inset-inline-start: 0;
-      inset-block-start: 7px;
+      inset-block-start: 8px;
       inline-size: 6px;
       block-size: 1.5px;
       background: var(--accent);
     }
 
-    /* ---------- Columns container ---------- */
+    /* ---------- Columns ---------- */
     .cols {
       display: grid;
       grid-template-columns: 1.35fr 1fr;
@@ -234,78 +362,68 @@
     }
 
     /* ---------- Skills ---------- */
-    .skills-list {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-    }
+    .skills-list { list-style: none; padding: 0; margin: 0; }
     .skills-list li {
-      margin-block-end: 6px;
-      font-size: 9.5px;
-      line-height: 1.5;
+      margin-block-end: 8px;
+      font-size: 10.5px;
+      line-height: 1.55;
       color: var(--ink-soft);
       font-weight: 500;
     }
+    .page--en .skills-list li { font-weight: 400; }
     .skills-list .label {
       display: block;
-      font-family: var(--font-ui);
-      font-size: 8.5px;
+      font-size: 9px;
       font-weight: 700;
       letter-spacing: 0.14em;
       text-transform: uppercase;
       color: var(--ink);
-      margin-block-end: 1px;
+      margin-block-end: 2px;
     }
 
-    /* ---------- Education rows ---------- */
-    .edu {
-      margin-block-end: 8px;
-    }
+    /* ---------- Education ---------- */
+    .edu { margin-block-end: 10px; }
     .edu__date {
-      font-family: var(--font-ui);
-      font-size: 8px;
+      font-size: 8.5px;
       font-weight: 700;
       letter-spacing: 0.12em;
       text-transform: uppercase;
       color: var(--accent);
-      margin-block-end: 1px;
+      margin-block-end: 2px;
     }
     .edu__degree {
-      font-family: var(--font-body);
-      font-size: 11px;
+      font-size: 12px;
       font-weight: 900;
       color: var(--ink);
       line-height: 1.25;
       margin: 0;
     }
     .edu__school {
-      font-family: var(--font-body);
-      font-size: 9.5px;
+      font-size: 10.5px;
       font-weight: 600;
       color: var(--muted);
-      margin-block-start: 1px;
+      margin-block-start: 2px;
     }
 
-    /* ---------- Languages ---------- */
+    /* ---------- Languages / Strengths ---------- */
     .lang {
-      font-family: var(--font-body);
-      font-size: 10px;
+      font-size: 10.5px;
       font-weight: 500;
       color: var(--ink-soft);
-      line-height: 1.6;
+      line-height: 1.7;
     }
     .lang strong { font-weight: 900; color: var(--ink); }
+    .page--en .lang { font-weight: 400; }
 
-    /* ---------- Footer mark ---------- */
+    /* ---------- Footer ---------- */
     .foot {
       position: absolute;
       inset-block-end: 8mm;
-      inset-inline-start: 16mm;
-      inset-inline-end: 16mm;
+      inset-inline-start: 14mm;
+      inset-inline-end: 14mm;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      font-family: var(--font-ui);
       font-size: 8px;
       font-weight: 500;
       letter-spacing: 0.18em;
@@ -319,11 +437,8 @@
       font-weight: 800;
     }
 
-    /* ---------- Print styles ---------- */
-    @page {
-      size: A4;
-      margin: 0;
-    }
+    /* ---------- Print ---------- */
+    @page { size: A4; margin: 0; }
     @media print {
       html, body { background: #fff; }
       body { margin: 0; }
@@ -332,49 +447,37 @@
         box-shadow: none;
         page-break-after: always;
       }
-      .noprint { display: none !important; }
+      .toggle, .print-btn { display: none !important; }
     }
-
-    /* ---------- On-screen print helper button ---------- */
-    .print-btn {
-      position: fixed;
-      inset-block-end: 20px;
-      inset-inline-end: 20px;
-      padding: 12px 22px;
-      background: var(--ink);
-      color: var(--paper);
-      border: 0;
-      border-radius: 999px;
-      font-family: 'Heebo', system-ui, sans-serif;
-      font-size: 12px;
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      cursor: pointer;
-      box-shadow: 0 12px 30px -8px rgba(27,23,20,0.4);
-      z-index: 100;
-    }
-    .print-btn:hover { background: var(--accent); }
   </style>
 </head>
 <body>
 
-  <div class="page">
+  <!-- ============ TOGGLE ============ -->
+  <div class="toggle" role="tablist" aria-label="Language">
+    <button type="button" data-lang-btn="he" class="is-active">עברית</button>
+    <button type="button" data-lang-btn="en">English</button>
+  </div>
 
-    <!-- ============ HEADER ============ -->
+  <!-- ============================================= -->
+  <!-- ================ HEBREW PAGE ================ -->
+  <!-- ============================================= -->
+  <div class="page page--he" lang="he" dir="rtl">
+
     <header class="head">
       <div>
         <div class="head__eyebrow">קורות חיים · 2026</div>
         <h1 class="head__name">בן <span class="accent">לוי</span></h1>
-        <div class="head__title">מפתח הדרכה<span class="dot">·</span>פדגוג<span class="dot">·</span>איש למידה</div>
+        <div class="head__title">מעצב חוויית למידה<span class="dot">·</span>מוצר L&amp;D<span class="dot">·</span>AI-Enabled</div>
       </div>
       <div class="head__contact">
-        <div>benlevy834@gmail.com</div>
+        <div><a href="mailto:benlevy834@gmail.com">benlevy834@gmail.com</a></div>
         <div>050-913-1269</div>
-        <div>LinkedIn: ben-levy</div>
+        <div><a class="link" href="https://www.linkedin.com/in/ben-levy-6380a3356/" target="_blank" rel="noopener">LinkedIn</a></div>
+        <div><a class="link" href="https://benlevy834.github.io/ben-levy-portfolio/" target="_blank" rel="noopener">Ben Levy Portfolio</a></div>
       </div>
     </header>
 
-    <!-- ============ SUMMARY ============ -->
     <section class="section">
       <div class="section__eyebrow"><span class="num">01</span> · תקציר מקצועי</div>
       <p class="summary">
@@ -382,7 +485,6 @@
       </p>
     </section>
 
-    <!-- ============ EXPERIENCE ============ -->
     <section class="section">
       <div class="section__eyebrow"><span class="num">02</span> · ניסיון תעסוקתי</div>
 
@@ -393,13 +495,11 @@
         </div>
         <div class="exp__org">קידום ידע והשכלה · תוכנית גפ"ן</div>
         <ul class="exp__bullets">
-          <li>פיתוח למידה מקצה לקצה ללקוחות ממשלתיים וארגוניים גדולים: פיצוח צרכים, אפיון פערים, עיצוב פתרונות, הפקה ויישום.</li>
-          <li>עיצוב והקמת פורטל הלמידה המרכזי "קידום גפן" מאפס — ארכיטקטורת UX, עצי ניווט ומבנה תכנים לקהלי לומדים מגוונים.</li>
-          <li>פיתוח לומדות אינטראקטיביות, אנימציות ומצגות ב-Articulate Storyline, Vyond, H5P, Canva ו-Gemini Canvas, עם שילוב גיימיפיקציה.</li>
-          <li>הפקת סרטוני הדרכה hands-on: ניהול סטודיו, צילום ב-OBS ועריכה מקצועית ב-DaVinci Resolve.</li>
-          <li>בניית תוכניות לימוד רב-שכבתיות וחוברות לומד דו-לשוניות (עברית/אנגלית), ומרחב למידה דיגיטלי באמצעות Claude Code ב-VS Code.</li>
-          <li>פרוטוטייפינג של תהליכי פיתוח עם מודלים מקומיים (Ollama + Gemma 4) — יישום ישיר של vibe coding על תוצרי למידה.</li>
-          <li>הובלת הגשות ארגוניות ל-10+ תוכניות במכרזי גפ"ן וניהול מחזור החיים המלא של מדריכים — ראיון, הכשרה, חניכה ויחסי לקוח ישירים.</li>
+          <li>בעלות מלאה על מחזור חיי פיתוח הלמידה — מפיצוח צרכים ואפיון פערים, דרך עיצוב והפקה, ועד להטמעה ללקוחות ממשלתיים וארגוניים.</li>
+          <li>עיצוב והשקה של פורטל הלמידה "קידום גפן" מאפס: ארכיטקטורת UX, ניווט ומבנה תכנים לקהלי לומדים מגוונים.</li>
+          <li>בניית חוויות למידה אינטראקטיביות עם שילוב גיימיפיקציה ב-Articulate Storyline, Vyond ו-H5P; הפקת וידאו פנימית (ניהול סטודיו, OBS, DaVinci Resolve).</li>
+          <li>כתיבת תוכניות לימוד דו-לשוניות ובניית מרחב למידה דיגיטלי מלא בקוד (HTML/CSS/JS) ב-VS Code בסיוע AI — Claude, Gemini ומודלים מקומיים (Ollama + Gemma).</li>
+          <li>הובלת 10+ הגשות למכרזי גפ"ן וניהול מחזור החיים המלא של מדריכים — גיוס, הכשרה, חניכה, ויחסי לקוח ישירים.</li>
         </ul>
       </article>
 
@@ -410,7 +510,7 @@
         </div>
         <div class="exp__org">א.ס.פ.י · קבוצת יבוא ומסחר חלפי רכב</div>
         <ul class="exp__bullets">
-          <li>העברת הדרכות B2B ללקוחות עסקיים והפקת סרטוני הדרכה, לומדות וקטלוגים שיווקיים — חידוד התקשורת החזותית וכישורי הפקת הלמידה.</li>
+          <li>העברת הדרכות B2B ללקוחות עסקיים והפקת סרטוני הדרכה, לומדות וקטלוגים שיווקיים.</li>
           <li>ניהול משא ומתן עם ספקים גלובליים (גרמניה, צרפת, סין), אסטרטגיית תמחור ומחקרי שוק; ניתוח נתוני מוצר ב-Priority ERP וב-Excel מתקדם.</li>
           <li>השקת קווי מוצר חדשים וניהול פרויקטים מקבילים — כישורים שעברו ישירות לעולם פיתוח הלמידה.</li>
         </ul>
@@ -434,56 +534,33 @@
         </div>
         <div class="exp__org">צה"ל · שירות סדיר</div>
         <ul class="exp__bullets">
-          <li>הובלת המערך הרפואי הגדודי; הכשרה וחניכה של חובשים קרביים, סגן רופא הגדוד. שם למדתי מה זה להוביל ולתפעל תחת לחץ.</li>
+          <li>הובלת המערך הרפואי הגדודי; הכשרה וחניכה של חובשים קרביים, סגן רופא הגדוד. שם למדתי להוביל ולתפעל תחת לחץ.</li>
         </ul>
       </article>
     </section>
 
-    <!-- ============ TWO COLUMNS: SKILLS + EDUCATION ============ -->
     <div class="cols">
-
-      <!-- SKILLS -->
       <section class="section">
         <div class="section__eyebrow"><span class="num">03</span> · כישורים וכלים</div>
         <ul class="skills-list">
-          <li>
-            <span class="label">פיתוח למידה</span>
-            Articulate Storyline · Vyond · H5P · Canva · Google Sites · Gemini Canvas
-          </li>
-          <li>
-            <span class="label">גיימיפיקציה</span>
-            Wordwall · Kahoot · Blooket · Quizlet · Unity
-          </li>
-          <li>
-            <span class="label">וידאו ומולטימדיה</span>
-            OBS Studio · DaVinci Resolve · ניהול סטודיו הקלטות
-          </li>
-          <li>
-            <span class="label">AI ואוטומציה</span>
-            Claude Code (VS Code) · Gemini CLI · ChatGPT · Gemini · Perplexity · NotebookLM · Ollama + Gemma · Vibe Coding · Prompt Engineering
-          </li>
-          <li>
-            <span class="label">מתודולוגיה</span>
-            ADDIE · Product Management · פיצוח צרכים · אפיון פערים · עיצוב תוכניות לימוד · תוכן דו-לשוני עב/אנ
-          </li>
-          <li>
-            <span class="label">כלים ארגוניים</span>
-            Notion + Notion AI · Notion Automations · Priority ERP · Google Workspace · Microsoft Office
-          </li>
+          <li><span class="label">פיתוח למידה</span>Articulate Storyline · Vyond · H5P · Canva · Google Sites · Gemini Canvas</li>
+          <li><span class="label">גיימיפיקציה</span>Wordwall · Kahoot · Blooket · Quizlet · Unity</li>
+          <li><span class="label">וידאו ומולטימדיה</span>OBS Studio · DaVinci Resolve · ניהול סטודיו הקלטות</li>
+          <li><span class="label">AI ואוטומציה</span>Claude Code (VS Code) · Gemini CLI · ChatGPT · Gemini · Perplexity · NotebookLM · Ollama + Gemma · Vibe Coding · Prompt Engineering</li>
+          <li><span class="label">מתודולוגיה</span>ADDIE · Product Management · פיצוח צרכים · אפיון פערים · עיצוב תוכניות לימוד · תוכן דו-לשוני עב/אנ</li>
+          <li><span class="label">כלים ארגוניים</span>Notion + Notion AI · Notion Automations · Priority ERP · Google Workspace · Microsoft Office</li>
         </ul>
       </section>
 
-      <!-- EDUCATION + LANGUAGES -->
       <div>
         <section class="section">
           <div class="section__eyebrow"><span class="num">04</span> · השכלה</div>
-
           <div class="edu">
             <div class="edu__date">2025 — היום</div>
             <h3 class="edu__degree">M.A. טכנולוגיות למידה · מסלול AI</h3>
             <div class="edu__school">HIT — מכון טכנולוגי חולון</div>
+            <div class="edu__school" style="margin-block-start: 2px;">מיקוד: AI בסביבות למידה, מערכות אדפטיביות, ועיצוב הדרכתי בסיוע LLM.</div>
           </div>
-
           <div class="edu">
             <div class="edu__date">2022 — 2025</div>
             <h3 class="edu__degree">B.A. דו-חוגי · לשון עברית וספרות אנגלית</h3>
@@ -505,14 +582,164 @@
       </div>
     </div>
 
-    <!-- ============ FOOTER MARK ============ -->
     <div class="foot">
       <div>בן לוי · קורות חיים 2026</div>
       <div><span class="mark">●</span> זמין להצעות</div>
     </div>
   </div>
 
-  <button class="print-btn noprint" onclick="window.print()">⤓ יצוא ל-PDF</button>
+  <!-- ============================================= -->
+  <!-- ================ ENGLISH PAGE =============== -->
+  <!-- ============================================= -->
+  <div class="page page--en" lang="en" dir="ltr">
 
+    <header class="head">
+      <div>
+        <div class="head__eyebrow">Resume · 2026</div>
+        <h1 class="head__name">Ben <span class="accent">Levy</span></h1>
+        <div class="head__title">Learning Experience Designer<span class="dot">·</span>L&amp;D Product<span class="dot">·</span>AI-Enabled</div>
+      </div>
+      <div class="head__contact">
+        <div><a href="mailto:benlevy834@gmail.com">benlevy834@gmail.com</a></div>
+        <div>+972 50-913-1269</div>
+        <div><a class="link" href="https://www.linkedin.com/in/ben-levy-6380a3356/" target="_blank" rel="noopener">LinkedIn</a></div>
+        <div><a class="link" href="https://benlevy834.github.io/ben-levy-portfolio/" target="_blank" rel="noopener">Ben Levy Portfolio</a></div>
+      </div>
+    </header>
+
+    <section class="section">
+      <div class="section__eyebrow"><span class="num">01</span> · Professional Summary</div>
+      <p class="summary">
+        <strong>Hands-on learning developer</strong> with 3+ years delivering end-to-end digital learning for government and enterprise clients — from needs analysis and gap mapping, through solution design and production, all the way to launch. Currently pursuing an M.A. in Learning Technologies (AI track) at HIT, with a dual-major B.A. in Hebrew Linguistics &amp; English Literature from Ben-Gurion University. Fluent across production tools, video, and AI. Comfortable running multiple projects in parallel under tight timelines.
+      </p>
+    </section>
+
+    <section class="section">
+      <div class="section__eyebrow"><span class="num">02</span> · Experience</div>
+
+      <article class="exp">
+        <div class="exp__head">
+          <h3 class="exp__role">Learning Developer &amp; L&amp;D Product Manager (promoted)</h3>
+          <div class="exp__date">2024 — Present</div>
+        </div>
+        <div class="exp__org">Kidum Yeda V'Haskala · Gefen Program</div>
+        <ul class="exp__bullets">
+          <li>Own the full learning development lifecycle — needs analysis, gap mapping, design, production, and deployment — for government and enterprise clients.</li>
+          <li>Designed and launched the "Kidum Gefen" learning portal from scratch: UX architecture, navigation, and content taxonomy for diverse learner audiences.</li>
+          <li>Built interactive learning experiences with integrated gamification in Articulate Storyline, Vyond, and H5P; produced training video end-to-end in-house (studio management, OBS, DaVinci Resolve).</li>
+          <li>Authored bilingual curricula and a fully custom digital learning space — HTML/CSS/JS built in VS Code with AI pair-programming across Claude, Gemini, and local Ollama models.</li>
+          <li>Led submissions to 10+ programs in Gefen tenders and owned the full instructor lifecycle — hiring, training, mentoring, and direct client relationships.</li>
+        </ul>
+      </article>
+
+      <article class="exp">
+        <div class="exp__head">
+          <h3 class="exp__role">Product Manager &amp; Customer Training</h3>
+          <div class="exp__date">2022 — 2024</div>
+        </div>
+        <div class="exp__org">A.S.P.I · Auto Parts Import &amp; Trade Group</div>
+        <ul class="exp__bullets">
+          <li>Delivered B2B customer trainings and produced training videos, learning modules, and marketing catalogs.</li>
+          <li>Managed negotiations with global suppliers (Germany, France, China), pricing strategy and market research; analyzed product data in Priority ERP and advanced Excel.</li>
+          <li>Launched new product lines and ran parallel projects with suppliers and customers — skills that moved directly into the learning-development world.</li>
+        </ul>
+      </article>
+
+      <article class="exp">
+        <div class="exp__head">
+          <h3 class="exp__role">English &amp; Hebrew Teacher (in parallel)</h3>
+          <div class="exp__date">2021 — Present</div>
+        </div>
+        <div class="exp__org">Freelance · Schools and private learning centers</div>
+        <ul class="exp__bullets">
+          <li>Designed and delivered lesson plans for diverse learner populations — the classroom feedback loop is what grounds my digital work in what actually lands with learners.</li>
+        </ul>
+      </article>
+
+      <article class="exp">
+        <div class="exp__head">
+          <h3 class="exp__role">Senior Combat Medic &amp; Team Commander</h3>
+          <div class="exp__date">2018 — 2021</div>
+        </div>
+        <div class="exp__org">IDF · Mandatory Service</div>
+        <ul class="exp__bullets">
+          <li>Led the battalion medical system; trained and mentored combat medics as deputy to the battalion doctor. Where I learned to lead and operate under pressure.</li>
+        </ul>
+      </article>
+    </section>
+
+    <div class="cols">
+      <section class="section">
+        <div class="section__eyebrow"><span class="num">03</span> · Skills &amp; Tools</div>
+        <ul class="skills-list">
+          <li><span class="label">Learning Development</span>Articulate Storyline · Vyond · H5P · Canva · Google Sites · Gemini Canvas</li>
+          <li><span class="label">Gamification</span>Wordwall · Kahoot · Blooket · Quizlet · Unity</li>
+          <li><span class="label">Video &amp; Multimedia</span>OBS Studio · DaVinci Resolve · Recording studio management</li>
+          <li><span class="label">AI &amp; Automation</span>Claude Code (VS Code) · Gemini CLI · ChatGPT · Gemini · Perplexity · NotebookLM · Ollama + Gemma · Vibe Coding · Prompt Engineering</li>
+          <li><span class="label">Methodology</span>ADDIE · Product Management · Needs Analysis · Gap Mapping · Curriculum Design · Bilingual Content HE/EN</li>
+          <li><span class="label">Enterprise Tools</span>Notion + Notion AI · Notion Automations · Priority ERP · Google Workspace · Microsoft Office</li>
+        </ul>
+      </section>
+
+      <div>
+        <section class="section">
+          <div class="section__eyebrow"><span class="num">04</span> · Education</div>
+          <div class="edu">
+            <div class="edu__date">2025 — Present</div>
+            <h3 class="edu__degree">M.A. Learning Technologies · AI Track</h3>
+            <div class="edu__school">HIT — Holon Institute of Technology</div>
+            <div class="edu__school" style="margin-block-start: 2px;">Focus: AI in learning environments, adaptive systems, and LLM-assisted instructional design.</div>
+          </div>
+          <div class="edu">
+            <div class="edu__date">2022 — 2025</div>
+            <h3 class="edu__degree">B.A. Dual Major · Hebrew Linguistics &amp; English Literature</h3>
+            <div class="edu__school">Ben-Gurion University of the Negev</div>
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="section__eyebrow"><span class="num">05</span> · Languages</div>
+          <div class="lang"><strong>Hebrew</strong> — Native<br><strong>English</strong> — Fluent (near-native)</div>
+        </section>
+
+        <section class="section" style="margin-bottom: 0;">
+          <div class="section__eyebrow"><span class="num">06</span> · Selected Strengths</div>
+          <div class="lang" style="font-size: 10px; line-height: 1.7;">
+            Strong written and spoken communication · Systems thinking · Client relationship management · Training and mentoring teachers and instructors
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <div class="foot">
+      <div>Ben Levy · Resume 2026</div>
+      <div><span class="mark">●</span> Available for opportunities</div>
+    </div>
+  </div>
+
+  <button class="print-btn" onclick="window.print()">⤓ Export to PDF</button>
+
+  <script>
+    (function () {
+      var html = document.documentElement;
+      var buttons = document.querySelectorAll('[data-lang-btn]');
+      buttons.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var lang = btn.getAttribute('data-lang-btn');
+          html.setAttribute('data-active', lang);
+          html.setAttribute('lang', lang);
+          html.setAttribute('dir', lang === 'he' ? 'rtl' : 'ltr');
+          buttons.forEach(function (b) {
+            b.classList.toggle('is-active', b === btn);
+          });
+          // Update print button label
+          var printBtn = document.querySelector('.print-btn');
+          if (printBtn) {
+            printBtn.textContent = lang === 'he' ? '⤓ יצוא ל-PDF' : '⤓ Export to PDF';
+          }
+        });
+      });
+    })();
+  </script>
 </body>
 </html>
