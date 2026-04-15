@@ -149,31 +149,40 @@
 
       // Activate video tab switcher
       const videoset = modalBody.querySelector('.modal__videoset');
-      if (videoset) initVideoTabs(videoset);
+      if (videoset) initVideoTabs(videoset, modalBody);
 
       setTimeout(function () { modalClose.focus(); }, 10);
     }
 
-    function initVideoTabs(root) {
+    function initVideoTabs(root, scope) {
       const tabs = root.querySelectorAll('[data-video-tab]');
       const panes = root.querySelectorAll('[data-video-pane]');
+      const narrativeScope = scope || root;
+      const narrativeSections = narrativeScope.querySelectorAll('[data-narrative-for]');
+      function applyTab(target) {
+        tabs.forEach(function (t) {
+          const on = t.getAttribute('data-video-tab') === target;
+          t.classList.toggle('is-active', on);
+          t.setAttribute('aria-selected', on ? 'true' : 'false');
+        });
+        panes.forEach(function (p) {
+          const on = p.getAttribute('data-video-pane') === target;
+          p.classList.toggle('is-active', on);
+          const v = p.querySelector('video');
+          if (v && !on) { try { v.pause(); } catch (e) {} }
+        });
+        narrativeSections.forEach(function (s) {
+          const keys = (s.getAttribute('data-narrative-for') || '').split(/[\s,]+/).filter(Boolean);
+          s.hidden = keys.length > 0 && keys.indexOf(target) === -1;
+        });
+      }
       tabs.forEach(function (tab) {
         tab.addEventListener('click', function () {
-          const target = tab.getAttribute('data-video-tab');
-          tabs.forEach(function (t) {
-            const on = t === tab;
-            t.classList.toggle('is-active', on);
-            t.setAttribute('aria-selected', on ? 'true' : 'false');
-          });
-          panes.forEach(function (p) {
-            const on = p.getAttribute('data-video-pane') === target;
-            p.classList.toggle('is-active', on);
-            // Pause videos in inactive panes
-            const v = p.querySelector('video');
-            if (v && !on) { try { v.pause(); } catch (e) {} }
-          });
+          applyTab(tab.getAttribute('data-video-tab'));
         });
       });
+      const initial = root.querySelector('[data-video-tab].is-active');
+      if (initial) applyTab(initial.getAttribute('data-video-tab'));
     }
 
     function initGallery(root) {

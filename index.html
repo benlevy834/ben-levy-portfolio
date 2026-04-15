@@ -220,54 +220,92 @@
             data-tag="Vibe Coding"
             data-title="לומדות Vibe-Coded"
             data-tools="Claude Code|VS Code|HTML|CSS|JavaScript|Git"
-            data-detail="במקום להסתמך על Storyline או Rise, אני מפתח לומדות ישירות בקוד ב-Claude Code — כל HTML/CSS/JS נכתב בעצמי (בליווי AI), כל פיקסל נשלט במדויק, והתוצאה עובדת בכל דפדפן ובכל גודל מסך. בלי קבצי פלט סגורים, בלי תלות בספק, בלי רישיונות."
+            data-detail="אוסף תוצרי Vibe Coding שבניתי ישירות ב-Claude Code — כל HTML/CSS/JS נכתב בעצמי (בליווי AI), כל פיקסל נשלט במדויק, והתוצאה עובדת בכל דפדפן ובכל גודל מסך. בלי קבצי פלט סגורים, בלי תלות בספק, בלי רישיונות. עברו בין התוצרים בטאבים שבראש החלון."
             data-status="">
             <template data-embed>
               <style>
+                .vc-pane-frame { aspect-ratio: 16/9; min-block-size: 480px; background: #1e1e2f; border-radius: 10px; overflow: hidden; border: 1px solid var(--line); }
+                .vc-pane-frame iframe { width: 100%; height: 100%; border: 0; display: block; }
                 .vc-acc { display: flex; flex-direction: column; gap: 14px; }
-                .vc-acc details { border-radius: 12px; overflow: hidden; background: #1e1e2f; border: 1px solid rgba(0,0,0,0.12); }
+                .vc-acc details { border-radius: 12px; overflow: hidden; background: #1e1e2f; border: 1px solid var(--line); }
                 .vc-acc summary { cursor: pointer; padding: 16px 22px; font-family: var(--font-ui); font-size: 14px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #f5f5f5; list-style: none; user-select: none; display: flex; align-items: center; justify-content: space-between; gap: 16px; transition: background .2s ease; }
                 .vc-acc summary::-webkit-details-marker { display: none; }
                 .vc-acc summary::marker { display: none; }
                 .vc-acc summary:hover { background: #262640; }
                 .vc-acc .acc-arrow { font-size: 28px; line-height: 1; color: var(--accent); transition: transform .25s ease; display: inline-block; }
                 .vc-acc details[open] .acc-arrow { transform: rotate(90deg); }
-                .vc-acc .acc-body { aspect-ratio: 16/9; min-block-size: 480px; padding: 0 14px 14px; background: #1e1e2f; }
-                .vc-acc .acc-body iframe { width: 100%; height: 100%; border: 0; display: block; border-radius: 6px; }
+                .vc-acc .acc-body { padding: 0 14px 14px; background: #1e1e2f; }
+                .vc-acc .acc-body .vc-pane-frame { border: 1px solid rgba(255,255,255,0.08); }
               </style>
-              <div class="vc-acc">
-                <details open>
-                  <summary><span>גרסת קוד · Claude Code</span><span class="acc-arrow">▸</span></summary>
-                  <div class="acc-body">
-                    <iframe src="assets/portfolio/vibecoding/simulation-code.html" aria-label="לומדת סימולציה — גרסת קוד" allowfullscreen="allowfullscreen"></iframe>
+              <div class="modal__videoset">
+                <div class="modal__video-tabs" role="tablist">
+                  <button class="modal__video-tab is-active" data-video-tab="online" type="button" role="tab" aria-selected="true">
+                    <span class="modal__video-tab-num">01</span>
+                    <span class="modal__video-tab-label">הוראה מקוונת בזום · קידום</span>
+                  </button>
+                  <button class="modal__video-tab" data-video-tab="sim" type="button" role="tab" aria-selected="false">
+                    <span class="modal__video-tab-num">02</span>
+                    <span class="modal__video-tab-label">סימולציית גפ״ן · קוד מול Storyline</span>
+                  </button>
+                </div>
+                <div class="modal__video-pane is-active" data-video-pane="online">
+                  <div class="vc-pane-frame">
+                    <iframe src="https://benlevy834.github.io/kidum-online-teaching/" aria-label="לומדת הוראה מקוונת בזום — קידום" allowfullscreen="allowfullscreen"></iframe>
                   </div>
-                </details>
-                <details>
-                  <summary><span>גרסת Storyline · המקור (להשוואה)</span><span class="acc-arrow">▸</span></summary>
-                  <div class="acc-body">
-                    <iframe src="https://benlevy834.github.io/kidum-simulation-course/" aria-label="לומדת סימולציה — גרסת Storyline" allowfullscreen="allowfullscreen"></iframe>
+                  <p class="modal__video-caption">לומדה שפיתחתי בדחיפות בעקבות המלחמה בישראל והעימות עם איראן — כל הלימוד בקידום עבר לזום בין-לילה, וכל המדריכים היו צריכים להעביר שיעורי זום בפעם הראשונה. הלומדה הכינה את הצוות להוראה מקוונת בזמן אמת.</p>
+                </div>
+                <div class="modal__video-pane" data-video-pane="sim">
+                  <div class="vc-acc">
+                    <details open>
+                      <summary><span>גרסת קוד · Claude Code</span><span class="acc-arrow">▸</span></summary>
+                      <div class="acc-body">
+                        <div class="vc-pane-frame">
+                          <iframe src="assets/portfolio/vibecoding/simulation-code.html" aria-label="לומדת סימולציה — גרסת קוד" allowfullscreen="allowfullscreen"></iframe>
+                        </div>
+                      </div>
+                    </details>
+                    <details>
+                      <summary><span>גרסת Storyline · המקור (להשוואה)</span><span class="acc-arrow">▸</span></summary>
+                      <div class="acc-body">
+                        <div class="vc-pane-frame">
+                          <iframe src="https://benlevy834.github.io/kidum-simulation-course/" aria-label="לומדת סימולציה — גרסת Storyline" allowfullscreen="allowfullscreen"></iframe>
+                        </div>
+                      </div>
+                    </details>
                   </div>
-                </details>
+                  <p class="modal__video-caption">אותה לומדת סימולציה בשתי גרסאות — גרסת קוד שבניתי מחדש מאפס ב-Claude Code, ולצידה גרסת ה-Storyline המקורית. פתחו את שני האקורדיונים והשוו אחד-לאחד.</p>
+                </div>
               </div>
             </template>
             <template data-narrative>
-              <p><strong>המבחן האמיתי:</strong> לקחתי את אותה לומדת סימולציה שמופיעה בכרטיס הראשון — זו שנבנתה ב-Storyline — ובניתי אותה מחדש מאפס בקוד טהור. אותה חוויה, אותו עיצוב, אותם תרחישים, בלי שום פלטפורמת authoring. גרסת הקוד פתוחה כברירת מחדל למעלה; פתחו את גרסת ה-Storyline שמתחתיה כדי להשוות.</p>
-              <h5>הסקיל שמתחיל מ-PowerPoint ומסתיים בלומדה בסגנון Storyline</h5>
-              <p>בנוסף לעבודה הידנית, פיתחתי <strong>סקיל אישי ב-Claude Code</strong> שמקבל קובץ PowerPoint, מנהל איתי שיח Vibe Coding על המבנה הפדגוגי והתרחישים, ובונה בסופו לומדה ב-HTML בסגנון סטוריליין — לא קובץ Storyline, אלא לומדה שמתנהגת ונראית כמו אחת. הסקיל הוא חלק מהגישה: כשהכלי הסטנדרטי איטי מדי, אני בונה לעצמי כלי טוב יותר.</p>
-              <p>הגישה הזו מאפשרת לי לעקוף את המגבלות של פלטפורמות authoring מסורתיות — מהירות פיתוח גבוהה יותר, חופש עיצובי מלא, ושליטה טכנית עד לרמת האירוע בדף.</p>
-              <h5>למה זה משמעותי</h5>
-              <ul>
-                <li>אפס רישיונות — התפוקה היא HTML סטטי</li>
-                <li>רספונסיביות אמיתית, לא "תאימות"</li>
-                <li>עדכון תוכן ב-30 שניות דרך עריכת טקסט</li>
-                <li>כל שינוי עובר תחת Git — היסטוריה מלאה</li>
-                <li>פריסה מידית ל-GitHub Pages או לסביבת הלקוח</li>
-              </ul>
-              <h5>מתי זה נכון ומתי לא</h5>
-              <p>לומדות פשוטות עד בינוניות: מנצח בקלות. תרחישי ברנצ'ינג מורכבים עם מעקב SCORM מלא: Storyline עדיין כלי חזק — וגם שם אני בבית.</p>
+              <section data-narrative-for="online">
+                <h5>לומדת הוראה מקוונת בזום (קידום)</h5>
+                <p><strong>הקונטקסט:</strong> בעקבות המלחמה בישראל והעימות עם איראן כל הלימוד בקידום עבר לזום, וכל המדריכים נאלצו להעביר שיעורי זום בפעם הראשונה בחייהם. הצורך היה מיידי ודחוף.</p>
+                <p><strong>התגובה:</strong> בניתי את הלומדה הזו ב-Vibe Coding ישירות ב-Claude Code — מעטפת HTML/CSS/JS עצמאית שמכשירה מדריך להעביר שיעור זום אפקטיבי: ניהול חלון, שיתוף מסך, אינטראקציה עם תלמידים, כללי אתיקה, ותרחישי תקלות נפוצות. הלומדה יצאה לאוויר תוך ימים ספורים במקום שבועות של פיתוח בכלי authoring.</p>
+              </section>
+              <section data-narrative-for="sim">
+                <h5>סימולציית גפ״ן — גרסת קוד מול גרסת Storyline</h5>
+                <p><strong>המבחן האמיתי:</strong> לקחתי את אותה לומדת סימולציה שמופיעה בכרטיס הראשון — זו שנבנתה ב-Storyline — ובניתי אותה מחדש מאפס בקוד טהור. אותה חוויה, אותו עיצוב, אותם תרחישים, בלי שום פלטפורמת authoring. פתחו את שני האקורדיונים למעלה והשוו את הקוד מול המקור.</p>
+                <h5>הסקיל שמתחיל מ-PowerPoint ומסתיים בלומדה בסגנון Storyline</h5>
+                <p>בנוסף לעבודה הידנית, פיתחתי <strong>סקיל אישי ב-Claude Code</strong> שמקבל קובץ PowerPoint, מנהל איתי שיח Vibe Coding על המבנה הפדגוגי והתרחישים, ובונה בסופו לומדה ב-HTML בסגנון סטוריליין — לא קובץ Storyline, אלא לומדה שמתנהגת ונראית כמו אחת. הסקיל הוא חלק מהגישה: כשהכלי הסטנדרטי איטי מדי, אני בונה לעצמי כלי טוב יותר.</p>
+                <p>הגישה הזו מאפשרת לי לעקוף את המגבלות של פלטפורמות authoring מסורתיות — מהירות פיתוח גבוהה יותר, חופש עיצובי מלא, ושליטה טכנית עד לרמת האירוע בדף.</p>
+              </section>
+              <section data-narrative-for="online sim">
+                <h5>למה זה משמעותי</h5>
+                <ul>
+                  <li>אפס רישיונות — התפוקה היא HTML סטטי</li>
+                  <li>רספונסיביות אמיתית, לא "תאימות"</li>
+                  <li>עדכון תוכן ב-30 שניות דרך עריכת טקסט</li>
+                  <li>כל שינוי עובר תחת Git — היסטוריה מלאה</li>
+                  <li>פריסה מידית ל-GitHub Pages או לסביבת הלקוח</li>
+                </ul>
+                <h5>מתי זה נכון ומתי לא</h5>
+                <p>לומדות פשוטות עד בינוניות: מנצח בקלות. תרחישי ברנצ'ינג מורכבים עם מעקב SCORM מלא: Storyline עדיין כלי חזק — וגם שם אני בבית.</p>
+              </section>
             </template>
             <template data-downloads>
-              <a href="assets/portfolio/vibecoding/simulation-code.html" target="_blank" rel="noopener">פתיחת הגרסה הקודית בחלון מלא</a>
+              <a href="https://benlevy834.github.io/kidum-online-teaching/" target="_blank" rel="noopener">פתיחת לומדת הוראה מקוונת בזום בחלון מלא</a>
+              <a href="assets/portfolio/vibecoding/simulation-code.html" target="_blank" rel="noopener">פתיחת לומדת הסימולציה בגרסת קוד בחלון מלא</a>
               <a href="https://benlevy834.github.io/kidum-simulation-course/" target="_blank" rel="noopener">פתיחת גרסת ה-Storyline להשוואה</a>
             </template>
             <div class="card__thumb card__thumb--brand">
@@ -276,7 +314,7 @@
             <div class="card__body">
               <span class="card__tag">Vibe Coding</span>
               <h3 class="card__title">לומדות Vibe-Coded</h3>
-              <p class="card__desc">בניתי מחדש את לומדת הסימולציה מהכרטיס הראשון — אותה לומדה, הפעם בקוד טהור במקום Storyline. פתחו את שני הכרטיסים והשוו במו עיניכם.</p>
+              <p class="card__desc">אוסף תוצרי Claude Code: לומדת הוראה מקוונת בזום שנבנתה בדחיפות בעקבות המלחמה, ולצידה שחזור מלא של לומדת סימולציה שהמקור שלה ב-Storyline. עברו בין התוצרים בטאבים.</p>
               <div class="chips">
                 <span class="chip">Claude Code</span>
                 <span class="chip">VS Code</span>
