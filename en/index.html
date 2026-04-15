@@ -219,12 +219,37 @@
             data-detail="Instead of leaning on Storyline or Rise, I build learning modules directly in code using Claude Code — every HTML/CSS/JS line written by me (with AI pairing), every pixel under my control, every result working across browsers and screen sizes. No closed export files, no vendor dependency, no licensing."
             data-status="">
             <template data-embed>
-              <div class="modal__embed">
-                <iframe src="../assets/portfolio/vibecoding/simulation-code.html" aria-label="Simulation module — code version" width="1088" height="720" frameborder="0" allowfullscreen="allowfullscreen"></iframe>
+              <style>
+                .vc-acc { display: flex; flex-direction: column; gap: 14px; }
+                .vc-acc details { border-radius: 12px; overflow: hidden; background: #1e1e2f; border: 1px solid rgba(0,0,0,0.12); }
+                .vc-acc summary { cursor: pointer; padding: 16px 22px; font-family: var(--font-ui); font-size: 14px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #f5f5f5; list-style: none; user-select: none; display: flex; align-items: center; justify-content: space-between; gap: 16px; transition: background .2s ease; }
+                .vc-acc summary::-webkit-details-marker { display: none; }
+                .vc-acc summary::marker { display: none; }
+                .vc-acc summary:hover { background: #262640; }
+                .vc-acc .acc-arrow { font-size: 28px; line-height: 1; color: var(--accent); transition: transform .25s ease; display: inline-block; }
+                .vc-acc details[open] .acc-arrow { transform: rotate(90deg); }
+                .vc-acc .acc-body { aspect-ratio: 16/9; min-block-size: 480px; padding: 0 14px 14px; background: #1e1e2f; }
+                .vc-acc .acc-body iframe { width: 100%; height: 100%; border: 0; display: block; border-radius: 6px; }
+              </style>
+              <div class="vc-acc">
+                <details open>
+                  <summary><span>Code version · Claude Code</span><span class="acc-arrow">▸</span></summary>
+                  <div class="acc-body">
+                    <iframe src="../assets/portfolio/vibecoding/simulation-code.html" aria-label="Simulation module — code version" allowfullscreen="allowfullscreen"></iframe>
+                  </div>
+                </details>
+                <details>
+                  <summary><span>Storyline version · the original (for comparison)</span><span class="acc-arrow">▸</span></summary>
+                  <div class="acc-body">
+                    <iframe src="https://benlevy834.github.io/kidum-simulation-course/" aria-label="Simulation module — Storyline version" allowfullscreen="allowfullscreen"></iframe>
+                  </div>
+                </details>
               </div>
             </template>
             <template data-narrative>
-              <p><strong>The real test:</strong> I took the same simulation module that lives in the first card — the one built in Storyline — and rebuilt it from scratch in pure code. Same experience, same design, same scenarios, no authoring tool involved. Open both cards side by side and compare for yourself.</p>
+              <p><strong>The real test:</strong> I took the same simulation module that lives in the first card — the one built in Storyline — and rebuilt it from scratch in pure code. Same experience, same design, same scenarios, no authoring tool involved. The code version is open above by default; expand the Storyline version below it to compare.</p>
+              <h5>The skill that starts from PowerPoint and ends in a Storyline-style module</h5>
+              <p>Beyond the manual rebuild, I built a <strong>personal Claude Code skill</strong> that takes a PowerPoint deck, runs a Vibe Coding dialogue with me about pedagogical structure and scenarios, and ends with an HTML module in the Storyline style — not a Storyline file, but a module that behaves and looks like one. The skill is part of the philosophy: when the standard tool is too slow, I build a better one for myself.</p>
               <p>This approach lets me break out of traditional authoring-tool constraints — faster development, full design freedom, and technical control down to the event-on-the-page level.</p>
               <h5>Why it matters</h5>
               <ul>
@@ -505,7 +530,21 @@
             data-tag="Design Process"
             data-title="Characterization &amp; Needs Analysis"
             data-tools="Needs Analysis|Gap Mapping|Personas|Success Metrics|Course Architecture"
-            data-detail="The work you don't see in the final deliverable, but without which nothing holds together. Every module I build starts with a characterization document — gap identification, needs mapping, persona work, and interim goal definition. This card shows the real thinking behind the deliverables in the rest of the portfolio.">
+            data-detail="The work you don't see in the final deliverable, but without which nothing holds together. Every module I build starts with a characterization document — gap identification, needs mapping, persona work, and interim goal definition. I work in Notion as my primary canvas and export the Word documents that go to the client.">
+            <template data-embed>
+              <div class="modal__split">
+                <div class="modal__split-item">
+                  <h5>Smart Training <span style="font-family: var(--font-ui); font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent);">· Notion</span></h5>
+                  <p>This is the same characterization that became the DOCX available for download below — the live version where the work actually happens, before being exported for the client.</p>
+                  <img src="../assets/portfolio/notion/notion-smart-training.png" alt="Notion page — Smart Training characterization" style="width: 100%; height: auto; border-radius: 8px; margin-top: 12px;">
+                </div>
+                <div class="modal__split-item">
+                  <h5>Digital Learning Space <span style="font-family: var(--font-ui); font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent);">· Notion</span></h5>
+                  <p>A separate characterization — the Basic Reading workbook. This project lives in the "Digital Learning Space" card above. Two characterizations, two different projects, the same working structure.</p>
+                  <img src="../assets/portfolio/notion/notion-digital-space.png" alt="Notion page — Digital Learning Space characterization" style="width: 100%; height: auto; border-radius: 8px; margin-top: 12px;">
+                </div>
+              </div>
+            </template>
             <template data-narrative>
               <p>Before I touch Storyline, H5P, or Claude Code — I write. A good characterization document is the difference between a module that impresses and a module that solves a real problem. Every project in my portfolio has one of these sitting behind it.</p>
               <h5>My template for any characterization</h5>
@@ -529,7 +568,7 @@
             <div class="card__body">
               <span class="card__tag">Design Process</span>
               <h3 class="card__title">Characterization &amp; Needs Analysis</h3>
-              <p class="card__desc">The artifacts that come before any build — needs analyses, gap maps, and personas. Full example: the characterization behind the Smart Training Simulation in Card 1.</p>
+              <p class="card__desc">The artifacts that come before any build — needs analyses, gap maps, and personas. I work in Notion and export Word documents to the client. Browse the live Notion pages behind the portfolio.</p>
               <div class="chips">
                 <span class="chip">Needs Analysis</span>
                 <span class="chip">Personas</span>

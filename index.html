@@ -20,7 +20,7 @@
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bellefair&family=David+Libre:wght@400;500;700&family=Frank+Ruhl+Libre:wght@400;500;700;900&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,700;0,9..144,900;1,9..144,400;1,9..144,700;1,9..144,900&family=Heebo:wght@300;400;500;700;800&family=Instrument+Sans:ital,wght@0,400;0,500;0,700;1,400&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,600&family=Noto+Serif+Hebrew:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;500;600;700;800&family=Bellefair&family=David+Libre:wght@400;500;700&family=Frank+Ruhl+Libre:wght@400;500;700;900&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,700;0,9..144,900;1,9..144,400;1,9..144,700;1,9..144,900&family=Heebo:wght@300;400;500;700;800;900&family=Instrument+Sans:ital,wght@0,400;0,500;0,700;1,400&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,600&family=Noto+Serif+Hebrew:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="assets/css/styles.css">
 </head>
@@ -223,12 +223,37 @@
             data-detail="במקום להסתמך על Storyline או Rise, אני מפתח לומדות ישירות בקוד ב-Claude Code — כל HTML/CSS/JS נכתב בעצמי (בליווי AI), כל פיקסל נשלט במדויק, והתוצאה עובדת בכל דפדפן ובכל גודל מסך. בלי קבצי פלט סגורים, בלי תלות בספק, בלי רישיונות."
             data-status="">
             <template data-embed>
-              <div class="modal__embed">
-                <iframe src="assets/portfolio/vibecoding/simulation-code.html" aria-label="לומדת סימולציה — גרסת קוד" width="1088" height="720" frameborder="0" allowfullscreen="allowfullscreen"></iframe>
+              <style>
+                .vc-acc { display: flex; flex-direction: column; gap: 14px; }
+                .vc-acc details { border-radius: 12px; overflow: hidden; background: #1e1e2f; border: 1px solid rgba(0,0,0,0.12); }
+                .vc-acc summary { cursor: pointer; padding: 16px 22px; font-family: var(--font-ui); font-size: 14px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #f5f5f5; list-style: none; user-select: none; display: flex; align-items: center; justify-content: space-between; gap: 16px; transition: background .2s ease; }
+                .vc-acc summary::-webkit-details-marker { display: none; }
+                .vc-acc summary::marker { display: none; }
+                .vc-acc summary:hover { background: #262640; }
+                .vc-acc .acc-arrow { font-size: 28px; line-height: 1; color: var(--accent); transition: transform .25s ease; display: inline-block; }
+                .vc-acc details[open] .acc-arrow { transform: rotate(90deg); }
+                .vc-acc .acc-body { aspect-ratio: 16/9; min-block-size: 480px; padding: 0 14px 14px; background: #1e1e2f; }
+                .vc-acc .acc-body iframe { width: 100%; height: 100%; border: 0; display: block; border-radius: 6px; }
+              </style>
+              <div class="vc-acc">
+                <details open>
+                  <summary><span>גרסת קוד · Claude Code</span><span class="acc-arrow">▸</span></summary>
+                  <div class="acc-body">
+                    <iframe src="assets/portfolio/vibecoding/simulation-code.html" aria-label="לומדת סימולציה — גרסת קוד" allowfullscreen="allowfullscreen"></iframe>
+                  </div>
+                </details>
+                <details>
+                  <summary><span>גרסת Storyline · המקור (להשוואה)</span><span class="acc-arrow">▸</span></summary>
+                  <div class="acc-body">
+                    <iframe src="https://benlevy834.github.io/kidum-simulation-course/" aria-label="לומדת סימולציה — גרסת Storyline" allowfullscreen="allowfullscreen"></iframe>
+                  </div>
+                </details>
               </div>
             </template>
             <template data-narrative>
-              <p><strong>המבחן האמיתי:</strong> לקחתי את אותה לומדת סימולציה שמופיעה בכרטיס הראשון — זו שנבנתה ב-Storyline — ובניתי אותה מחדש מאפס בקוד טהור. אותה חוויה, אותו עיצוב, אותם תרחישים, בלי שום פלטפורמת authoring. פתחו את שני הכרטיסים זה לצד זה והשוו במו עיניכם.</p>
+              <p><strong>המבחן האמיתי:</strong> לקחתי את אותה לומדת סימולציה שמופיעה בכרטיס הראשון — זו שנבנתה ב-Storyline — ובניתי אותה מחדש מאפס בקוד טהור. אותה חוויה, אותו עיצוב, אותם תרחישים, בלי שום פלטפורמת authoring. גרסת הקוד פתוחה כברירת מחדל למעלה; פתחו את גרסת ה-Storyline שמתחתיה כדי להשוות.</p>
+              <h5>הסקיל שמתחיל מ-PowerPoint ומסתיים בלומדה בסגנון Storyline</h5>
+              <p>בנוסף לעבודה הידנית, פיתחתי <strong>סקיל אישי ב-Claude Code</strong> שמקבל קובץ PowerPoint, מנהל איתי שיח Vibe Coding על המבנה הפדגוגי והתרחישים, ובונה בסופו לומדה ב-HTML בסגנון סטוריליין — לא קובץ Storyline, אלא לומדה שמתנהגת ונראית כמו אחת. הסקיל הוא חלק מהגישה: כשהכלי הסטנדרטי איטי מדי, אני בונה לעצמי כלי טוב יותר.</p>
               <p>הגישה הזו מאפשרת לי לעקוף את המגבלות של פלטפורמות authoring מסורתיות — מהירות פיתוח גבוהה יותר, חופש עיצובי מלא, ושליטה טכנית עד לרמת האירוע בדף.</p>
               <h5>למה זה משמעותי</h5>
               <ul>
@@ -510,7 +535,21 @@
             data-tag="Design Process"
             data-title="מסמכי אפיון"
             data-tools="Needs Analysis|Gap Mapping|Personas|Success Metrics|Course Architecture"
-            data-detail="החלק שלא רואים במוצר הסופי, אבל בלעדיו שום דבר לא עובד. כל לומדה שאני בונה מתחילה ממסמך אפיון — זיהוי פער, מיפוי צרכים, בניית פרסונות, והגדרת מטרות ביניים. התיק הזה מציג את התהליך האמיתי מאחורי התוצרים בפורטפוליו.">
+            data-detail="החלק שלא רואים במוצר הסופי, אבל בלעדיו שום דבר לא עובד. כל לומדה שאני בונה מתחילה ממסמך אפיון — זיהוי פער, מיפוי צרכים, בניית פרסונות, והגדרת מטרות ביניים. אני עובד ב-Notion ככלי האפיון המרכזי שלי, ומפיק ממנו את מסמכי ה-Word שמוצגים ללקוחות.">
+            <template data-embed>
+              <div class="modal__split">
+                <div class="modal__split-item">
+                  <h5>הדרכה חכמה <span style="font-family: var(--font-ui); font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent);">· Notion</span></h5>
+                  <p>זה אותו אפיון שהפך למסמך ה-DOCX שזמין להורדה למטה — הגרסה החיה שבה אני באמת עובד, לפני הייצוא ללקוח.</p>
+                  <img src="assets/portfolio/notion/notion-smart-training.png" alt="עמוד Notion — אפיון הדרכה חכמה" style="width: 100%; height: auto; border-radius: 8px; margin-top: 12px;">
+                </div>
+                <div class="modal__split-item">
+                  <h5>מרחב למידה דיגיטלי <span style="font-family: var(--font-ui); font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent);">· Notion</span></h5>
+                  <p>אפיון נפרד — חוברת Basic Reading. הפרויקט הזה מופיע בכרטיס "מרחב למידה דיגיטלי" למעלה. שני אפיונים, שני פרויקטים שונים, אותו מבנה עבודה.</p>
+                  <img src="assets/portfolio/notion/notion-digital-space.png" alt="עמוד Notion — אפיון מרחב למידה דיגיטלי" style="width: 100%; height: auto; border-radius: 8px; margin-top: 12px;">
+                </div>
+              </div>
+            </template>
             <template data-narrative>
               <p>לפני שאני נוגע ב-Storyline, ב-H5P או ב-Claude Code — אני כותב. מסמך אפיון טוב הוא ההבדל בין לומדה שעושה רושם ללומדה שפותרת בעיה אמיתית. כל פרויקט בפורטפוליו שלי מגיע עם מסמך כזה מאחוריו.</p>
               <h5>המבנה שלי לכל אפיון</h5>
@@ -534,7 +573,7 @@
             <div class="card__body">
               <span class="card__tag">תהליך עיצוב</span>
               <h3 class="card__title">מסמכי אפיון</h3>
-              <p class="card__desc">התוצרים שקודמים לכל פיתוח — מסמכי אפיון, מיפוי פערים, ופרסונות. דוגמה מלאה: האפיון של סימולציית "הדרכה חכמה" שבכרטיס הראשון.</p>
+              <p class="card__desc">התוצרים שקודמים לכל פיתוח — מסמכי אפיון, מיפוי פערים, ופרסונות. אני עובד ב-Notion ומפיק ממנו מסמכי Word ללקוח. צפו בעמודי ה-Notion החיים מאחורי הפורטפוליו.</p>
               <div class="chips">
                 <span class="chip">Needs Analysis</span>
                 <span class="chip">Personas</span>

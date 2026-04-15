@@ -39,55 +39,52 @@
 }
 
 html[lang="he"] {
-  --font-display: 'Noto Serif Hebrew', 'Frank Ruhl Libre', 'David Libre', Georgia, serif;
-  --font-body:    'Frank Ruhl Libre', 'David Libre', Georgia, serif;
-  --font-ui:      'Heebo', 'Assistant', 'Frank Ruhl Libre', system-ui, sans-serif;
+  --font-display: 'Heebo', 'Assistant', system-ui, sans-serif;
+  --font-body:    'Assistant', 'Heebo', system-ui, sans-serif;
+  --font-ui:      'Heebo', 'Assistant', system-ui, sans-serif;
 }
 
-/* Hebrew typography refinements — editorial gravitas */
+/* Hebrew typography — Assistant for body, Heebo for display variation */
 html[lang="he"] body {
-  font-family: 'Frank Ruhl Libre', 'David Libre', Georgia, serif;
-  font-weight: 500;
-  letter-spacing: 0.003em;
+  font-family: 'Assistant', 'Heebo', system-ui, sans-serif;
+  font-weight: 400;
+  letter-spacing: 0;
 }
 
-/* Display: Noto Serif Hebrew at extra-bold — modern editorial serif with real contrast */
+/* Display headlines — Heebo for variation against the body */
 html[lang="he"] .hero__title,
 html[lang="he"] .section__title,
 html[lang="he"] .writing__display,
 html[lang="he"] .contact__headline {
-  font-family: 'Noto Serif Hebrew', 'Frank Ruhl Libre', Georgia, serif;
+  font-family: 'Heebo', 'Assistant', system-ui, sans-serif;
   font-weight: 900;
-  letter-spacing: -0.025em;
-  line-height: 0.95;
-  font-stretch: 75%; /* Noto Serif Hebrew supports condensed; tightens silhouette */
+  letter-spacing: -0.02em;
+  line-height: 1;
 }
 html[lang="he"] .hero__title { font-size: clamp(58px, 10.5vw, 156px); }
 
-/* Card / role headlines — slightly lighter editorial weight */
+/* Card / role headlines — Assistant heavy */
 html[lang="he"] .card__title,
 html[lang="he"] .timeline__role,
 html[lang="he"] .edu-card__degree,
 html[lang="he"] .skill-card__title,
 html[lang="he"] .modal__title {
-  font-family: 'Noto Serif Hebrew', 'Frank Ruhl Libre', Georgia, serif;
-  font-weight: 800;
-  letter-spacing: -0.012em;
-  font-stretch: 85%;
+  font-family: 'Assistant', 'Heebo', system-ui, sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.005em;
 }
 
-/* Stats: heavy editorial numerals — Bellefair has elegant didone forms */
+/* Stats: keep Bellefair didone numerals (Latin) */
 html[lang="he"] .stat__num {
-  font-family: 'Bellefair', 'Noto Serif Hebrew', 'Frank Ruhl Libre', Georgia, serif;
+  font-family: 'Bellefair', 'Heebo', system-ui, sans-serif;
   font-weight: 400;
   letter-spacing: -0.02em;
 }
 
-/* Accent name — full editorial weight */
+/* Accent name — Heebo black */
 html[lang="he"] .accent {
-  font-family: 'Noto Serif Hebrew', 'Frank Ruhl Libre', Georgia, serif;
+  font-family: 'Heebo', 'Assistant', system-ui, sans-serif;
   font-weight: 900;
-  font-stretch: 75%;
 }
 
 /* UI / micro-typography in Heebo */
