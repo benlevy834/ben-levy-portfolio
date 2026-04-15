@@ -709,6 +709,29 @@ html[lang="he"] .hero__tagline {
   transform: scale(1.08);
 }
 
+/* Single brand logo per card (Option 2) */
+.card__thumb--brand {
+  padding: 0;
+}
+.card__thumb--brand::before { display: none; }
+
+/* img-based brand logo */
+img.brand-mark {
+  inline-size: 96px !important;
+  block-size: 96px !important;
+  object-fit: contain;
+  transition: filter var(--t), transform var(--t);
+  display: block;
+  /* Default: recolor black SVG to ink (#1B1714) */
+  filter: brightness(0) saturate(100%) invert(6%) sepia(16%) saturate(1200%) hue-rotate(336deg) brightness(96%) contrast(92%);
+}
+.card:hover .card__thumb--brand img.brand-mark {
+  /* Hover: recolor to accent orange (#B8421A) */
+  filter: brightness(0) saturate(100%) invert(29%) sepia(99%) saturate(1893%) hue-rotate(354deg) brightness(91%) contrast(91%)
+          drop-shadow(0 0 14px rgba(184, 66, 26, 0.5));
+  transform: scale(1.06);
+}
+
 .card__body {
   padding: 28px 28px 18px;
   display: flex;
