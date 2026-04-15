@@ -717,9 +717,14 @@ html[lang="he"] .hero__tagline {
 
 /* img-based brand logo */
 img.brand-mark {
-  inline-size: 96px !important;
-  block-size: 96px !important;
+  width: 96px !important;
+  height: 96px !important;
+  max-width: 96px !important;
+  max-height: 96px !important;
+  min-width: 0;
+  min-height: 0;
   object-fit: contain;
+  flex: 0 0 auto;
   transition: filter var(--t), transform var(--t);
   display: block;
   /* Default: recolor black SVG to ink (#1B1714) */
