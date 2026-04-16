@@ -258,6 +258,28 @@
       }
     });
 
+    /* ---------- Image lightbox (zoomable) ---------- */
+    var lightbox = document.createElement('div');
+    lightbox.className = 'img-lightbox';
+    lightbox.innerHTML = '<button class="img-lightbox__close" type="button" aria-label="Close">&times;</button><img src="" alt="">';
+    document.body.appendChild(lightbox);
+    var lbImg = lightbox.querySelector('img');
+    var lbClose = lightbox.querySelector('.img-lightbox__close');
+    function openLightbox(src, alt) {
+      lbImg.src = src; lbImg.alt = alt || '';
+      lightbox.classList.add('is-open');
+    }
+    function closeLightbox() { lightbox.classList.remove('is-open'); }
+    lbClose.addEventListener('click', closeLightbox);
+    lightbox.addEventListener('click', function (e) { if (e.target === lightbox) closeLightbox(); });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && lightbox.classList.contains('is-open')) closeLightbox();
+    });
+    document.addEventListener('click', function (e) {
+      var img = e.target.closest('img[data-zoomable]');
+      if (img) { e.preventDefault(); openLightbox(img.src, img.alt); }
+    });
+
     /* ---------- Update footer year ---------- */
     const yearEl = document.querySelector('[data-year]');
     if (yearEl) yearEl.textContent = new Date().getFullYear();

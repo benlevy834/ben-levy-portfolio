@@ -39,55 +39,55 @@
 }
 
 html[lang="he"] {
-  --font-display: 'Heebo', 'Assistant', system-ui, sans-serif;
-  --font-body:    'Assistant', 'Heebo', system-ui, sans-serif;
-  --font-ui:      'Heebo', 'Assistant', system-ui, sans-serif;
+  --font-display: 'Rubik', system-ui, sans-serif;
+  --font-body:    'Rubik', system-ui, sans-serif;
+  --font-ui:      'Rubik', system-ui, sans-serif;
 }
 
-/* Hebrew typography — Assistant for body, Heebo for display variation */
+/* Hebrew typography — Assistant exclusively */
 html[lang="he"] body {
-  font-family: 'Assistant', 'Heebo', system-ui, sans-serif;
+  font-family: 'Rubik', system-ui, sans-serif;
   font-weight: 400;
   letter-spacing: 0;
 }
 
-/* Display headlines — Heebo for variation against the body */
+/* Display headlines */
 html[lang="he"] .hero__title,
 html[lang="he"] .section__title,
 html[lang="he"] .writing__display,
 html[lang="he"] .contact__headline {
-  font-family: 'Heebo', 'Assistant', system-ui, sans-serif;
+  font-family: 'Rubik', system-ui, sans-serif;
   font-weight: 900;
   letter-spacing: -0.02em;
   line-height: 1;
 }
 html[lang="he"] .hero__title { font-size: clamp(58px, 10.5vw, 156px); }
 
-/* Card / role headlines — Assistant heavy */
+/* Card / role headlines */
 html[lang="he"] .card__title,
 html[lang="he"] .timeline__role,
 html[lang="he"] .edu-card__degree,
 html[lang="he"] .skill-card__title,
 html[lang="he"] .modal__title {
-  font-family: 'Assistant', 'Heebo', system-ui, sans-serif;
+  font-family: 'Rubik', system-ui, sans-serif;
   font-weight: 700;
   letter-spacing: -0.005em;
 }
 
-/* Stats: keep Bellefair didone numerals (Latin) */
+/* Stats numerals */
 html[lang="he"] .stat__num {
-  font-family: 'Bellefair', 'Heebo', system-ui, sans-serif;
+  font-family: 'Rubik', system-ui, sans-serif;
   font-weight: 400;
   letter-spacing: -0.02em;
 }
 
-/* Accent name — Heebo black */
+/* Accent name */
 html[lang="he"] .accent {
-  font-family: 'Heebo', 'Assistant', system-ui, sans-serif;
+  font-family: 'Rubik', system-ui, sans-serif;
   font-weight: 900;
 }
 
-/* UI / micro-typography in Heebo */
+/* UI / micro-typography */
 html[lang="he"] .nav__link,
 html[lang="he"] .btn,
 html[lang="he"] .chip,
@@ -101,7 +101,7 @@ html[lang="he"] .stat__label,
 html[lang="he"] .writing__meta,
 html[lang="he"] .lang-toggle,
 html[lang="he"] .footer {
-  font-family: 'Heebo', 'Assistant', system-ui, sans-serif;
+  font-family: 'Rubik', system-ui, sans-serif;
   letter-spacing: 0.035em;
 }
 html[lang="he"] .nav__link,
@@ -1424,6 +1424,33 @@ html[dir="rtl"] .modal__video-tab { border-inline-end: 1px solid var(--line); }
   .modal__video-tab { border-inline-end: 0; border-block-end: 1px solid var(--line); }
   .modal__video-tab:last-child { border-block-end: 0; }
 }
+
+/* ---- Image lightbox (zoomable) ---- */
+img[data-zoomable] { cursor: zoom-in; transition: opacity .15s ease; }
+img[data-zoomable]:hover { opacity: .85; }
+.img-lightbox {
+  position: fixed; inset: 0; z-index: 10000;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(0,0,0,.88); backdrop-filter: blur(6px);
+  opacity: 0; visibility: hidden; transition: opacity .25s ease, visibility .25s ease;
+  cursor: zoom-out;
+}
+.img-lightbox.is-open { opacity: 1; visibility: visible; }
+.img-lightbox img {
+  max-width: 92vw; max-height: 92vh; border-radius: 8px;
+  box-shadow: 0 8px 40px rgba(0,0,0,.5);
+  transform: scale(.94); transition: transform .25s ease;
+}
+.img-lightbox.is-open img { transform: scale(1); }
+.img-lightbox__close {
+  position: absolute; top: 16px; right: 16px;
+  width: 40px; height: 40px; border: 0; border-radius: 50%;
+  background: rgba(255,255,255,.12); color: #fff;
+  font-size: 22px; line-height: 1; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: background .2s ease;
+}
+.img-lightbox__close:hover { background: rgba(255,255,255,.25); }
 
 /* ---- Placeholder / coming-soon card ---- */
 .card--placeholder {
