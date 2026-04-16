@@ -216,54 +216,92 @@
             data-tag="Vibe Coding"
             data-title="Vibe-Coded Modules"
             data-tools="Claude Code|VS Code|HTML|CSS|JavaScript|Git"
-            data-detail="Instead of leaning on Storyline or Rise, I build learning modules directly in code using Claude Code — every HTML/CSS/JS line written by me (with AI pairing), every pixel under my control, every result working across browsers and screen sizes. No closed export files, no vendor dependency, no licensing."
+            data-detail="A collection of Vibe Coding outputs built directly in Claude Code — every HTML/CSS/JS line written by me (with AI pairing), every pixel under my control, every result working across browsers and screen sizes. No closed export files, no vendor dependency, no licensing. Switch between outputs using the tabs at the top of the window."
             data-status="">
             <template data-embed>
               <style>
+                .vc-pane-frame { aspect-ratio: 16/9; min-block-size: 480px; background: #1e1e2f; border-radius: 10px; overflow: hidden; border: 1px solid var(--line); }
+                .vc-pane-frame iframe { width: 100%; height: 100%; border: 0; display: block; }
                 .vc-acc { display: flex; flex-direction: column; gap: 14px; }
-                .vc-acc details { border-radius: 12px; overflow: hidden; background: #1e1e2f; border: 1px solid rgba(0,0,0,0.12); }
+                .vc-acc details { border-radius: 12px; overflow: hidden; background: #1e1e2f; border: 1px solid var(--line); }
                 .vc-acc summary { cursor: pointer; padding: 16px 22px; font-family: var(--font-ui); font-size: 14px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #f5f5f5; list-style: none; user-select: none; display: flex; align-items: center; justify-content: space-between; gap: 16px; transition: background .2s ease; }
                 .vc-acc summary::-webkit-details-marker { display: none; }
                 .vc-acc summary::marker { display: none; }
                 .vc-acc summary:hover { background: #262640; }
                 .vc-acc .acc-arrow { font-size: 28px; line-height: 1; color: var(--accent); transition: transform .25s ease; display: inline-block; }
                 .vc-acc details[open] .acc-arrow { transform: rotate(90deg); }
-                .vc-acc .acc-body { aspect-ratio: 16/9; min-block-size: 480px; padding: 0 14px 14px; background: #1e1e2f; }
-                .vc-acc .acc-body iframe { width: 100%; height: 100%; border: 0; display: block; border-radius: 6px; }
+                .vc-acc .acc-body { padding: 0 14px 14px; background: #1e1e2f; }
+                .vc-acc .acc-body .vc-pane-frame { border: 1px solid rgba(255,255,255,0.08); }
               </style>
-              <div class="vc-acc">
-                <details open>
-                  <summary><span>Code version · Claude Code</span><span class="acc-arrow">▸</span></summary>
-                  <div class="acc-body">
-                    <iframe src="../assets/portfolio/vibecoding/simulation-code.html" aria-label="Simulation module — code version" allowfullscreen="allowfullscreen"></iframe>
+              <div class="modal__videoset">
+                <div class="modal__video-tabs" role="tablist">
+                  <button class="modal__video-tab is-active" data-video-tab="online" type="button" role="tab" aria-selected="true">
+                    <span class="modal__video-tab-num">01</span>
+                    <span class="modal__video-tab-label">Online Zoom Teaching · Kidum</span>
+                  </button>
+                  <button class="modal__video-tab" data-video-tab="sim" type="button" role="tab" aria-selected="false">
+                    <span class="modal__video-tab-num">02</span>
+                    <span class="modal__video-tab-label">Gafen Simulation · Code vs. Storyline</span>
+                  </button>
+                </div>
+                <div class="modal__video-pane is-active" data-video-pane="online">
+                  <div class="vc-pane-frame">
+                    <iframe src="https://benlevy834.github.io/kidum-online-teaching/" aria-label="Online Zoom teaching module — Kidum" allowfullscreen="allowfullscreen"></iframe>
                   </div>
-                </details>
-                <details>
-                  <summary><span>Storyline version · the original (for comparison)</span><span class="acc-arrow">▸</span></summary>
-                  <div class="acc-body">
-                    <iframe src="https://benlevy834.github.io/kidum-simulation-course/" aria-label="Simulation module — Storyline version" allowfullscreen="allowfullscreen"></iframe>
+                  <p class="modal__video-caption">A module I built urgently following the war in Israel and the conflict with Iran — all classes at Kidum shifted to Zoom overnight, and every instructor had to teach via Zoom for the first time. This module prepared the team for real-time online teaching.</p>
+                </div>
+                <div class="modal__video-pane" data-video-pane="sim">
+                  <div class="vc-acc">
+                    <details open>
+                      <summary><span>Code version · Claude Code</span><span class="acc-arrow">▸</span></summary>
+                      <div class="acc-body">
+                        <div class="vc-pane-frame">
+                          <iframe src="../assets/portfolio/vibecoding/simulation-code.html" aria-label="Simulation module — code version" allowfullscreen="allowfullscreen"></iframe>
+                        </div>
+                      </div>
+                    </details>
+                    <details>
+                      <summary><span>Storyline version · the original (for comparison)</span><span class="acc-arrow">▸</span></summary>
+                      <div class="acc-body">
+                        <div class="vc-pane-frame">
+                          <iframe src="https://benlevy834.github.io/kidum-simulation-course/" aria-label="Simulation module — Storyline version" allowfullscreen="allowfullscreen"></iframe>
+                        </div>
+                      </div>
+                    </details>
                   </div>
-                </details>
+                  <p class="modal__video-caption">The same simulation module in two versions — a code version rebuilt from scratch in Claude Code, alongside the original Storyline version. Open both accordions and compare side by side.</p>
+                </div>
               </div>
             </template>
             <template data-narrative>
-              <p><strong>The real test:</strong> I took the same simulation module that lives in the first card — the one built in Storyline — and rebuilt it from scratch in pure code. Same experience, same design, same scenarios, no authoring tool involved. The code version is open above by default; expand the Storyline version below it to compare.</p>
-              <h5>The skill that starts from PowerPoint and ends in a Storyline-style module</h5>
-              <p>Beyond the manual rebuild, I built a <strong>personal Claude Code skill</strong> that takes a PowerPoint deck, runs a Vibe Coding dialogue with me about pedagogical structure and scenarios, and ends with an HTML module in the Storyline style — not a Storyline file, but a module that behaves and looks like one. The skill is part of the philosophy: when the standard tool is too slow, I build a better one for myself.</p>
-              <p>This approach lets me break out of traditional authoring-tool constraints — faster development, full design freedom, and technical control down to the event-on-the-page level.</p>
-              <h5>Why it matters</h5>
-              <ul>
-                <li>Zero licensing — output is plain static HTML</li>
-                <li>Real responsiveness, not "compatibility"</li>
-                <li>Content updates in 30 seconds via text editing</li>
-                <li>Every change tracked in Git — full history</li>
-                <li>Instant deploy to GitHub Pages or the client's environment</li>
-              </ul>
-              <h5>When it's right — and when it isn't</h5>
-              <p>Simple-to-mid-complexity modules: clear winner. Complex branching scenarios with full SCORM tracking: Storyline is still the stronger tool — and I'm just as comfortable there.</p>
+              <section data-narrative-for="online">
+                <h5>Online Zoom Teaching Module (Kidum)</h5>
+                <p><strong>Context:</strong> Following the war in Israel and the conflict with Iran, all classes at Kidum shifted to Zoom, and every instructor had to teach via Zoom for the very first time. The need was immediate and urgent.</p>
+                <p><strong>Response:</strong> I built this module using Vibe Coding directly in Claude Code — a standalone HTML/CSS/JS package that trains an instructor to run an effective Zoom lesson: window management, screen sharing, student interaction, etiquette guidelines, and common troubleshooting scenarios. The module went live in days rather than weeks of authoring-tool development.</p>
+              </section>
+              <section data-narrative-for="sim">
+                <h5>Gafen Simulation — Code vs. Storyline</h5>
+                <p><strong>The real test:</strong> I took the same simulation module that lives in the first card — the one built in Storyline — and rebuilt it from scratch in pure code. Same experience, same design, same scenarios, no authoring tool involved. Open both accordions above to compare code vs. original.</p>
+                <h5>The skill that starts from PowerPoint and ends in a Storyline-style module</h5>
+                <p>Beyond the manual rebuild, I built a <strong>personal Claude Code skill</strong> that takes a PowerPoint deck, runs a Vibe Coding dialogue with me about pedagogical structure and scenarios, and ends with an HTML module in the Storyline style — not a Storyline file, but a module that behaves and looks like one. The skill is part of the philosophy: when the standard tool is too slow, I build a better one for myself.</p>
+                <p>This approach lets me break out of traditional authoring-tool constraints — faster development, full design freedom, and technical control down to the event-on-the-page level.</p>
+              </section>
+              <section data-narrative-for="online sim">
+                <h5>Why it matters</h5>
+                <ul>
+                  <li>Zero licensing — output is plain static HTML</li>
+                  <li>Real responsiveness, not "compatibility"</li>
+                  <li>Content updates in 30 seconds via text editing</li>
+                  <li>Every change tracked in Git — full history</li>
+                  <li>Instant deploy to GitHub Pages or the client's environment</li>
+                </ul>
+                <h5>When it's right — and when it isn't</h5>
+                <p>Simple-to-mid-complexity modules: clear winner. Complex branching scenarios with full SCORM tracking: Storyline is still the stronger tool — and I'm just as comfortable there.</p>
+              </section>
             </template>
             <template data-downloads>
-              <a href="../assets/portfolio/vibecoding/simulation-code.html" target="_blank" rel="noopener">Open the code version in a new window</a>
+              <a href="https://benlevy834.github.io/kidum-online-teaching/" target="_blank" rel="noopener">Open the Zoom online teaching module in a new window</a>
+              <a href="../assets/portfolio/vibecoding/simulation-code.html" target="_blank" rel="noopener">Open the code simulation version in a new window</a>
               <a href="https://benlevy834.github.io/kidum-simulation-course/" target="_blank" rel="noopener">Open the Storyline version for comparison</a>
             </template>
             <div class="card__thumb card__thumb--brand">
@@ -272,7 +310,7 @@
             <div class="card__body">
               <span class="card__tag">Vibe Coding</span>
               <h3 class="card__title">Vibe-Coded Modules</h3>
-              <p class="card__desc">I rebuilt the simulation module from the first card — same module, this time in pure code instead of Storyline. Open both cards and compare for yourself.</p>
+              <p class="card__desc">A collection of Claude Code outputs: a Zoom online-teaching module built urgently following the war, alongside a full rebuild of a simulation module originally made in Storyline. Switch between outputs using the tabs.</p>
               <div class="chips">
                 <span class="chip">Claude Code</span>
                 <span class="chip">VS Code</span>
