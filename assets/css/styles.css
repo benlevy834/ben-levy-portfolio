@@ -475,7 +475,7 @@ html[lang="he"] .hero__tagline {
 }
 
 .hero__lede {
-  font-family: 'Newsreader', 'Frank Ruhl Libre', Georgia, serif;
+  font-family: var(--font-body);
   font-size: clamp(17px, 1.2vw, 20px);
   color: var(--ink-soft);
   max-width: 54ch;
