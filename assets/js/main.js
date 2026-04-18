@@ -129,16 +129,13 @@
         ? '<h4>' + downloadsLabel + '</h4><div class="modal__downloads">' + downloadsHTML + '</div>'
         : '';
 
-      // If the embed has its own tab system, each pane is self-contained — skip card-level descriptions
-      var hasTabs = mediaHTML.indexOf('modal__videoset') !== -1;
-      modalBody.innerHTML = hasTabs
-        ? mediaHTML
-        : mediaHTML +
-          (detail ? '<p class="modal__lede">' + escapeHTML(detail) + '</p>' : '') +
-          narrativeBlock +
-          toolsBlock +
-          downloadsBlock +
-          (statusText ? '<h4>' + statusLabel + '</h4><p>' + escapeHTML(statusText) + '</p>' : '');
+      modalBody.innerHTML =
+        mediaHTML +
+        (detail ? '<p class="modal__lede">' + escapeHTML(detail) + '</p>' : '') +
+        narrativeBlock +
+        toolsBlock +
+        downloadsBlock +
+        (statusText ? '<h4>' + statusLabel + '</h4><p>' + escapeHTML(statusText) + '</p>' : '');
 
       // Wide layout whenever there is any media
       modal.classList.toggle('modal--wide', !!mediaHTML);
