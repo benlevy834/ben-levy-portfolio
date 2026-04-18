@@ -337,6 +337,18 @@
             data-detail="לומדת וידאו אינטראקטיבי מלאה שפיתחתי להכשרת מדריכי אנגלית — מודל &quot;כיתה הפוכה&quot;: הלומדה נשלחת לפני מפגש הזום, והמדריך מגיע להכשרה החיה כשהוא כבר שולט ביעדים ובמבנה החומרים."
             data-status="הלומדה עצמה חסויה בשל מגבלות אבטחת מידע של הלקוח — הגלריה למטה מציגה את שמונת המסכים המרכזיים של הלומדה.">
             <template data-embed>
+              <div class="modal__videoset">
+                <div class="modal__video-tabs" role="tablist">
+                  <button class="modal__video-tab is-active" data-video-tab="h5p-gallery" type="button" role="tab" aria-selected="true">
+                    <span class="modal__video-tab-num">01</span>
+                    <span class="modal__video-tab-label">לומדת הכשרה · H5P</span>
+                  </button>
+                  <button class="modal__video-tab" data-video-tab="b2b-video" type="button" role="tab" aria-selected="false">
+                    <span class="modal__video-tab-num">02</span>
+                    <span class="modal__video-tab-label">סרטון הדרכת לקוחות · B2B</span>
+                  </button>
+                </div>
+                <div class="modal__video-pane is-active" data-video-pane="h5p-gallery">
               <div class="modal__gallery" data-gallery>
                 <figure class="modal__gallery-stage" data-gallery-stage data-index="0">
                   <button class="modal__gallery-nav modal__gallery-nav--prev" data-gallery-prev type="button" aria-label="הקודם">‹</button>
@@ -385,6 +397,14 @@
                     data-caption="סיום הלומדה — סיכום ומעבר למפגש החי">
                     <img src="assets/portfolio/h5p/ss8.png" alt="">
                   </button>
+                </div>
+              </div>
+                </div>
+                <div class="modal__video-pane" data-video-pane="b2b-video">
+                  <div class="modal__embed">
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/Fclw7en3Kok?si=EpBC_z0dnMZR28Qf" title="סרטון הדרכת לקוחות B2B — א.ס.פ.י" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                  </div>
+                  <p class="modal__video-caption">סרטון הדרכת לקוחות B2B שהפקתי בתקופת עבודתי בא.ס.פ.י — קבוצת יבוא ומסחר חלפי רכב.</p>
                 </div>
               </div>
             </template>

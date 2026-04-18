@@ -333,6 +333,18 @@
             data-detail="A full interactive-video module I built to train English instructors — flipped-classroom model: the module goes out before the Zoom session, so instructors arrive already knowing the goals and structure of the material."
             data-status="The module itself is confidential due to client information-security constraints — the gallery below walks through the eight key screens of the module.">
             <template data-embed>
+              <div class="modal__videoset">
+                <div class="modal__video-tabs" role="tablist">
+                  <button class="modal__video-tab is-active" data-video-tab="h5p-gallery" type="button" role="tab" aria-selected="true">
+                    <span class="modal__video-tab-num">01</span>
+                    <span class="modal__video-tab-label">Instructor Training · H5P</span>
+                  </button>
+                  <button class="modal__video-tab" data-video-tab="b2b-video" type="button" role="tab" aria-selected="false">
+                    <span class="modal__video-tab-num">02</span>
+                    <span class="modal__video-tab-label">B2B Customer Training · Video</span>
+                  </button>
+                </div>
+                <div class="modal__video-pane is-active" data-video-pane="h5p-gallery">
               <div class="modal__gallery" data-gallery>
                 <figure class="modal__gallery-stage" data-gallery-stage data-index="0">
                   <button class="modal__gallery-nav modal__gallery-nav--prev" data-gallery-prev type="button" aria-label="Previous">‹</button>
@@ -381,6 +393,14 @@
                     data-caption="Closing screen — summary and handoff to the live session">
                     <img src="../assets/portfolio/h5p/ss8.png" alt="">
                   </button>
+                </div>
+              </div>
+                </div>
+                <div class="modal__video-pane" data-video-pane="b2b-video">
+                  <div class="modal__embed">
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/Fclw7en3Kok?si=EpBC_z0dnMZR28Qf" title="B2B Customer Training Video — A.S.P.I" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                  </div>
+                  <p class="modal__video-caption">A B2B customer training video I produced while working at A.S.P.I — an auto parts import and trade group.</p>
                 </div>
               </div>
             </template>
