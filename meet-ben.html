@@ -1,0 +1,986 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>הכירו את בן לוי — לומדת היכרות</title>
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700;800&family=Frank+Ruhl+Libre:wght@400;700;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:       #0b2226;
+      --surface:  #01454c;
+      --surface2: #01545A;
+      --border:   rgba(247,255,255,0.18);
+      --text:     #F7FFFF;
+      --muted:    rgba(247,255,255,0.48);
+      --heading:  #FFFEFF;
+      --accent:   #F7FFFF;
+      --correct:  #5CB8A0;
+      --wrong:    #F87171;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { width:100%; height:100%; overflow:hidden;
+      font-family:'Rubik',sans-serif;
+      background:var(--bg); color:var(--text); }
+
+    /* ── PROGRESS ── */
+    #prog-track { position:fixed; top:0; left:0; right:0;
+      height:2px; background:var(--border); z-index:300; }
+    #prog-fill { height:100%; background:var(--accent);
+      transition:width .45s ease; }
+
+    /* ── COUNTER ── */
+    #counter { position:fixed; bottom:26px; left:20px;
+      font-size:11px; letter-spacing:1.5px;
+      color:var(--muted); z-index:300; }
+
+    /* ── NAV ── */
+    #nav { position:fixed; bottom:20px; left:50%;
+      transform:translateX(-50%);
+      display:flex; gap:8px; z-index:300; }
+    .nbtn { padding:8px 22px; border-radius:6px;
+      border:1.5px solid var(--border);
+      background:var(--bg); color:var(--text);
+      font-family:'Rubik',sans-serif;
+      font-size:14px; font-weight:600; cursor:pointer;
+      transition:background .15s; box-shadow:0 1px 3px rgba(0,0,0,.06); }
+    .nbtn:hover:not(:disabled) { background:var(--surface); }
+    .nbtn:disabled { opacity:.35; cursor:default; }
+    .nbtn.primary { background:var(--accent); border-color:var(--accent); color:var(--bg); }
+    .nbtn.primary:hover:not(:disabled) { background:var(--text); border-color:var(--text); color:var(--bg); }
+
+    /* ── SLIDES ── */
+    #slides { width:100%; height:100%; position:relative; }
+    .slide { position:absolute; inset:0;
+      display:flex; flex-direction:column;
+      align-items:center; justify-content:center;
+      padding:48px 40px 88px;
+      opacity:0; pointer-events:none;
+      transition:opacity .4s ease; }
+    .slide.active { opacity:1; pointer-events:all; }
+
+    /* ── HEADINGS ── */
+    .stag { font-size:11px; letter-spacing:2.5px; color:var(--muted);
+      text-transform:uppercase; font-weight:700; margin-bottom:10px; }
+    .stitle { font-family:'Rubik',sans-serif;
+      font-size:clamp(26px,4.5vw,48px); font-weight:900;
+      line-height:1.1; margin-bottom:6px; color:var(--heading); }
+    .ssub { font-size:14px; color:var(--muted); margin-bottom:26px; }
+
+    /* ══ SLIDE 1 — INTRO ══ */
+    .s1-portrait { width:88px; height:88px; border-radius:50%;
+      border:2px solid var(--border); object-fit:cover;
+      animation:fadeIn .8s ease both; margin-bottom:6px;
+      box-shadow:0 2px 8px rgba(0,0,0,.08); }
+    .s1-name { font-family:'Rubik',sans-serif;
+      font-weight:900; font-size:clamp(52px,9vw,100px); line-height:1;
+      color:var(--heading);
+      text-align:center; animation:slideUp .7s ease .1s both; }
+    .s1-role { font-size:clamp(14px,2vw,20px); color:var(--muted);
+      font-weight:400; text-align:center; margin-top:12px;
+      animation:slideUp .7s ease .3s both; }
+    .s1-pills { display:flex; gap:8px; flex-wrap:wrap;
+      justify-content:center; margin-top:18px;
+      animation:slideUp .7s ease .5s both; }
+    .pill { padding:4px 14px; border-radius:100px;
+      background:transparent; border:1px solid var(--border);
+      color:var(--text); font-size:12px; font-weight:600; }
+    .s1-logo { display:flex; align-items:center; gap:9px; margin-top:16px;
+      animation:fadeIn 1s ease .7s both; opacity:.55; }
+    .s1-logo img { height:28px; border-radius:4px; }
+    .s1-logo span { font-size:12px; color:var(--muted); }
+    .s1-hint { margin-top:36px; font-size:11.5px; color:var(--muted);
+      animation:fadeIn 1s ease 1.1s both; }
+    .s1-hint kbd { background:var(--surface); border:1px solid var(--border);
+      border-radius:4px; padding:1px 6px; color:var(--text); font-size:11px; }
+
+    /* ══ SLIDE 2 — HOW IT WORKS ══ */
+    .how-grid { display:grid; grid-template-columns:repeat(3,1fr);
+      gap:14px; width:100%; max-width:700px; margin-bottom:18px; }
+    .how-step { background:var(--surface); border-radius:8px;
+      padding:24px 16px 20px; text-align:center;
+      border:1px solid var(--border); position:relative; }
+    .how-num { position:absolute; top:-1px; right:13px;
+      font-size:10px; font-weight:700; letter-spacing:1px; color:var(--muted);
+      padding:2px 8px; background:var(--surface2);
+      border-radius:0 0 6px 6px; }
+    .how-ico { font-size:34px; margin-bottom:10px; }
+    .how-title { font-size:15px; font-weight:800; margin-bottom:7px; color:var(--heading); }
+    .how-desc { font-size:12.5px; color:var(--muted); line-height:1.65; }
+    .how-desc strong { color:var(--text); font-weight:700; }
+    .how-hint { padding:11px 20px; background:var(--surface);
+      border-radius:6px; border:1px solid var(--border);
+      font-size:13px; color:var(--muted); text-align:center; max-width:560px; }
+
+    /* ══ SLIDE 3 — BACKGROUND ══ */
+    .info-grid { display:grid; grid-template-columns:1fr 1fr;
+      gap:10px; width:100%; max-width:660px; }
+    .icard { background:var(--surface); border:1px solid var(--border);
+      border-radius:8px; padding:14px 14px;
+      display:flex; gap:11px; align-items:flex-start;
+      transition:background .15s;
+      box-shadow:0 1px 3px rgba(0,0,0,.04); }
+    .icard:hover { background:var(--surface); }
+    .icard .ico { font-size:22px; flex-shrink:0; margin-top:1px; }
+    .icard .lbl { font-size:10px; color:var(--muted);
+      text-transform:uppercase; letter-spacing:1px; margin-bottom:2px; }
+    .icard .val { font-size:13.5px; font-weight:700; margin-bottom:2px; color:var(--heading); }
+    .icard .det { font-size:11.5px; color:var(--muted); line-height:1.55; }
+    .hit-badge { display:inline-flex; align-items:center; gap:5px; vertical-align:middle; }
+    .hit-badge img { height:14px; border-radius:3px; vertical-align:middle; }
+
+    /* ══ SLIDE 4 — FAMILY ══ */
+    .fam-wrap { display:grid; grid-template-columns:1fr 1fr 1fr;
+      gap:12px; width:100%; max-width:760px; }
+    .fcard { background:var(--surface); border-radius:8px;
+      padding:20px 14px 16px; text-align:center;
+      border:1px solid var(--border); position:relative; overflow:hidden; }
+    .fcard::after { content:''; position:absolute; bottom:0; left:0; right:0; height:2px; }
+    .fcard.neta::after  { background:var(--border); }
+    .fcard.suzy::after  { background:var(--border); }
+    .fcard.fam::after   { background:var(--border); }
+    .fcard .emo { font-size:36px; margin-bottom:8px; }
+    .fcard h3   { font-size:17px; font-weight:800; margin-bottom:7px; color:var(--heading); }
+    .fcard p    { font-size:12px; color:var(--muted); line-height:1.7; }
+
+    /* ══ SLIDE 5 — HOBBIES ══ */
+    .hob-grid { display:grid; grid-template-columns:repeat(3,1fr);
+      gap:10px; width:100%; max-width:740px; }
+    .hcard { background:var(--surface); border-radius:8px;
+      padding:16px 11px 12px; text-align:center;
+      border:1px solid var(--border);
+      cursor:pointer; transition:all .2s ease; }
+    .hcard:hover { background:var(--surface2); transform:translateY(-2px);
+      box-shadow:0 3px 10px rgba(0,0,0,.06); }
+    .hcard.open { background:var(--bg); border-color:var(--accent); }
+    .hico  { font-size:26px; margin-bottom:5px; }
+    .hname { font-size:13.5px; font-weight:700; margin-bottom:4px; color:var(--heading); }
+    .hdet  { font-size:11.5px; color:var(--muted); line-height:1.6;
+      max-height:0; overflow:hidden; opacity:0;
+      transition:max-height .35s ease, opacity .35s ease; }
+    .hcard.open .hdet { max-height:90px; opacity:1; }
+    .htap  { font-size:10px; color:var(--muted); margin-top:3px; opacity:.7; }
+    .hcard.open .htap { display:none; }
+
+    /* ══ CONNECT BUTTON ══ */
+    .connect-btn { display:inline-flex; align-items:center; gap:5px;
+      margin-top:8px; padding:3px 11px; border-radius:4px;
+      border:1px solid var(--border);
+      background:transparent; color:var(--muted);
+      font-family:'Rubik',sans-serif; font-size:11px; font-weight:600;
+      cursor:pointer; transition:all .15s; }
+    .connect-btn:hover { border-color:#c4c2bf; color:var(--text); background:var(--surface); }
+    .connect-btn.active { background:var(--accent); border-color:var(--accent); color:var(--bg); }
+    .connect-btn .cbh { font-size:13px; line-height:1; }
+    .hcard .hcard-cb { display:none; margin:6px auto 0; }
+    .hcard.open .hcard-cb { display:inline-flex; }
+
+    /* ══ SLIDE 6 — ACCORDION ══ */
+    .acc-intro { font-size:13px; color:var(--muted);
+      margin-bottom:14px; text-align:center; }
+    .acc-list { width:100%; max-width:660px;
+      display:flex; flex-direction:column; gap:6px; }
+    .acc-item { border-radius:8px;
+      border:1px solid var(--border); overflow:hidden;
+      box-shadow:0 1px 3px rgba(0,0,0,.04); }
+    .acc-hdr { width:100%; display:flex; align-items:center; gap:11px;
+      padding:13px 15px; background:var(--surface); border:none;
+      color:var(--text); font-family:'Rubik',sans-serif;
+      cursor:pointer; text-align:right; transition:background .15s; }
+    .acc-hdr:hover { background:var(--surface); }
+    .acc-hdr.open { background:var(--surface);
+      border-bottom:1px solid var(--border); }
+    .acc-ico { font-size:20px; flex-shrink:0; }
+    .acc-titles { flex:1; text-align:right; }
+    .acc-title { font-size:13.5px; font-weight:700; color:var(--heading); }
+    .acc-dates { font-size:11px; color:var(--muted); margin-top:2px; }
+    .acc-arrow { font-size:11px; color:var(--muted);
+      transition:transform .3s; flex-shrink:0; }
+    .acc-hdr.open .acc-arrow { transform:rotate(180deg); }
+    .acc-body { max-height:0; overflow:hidden; opacity:0;
+      background:var(--surface); padding:0 15px;
+      font-size:12.5px; color:var(--muted); line-height:1.75;
+      transition:max-height .35s ease, opacity .3s ease, padding .3s ease; }
+    .acc-body.open { max-height:160px; opacity:1; padding:12px 15px 14px; }
+
+    /* ══ SLIDE 7 — SKILLS ══ */
+    .sk-wrap { display:grid; grid-template-columns:1fr 1fr;
+      gap:16px; width:100%; max-width:740px; }
+    .sk-cat .sk-lbl { font-size:10px; letter-spacing:2px; color:var(--muted);
+      text-transform:uppercase; font-weight:700; margin-bottom:8px; }
+    .tags { display:flex; flex-wrap:wrap; gap:6px; }
+    .tag { padding:4px 12px; background:var(--surface);
+      border-radius:100px; font-size:11.5px;
+      border:1px solid var(--border); color:var(--text);
+      cursor:pointer; transition:all .15s; }
+    .tag:hover { background:var(--surface2); border-color:#c4c2bf; }
+    .tag.active-tip { background:var(--surface2); border-color:var(--accent); color:var(--accent); }
+    .tag.skill-connected { background:var(--accent); border-color:var(--accent); color:var(--bg); }
+
+    /* ── TOOLTIP ── */
+    #tooltip { display:none; position:fixed; z-index:500;
+      max-width:260px; padding:11px 13px;
+      background:var(--surface2); border:1px solid var(--border);
+      font-size:12px; line-height:1.6;
+      color:var(--text); pointer-events:all;
+      box-shadow:0 4px 20px rgba(0,0,0,.5); }
+
+    /* ══ SLIDE 8 — QUIZ ══ */
+    .qwrap { width:100%; max-width:560px; text-align:center; }
+    #q-progress { font-size:11px; letter-spacing:1.5px; color:var(--muted);
+      margin-bottom:12px; }
+    .qq { font-size:clamp(15px,2.3vw,18px); font-weight:700;
+      margin-bottom:20px; line-height:1.55; color:var(--heading); }
+    .qopts { display:grid; grid-template-columns:1fr 1fr;
+      gap:8px; margin-bottom:14px; }
+    .qbtn { padding:12px; background:var(--surface);
+      border:1px solid var(--border); border-radius:6px;
+      color:var(--text); font-family:'Rubik',sans-serif;
+      font-size:13.5px; font-weight:600; cursor:pointer;
+      transition:all .15s; line-height:1.4; }
+    .qbtn:hover:not(:disabled) { background:var(--surface); }
+    .qbtn.correct { background:rgba(92,184,160,0.15); border-color:var(--correct); color:var(--correct); }
+    .qbtn.wrong   { background:rgba(248,113,113,0.15); border-color:var(--wrong); color:var(--wrong); }
+    #qfb { min-height:26px; font-size:14px; font-weight:700; }
+    #qnext { display:none; margin-top:13px; padding:8px 24px;
+      background:var(--accent); border:none; border-radius:6px;
+      color:#fff; font-family:'Rubik',sans-serif;
+      font-size:14px; font-weight:700; cursor:pointer; }
+    #qnext:hover { background:var(--heading); }
+
+    /* ══ SLIDE 9 — SUMMARY ══ */
+    .sum-wrap { width:100%; max-width:760px;
+      max-height:calc(100vh - 270px); overflow-y:auto; }
+    .sum-wrap::-webkit-scrollbar { width:3px; }
+    .sum-wrap::-webkit-scrollbar-thumb { background:var(--border); border-radius:3px; }
+    .sum-empty { text-align:center; padding:22px 0; color:var(--muted); }
+    .sum-empty .se-ico { font-size:40px; margin-bottom:10px; }
+    .sum-empty p { font-size:13.5px; line-height:1.7; }
+    .sum-cats { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:14px; }
+    .sum-cat { }
+    .sum-cat-lbl { font-size:10px; letter-spacing:2px; text-transform:uppercase;
+      color:var(--muted); font-weight:700; margin-bottom:8px;
+      padding-bottom:5px; border-bottom:1px solid var(--border); }
+    .sum-item { display:flex; gap:7px; margin-bottom:7px; align-items:flex-start; }
+    .sum-item .si-ico { font-size:14px; flex-shrink:0; margin-top:2px; }
+    .sum-item .si-body strong { display:block; font-size:12px; font-weight:700;
+      margin-bottom:1px; color:var(--heading); }
+    .sum-item .si-body span { font-size:11px; color:var(--muted); line-height:1.5; }
+    .sum-tools { display:flex; flex-wrap:wrap; gap:5px; }
+    .sum-tool-chip { padding:3px 10px; background:var(--surface);
+      border:1px solid var(--border); border-radius:100px;
+      font-size:11px; color:var(--text); font-weight:600; }
+    .sum-cta { display:flex; gap:8px; justify-content:center;
+      margin-top:14px; flex-wrap:wrap; }
+    .sum-cta a { display:flex; align-items:center; gap:7px; padding:8px 18px;
+      background:var(--surface); border:1px solid var(--border); border-radius:6px;
+      text-decoration:none; color:var(--text); font-size:13px; transition:background .15s; }
+    .sum-cta a:hover { background:var(--surface2); }
+    .ainote { margin-top:12px; font-size:11px;
+      color:var(--muted); line-height:1.7; text-align:center;
+      display:flex; align-items:center; justify-content:center; gap:8px; flex-wrap:wrap; }
+    .ainote img { height:16px; border-radius:3px; opacity:.45; }
+
+    /* ── ANIMATIONS ── */
+    @keyframes slideUp {
+      from { opacity:0; transform:translateY(18px); }
+      to   { opacity:1; transform:translateY(0); } }
+    @keyframes fadeIn {
+      from { opacity:0; } to { opacity:1; } }
+    @keyframes shake {
+      0%,100% { transform:translateX(0); }
+      25%      { transform:translateX(-5px); }
+      75%      { transform:translateX(5px); } }
+
+    /* ── SHARP CORNERS ── */
+    .nbtn, .pill, .s1-hint kbd, .how-step, .how-num, .how-hint,
+    .icard, .fcard, .hcard, .connect-btn, .acc-item, .tag,
+    #tooltip, .qbtn, #qnext, .sum-tool-chip, .sum-cta a { border-radius:0 !important; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width:640px) {
+      .info-grid, .sk-wrap, .sum-cats { grid-template-columns:1fr; }
+      .fam-wrap { grid-template-columns:1fr; }
+      .hob-grid, .how-grid { grid-template-columns:1fr 1fr; }
+      .qopts { grid-template-columns:1fr; }
+      .slide { padding:36px 18px 84px; } }
+  </style>
+</head>
+<body>
+
+<div id="prog-track"><div id="prog-fill"></div></div>
+<div id="counter">1 / 9</div>
+<div id="tooltip"></div>
+
+<div id="slides">
+
+  <!-- ══════ 1: INTRO ══════ -->
+  <div class="slide active" data-slide="1">
+    <img class="s1-portrait" src="assets/img/ben-portrait.png" alt="בן לוי">
+    <div class="s1-name">בן לוי</div>
+    <div class="s1-role">מפתח למידה · מעצב הוראה</div>
+    <div class="s1-pills">
+      <span class="pill">M.A. טכנולוגיות למידה</span>
+    </div>
+    <div class="s1-logo">
+      <img src="hit___holon_institute_of_technlogy_logo.jpeg" alt="HIT">
+      <span>מכון טכנולוגי חולון</span>
+    </div>
+    <div class="s1-hint">לחצו <kbd>←</kbd> <kbd>→</kbd> או על הכפתורים למטה לניווט</div>
+  </div>
+
+  <!-- ══════ 2: HOW IT WORKS ══════ -->
+  <div class="slide" data-slide="2">
+    <div class="stag">לפני שמתחילים</div>
+    <div class="stitle">איך עובדת הלומדה?</div>
+    <div class="ssub">30 שניות, ואתם מוכנים</div>
+    <div class="how-grid">
+      <div class="how-step">
+        <div class="how-num">שלב 1</div>
+        <div class="how-ico">📖</div>
+        <div class="how-title">גלו את בן</div>
+        <div class="how-desc">עברו שקף-שקף ולמדו על הרקע, המשפחה, התחביבים, הניסיון והכלים שלו</div>
+      </div>
+      <div class="how-step">
+        <div class="how-num">שלב 2</div>
+        <div class="how-ico">♡</div>
+        <div class="how-title">סמנו מה מתחבר</div>
+        <div class="how-desc">בכל שקף יופיעו כפתורי <strong>"♡ גם אני..."</strong> — לחצו על כל מה שמדבר אליכם</div>
+      </div>
+      <div class="how-step">
+        <div class="how-num">שלב 3</div>
+        <div class="how-ico">🎯</div>
+        <div class="how-title">קבלו סיכום אישי</div>
+        <div class="how-desc">בשקף האחרון תמצאו <strong>נושאי שיחה מותאמים</strong> — על בסיס מה שסימנתם</div>
+      </div>
+    </div>
+    <div class="how-hint">💡 ניתן לסמן ולבטל סימון בכל שלב — הסיכום מתעדכן בזמן אמת</div>
+  </div>
+
+  <!-- ══════ 3: BACKGROUND ══════ -->
+  <div class="slide" data-slide="3">
+    <div class="stag">הרקע שלי</div>
+    <div class="stitle">מאין אני?</div>
+    <div class="info-grid">
+      <div class="icard">
+        <div class="ico">🌊</div>
+        <div>
+          <div class="lbl">עיר מוצא</div>
+          <div class="val">נתניה</div>
+          <div class="det">ילד ים — גדלתי ליד הגלים. רוב הלב עדיין שם.</div>
+          <button class="connect-btn" data-tag="netanya" onclick="toggleConnect(this)"><span class="cbh">♡</span> גם אני מנתניה</button>
+        </div>
+      </div>
+      <div class="icard">
+        <div class="ico">🏙️</div>
+        <div>
+          <div class="lbl">מגורים היום</div>
+          <div class="val">באר שבע</div>
+          <div class="det">עברתי דרומה ללמוד. מרכז החיים — עדיין בנתניה.</div>
+          <button class="connect-btn" data-tag="beersheva" onclick="toggleConnect(this)"><span class="cbh">♡</span> גם אני למדתי/לומד בבאר שבע</button>
+        </div>
+      </div>
+      <div class="icard">
+        <div class="ico">🎓</div>
+        <div>
+          <div class="lbl">תואר ראשון</div>
+          <div class="val">לשון עברית וספרות אנגלית</div>
+          <div class="det">אוניברסיטת בן-גוריון | 2022–2025</div>
+          <button class="connect-btn" data-tag="ba-humanities" onclick="toggleConnect(this)"><span class="cbh">♡</span> גם לי יש רקע הומני</button>
+        </div>
+      </div>
+      <div class="icard">
+        <div class="ico">🧠</div>
+        <div>
+          <div class="lbl">תואר שני (בתהליך)</div>
+          <div class="val">טכנולוגיות למידה — מסלול AI</div>
+          <div class="det">
+            <span class="hit-badge">
+              <img src="hit___holon_institute_of_technlogy_logo.jpeg" alt="HIT">
+              HIT
+            </span>
+            &nbsp;| 2025–היום
+          </div>
+          <button class="connect-btn" data-tag="ma-ai" onclick="toggleConnect(this)"><span class="cbh">♡</span> גם אני עוסק/ת ב-AI</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════ 4: FAMILY ══════ -->
+  <div class="slide" data-slide="4">
+    <div class="stag">מה חשוב לי</div>
+    <div class="stitle">המשפחה שלי</div>
+    <div class="ssub" style="margin-bottom:20px"></div>
+    <div class="fam-wrap">
+      <div class="fcard neta">
+        <div class="emo">💑</div>
+        <h3>נטע</h3>
+        <p>אשתי. הכרנו בצבא — אני חובש גדודי, היא פרמדיקית. נשואים שנה. היום היא בשנה החמישית ברפואה — המסירות שלה מדהימה אותי כל יום.</p>
+        <button class="connect-btn" data-tag="married" onclick="toggleConnect(this)"><span class="cbh">♡</span> גם אני נשוי/אה</button>
+      </div>
+      <div class="fcard suzy">
+        <div class="emo">🐶</div>
+        <h3>סוזי</h3>
+        <p>הכלבה שלנו — הדבר האהוב עליי בעולם, אחרי נטע כמובן. אין בית אמיתי בלי הכלבה הזאת.</p>
+        <button class="connect-btn" data-tag="dog" onclick="toggleConnect(this)"><span class="cbh">♡</span> גם יש לי כלב</button>
+      </div>
+      <div class="fcard fam">
+        <div class="emo">🏠</div>
+        <h3>משפחה בנתניה</h3>
+        <p>ההורים ורוב הקרובים — ולב שעדיין שם. שלושה אחיינים אהובים, ועוד אחת קטנה בדרך 🍼</p>
+        <button class="connect-btn" data-tag="family-close" onclick="toggleConnect(this)"><span class="cbh">♡</span> גם אני קרוב/ה למשפחה</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════ 5: HOBBIES ══════ -->
+  <div class="slide" data-slide="5">
+    <div class="stag">בזמן החופשי</div>
+    <div class="stitle">מה אני אוהב?</div>
+    <div class="ssub">לחצו על כל כרטיס לגלות עוד</div>
+    <div class="hob-grid">
+      <div class="hcard" onclick="toggleH(this)">
+        <div class="hico">🎹</div>
+        <div class="hname">פסנתר</div>
+        <div class="hdet">מנגן בעיקר פופ — הרבה פעמים ישירות מהאוזן. זה הדבר שאני הכי אוהב לעשות.</div>
+        <button class="connect-btn hcard-cb" data-tag="piano" onclick="event.stopPropagation();toggleConnect(this)"><span class="cbh">♡</span> גם אני מנגן/ת על פסנתר</button>
+        <div class="htap">לחץ לפרטים</div>
+      </div>
+      <div class="hcard" onclick="toggleH(this)">
+        <div class="hico">🎸</div>
+        <div class="hname">גיטרה</div>
+        <div class="hdet">מוזיקה ספרדית ופלמנקו — יש במקצבים האלה משהו דרמטי ומשחרר.</div>
+        <button class="connect-btn hcard-cb" data-tag="guitar" onclick="event.stopPropagation();toggleConnect(this)"><span class="cbh">♡</span> גם אני מנגן/ת גיטרה</button>
+        <div class="htap">לחץ לפרטים</div>
+      </div>
+      <div class="hcard" onclick="toggleH(this)">
+        <div class="hico">✏️</div>
+        <div class="hname">ציור ורישום</div>
+        <div class="hdet">שש שנות לימוד רישום. האסתטיקה הזאת מחלחלת לכל דבר שאני מעצב.</div>
+        <button class="connect-btn hcard-cb" data-tag="drawing" onclick="event.stopPropagation();toggleConnect(this)"><span class="cbh">♡</span> גם אני מצייר/ת</button>
+        <div class="htap">לחץ לפרטים</div>
+      </div>
+      <div class="hcard" onclick="toggleH(this)">
+        <div class="hico">💻</div>
+        <div class="hname">טכנולוגיה</div>
+        <div class="hdet">פריק חומרה ותוכנה — עמדת המחשב בבית היא המקום האהוב עליי בעולם כמעט.</div>
+        <button class="connect-btn hcard-cb" data-tag="tech" onclick="event.stopPropagation();toggleConnect(this)"><span class="cbh">♡</span> גם אני פריק/ית טכנולוגיה</button>
+        <div class="htap">לחץ לפרטים</div>
+      </div>
+      <div class="hcard" onclick="toggleH(this)">
+        <div class="hico">🌊</div>
+        <div class="hname">הים</div>
+        <div class="hdet">ילד נתניה — הים הוא חלק מהנשמה. כשחוזרים, זו התחנה הראשונה.</div>
+        <button class="connect-btn hcard-cb" data-tag="sea" onclick="event.stopPropagation();toggleConnect(this)"><span class="cbh">♡</span> גם אני אוהב/ת ים</button>
+        <div class="htap">לחץ לפרטים</div>
+      </div>
+      <div class="hcard" onclick="toggleH(this)">
+        <div class="hico">📝</div>
+        <div class="hname">כתיבה</div>
+        <div class="hdet">בוגר ספרות אנגלית — כתיבה יצירתית היא חלק ממי שאני, גם בעברית וגם באנגלית.</div>
+        <button class="connect-btn hcard-cb" data-tag="writing" onclick="event.stopPropagation();toggleConnect(this)"><span class="cbh">♡</span> גם אני כותב/ת</button>
+        <div class="htap">לחץ לפרטים</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════ 6: EXPERIENCE ACCORDION ══════ -->
+  <div class="slide" data-slide="6">
+    <div class="stag">ניסיון מקצועי</div>
+    <div class="stitle">מה עשיתי עד היום?</div>
+    <div class="acc-intro">לחצו על כל תפקיד לפרטים — ועל ♡ אם זה מוכר לכם</div>
+    <div class="acc-list">
+      <div class="acc-item">
+        <button class="acc-hdr" id="acc-hdr-0" onclick="toggleAcc(0)">
+          <span class="acc-ico">🪖</span>
+          <div class="acc-titles">
+            <div class="acc-title">חובש גדודי ומפקד תאג"ד</div>
+            <div class="acc-dates">צה"ל | 2018–2021</div>
+          </div>
+          <span class="acc-arrow">▾</span>
+        </button>
+        <div class="acc-body" id="acc-body-0">
+          חובש גדודי ומפקד תאג"ד בגדוד תותחנים 55. ניהלתי את מערך הרפואה הגדודי, חנכתי את צוות החובשים, ופיקדתי בשדה — ניסיון שמלמד איך מקבלים החלטות כשמשהו באמת חשוב.
+          <br><button class="connect-btn" data-tag="idf-artillery" onclick="toggleConnect(this)"><span class="cbh">♡</span> גם אני שירתתי בתותחנים</button>
+          <button class="connect-btn" data-tag="idf-medic" onclick="toggleConnect(this)" style="margin-right:6px"><span class="cbh">♡</span> גם אני הייתי חובש בצבא</button>
+        </div>
+      </div>
+      <div class="acc-item">
+        <button class="acc-hdr" id="acc-hdr-1" onclick="toggleAcc(1)">
+          <span class="acc-ico">🌐</span>
+          <div class="acc-titles">
+            <div class="acc-title">מנהל מוצר ואחראי הדרכת לקוחות</div>
+            <div class="acc-dates">א.ס.פ.י | 2022–2024</div>
+          </div>
+          <span class="acc-arrow">▾</span>
+        </button>
+        <div class="acc-body" id="acc-body-1">
+          ניהלתי ממשקים עם ספקים גלובליים, הפקתי תוכן הדרכה לסביבת B2B, וניהלתי נתוני ERP — שילוב של חשיבת מוצר עם עולם ההדרכה הארגונית.
+          <br><button class="connect-btn" data-tag="pm" onclick="toggleConnect(this)"><span class="cbh">♡</span> גם אני עוסק/ת בניהול מוצר</button>
+        </div>
+      </div>
+      <div class="acc-item">
+        <button class="acc-hdr" id="acc-hdr-2" onclick="toggleAcc(2)">
+          <span class="acc-ico">🎯</span>
+          <div class="acc-titles">
+            <div class="acc-title">מפתח למידה</div>
+            <div class="acc-dates">קידום גפ"ן | 2024–היום</div>
+          </div>
+          <span class="acc-arrow">▾</span>
+        </button>
+        <div class="acc-body" id="acc-body-2">
+          הקמתי פורטל למידה מאפס, בניתי לומדות ואנימציות, ופיתחתי חוברת דיגיטלית עם vibe coding ו-AI — מקצה לקצה, ממחקר עד הפצה.
+          <br><button class="connect-btn" data-tag="ld" onclick="toggleConnect(this)"><span class="cbh">♡</span> גם אני מפתח/ת למידה</button>
+        </div>
+      </div>
+      <div class="acc-item">
+        <button class="acc-hdr" id="acc-hdr-3" onclick="toggleAcc(3)">
+          <span class="acc-ico">📚</span>
+          <div class="acc-titles">
+            <div class="acc-title">מורה לעברית ואנגלית</div>
+            <div class="acc-dates">בתי ספר פרטיים | 2021–היום</div>
+          </div>
+          <span class="acc-arrow">▾</span>
+        </button>
+        <div class="acc-body" id="acc-body-3">
+          מעצב ומוביל מערכי שיעור לאוכלוסיות מגוונות — מגיל יסודי עד בגרות. לולאת המשוב מהכיתה היא הלמידה האמיתית שלי.
+          <br><button class="connect-btn" data-tag="teaching" onclick="toggleConnect(this)"><span class="cbh">♡</span> גם אני מלמד/ת</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════ 7: SKILLS ══════ -->
+  <div class="slide" data-slide="7">
+    <div class="stag">כישורים וכלים</div>
+    <div class="stitle">הארגז שלי</div>
+    <div class="ssub">לחצו על כל כלי להסבר — ובטולטיפ תוכלו לסמן אם גם אתם משתמשים בו</div>
+    <div class="sk-wrap" id="skills-grid">
+      <div class="sk-cat">
+        <div class="sk-lbl">פיתוח למידה</div>
+        <div class="tags">
+          <span class="tag" onclick="showTip(this)">Articulate Storyline</span>
+          <span class="tag" onclick="showTip(this)">Vyond</span>
+          <span class="tag" onclick="showTip(this)">H5P</span>
+          <span class="tag" onclick="showTip(this)">Canva</span>
+          <span class="tag" onclick="showTip(this)">Google Sites</span>
+          <span class="tag" onclick="showTip(this)">Gemini Canvas</span>
+        </div>
+      </div>
+      <div class="sk-cat">
+        <div class="sk-lbl">AI ואוטומציה</div>
+        <div class="tags">
+          <span class="tag" onclick="showTip(this)">Claude Code</span>
+          <span class="tag" onclick="showTip(this)">Ollama + Gemma</span>
+          <span class="tag" onclick="showTip(this)">Vibe Coding</span>
+          <span class="tag" onclick="showTip(this)">מודלים מקומיים</span>
+        </div>
+      </div>
+      <div class="sk-cat">
+        <div class="sk-lbl">גיימיפיקציה</div>
+        <div class="tags">
+          <span class="tag" onclick="showTip(this)">Wordwall</span>
+          <span class="tag" onclick="showTip(this)">Kahoot</span>
+          <span class="tag" onclick="showTip(this)">Blooket</span>
+          <span class="tag" onclick="showTip(this)">Quizlet</span>
+          <span class="tag" onclick="showTip(this)">Unity</span>
+        </div>
+      </div>
+      <div class="sk-cat">
+        <div class="sk-lbl">וידאו ומולטימדיה</div>
+        <div class="tags">
+          <span class="tag" onclick="showTip(this)">DaVinci Resolve</span>
+          <span class="tag" onclick="showTip(this)">OBS Studio</span>
+          <span class="tag" onclick="showTip(this)">ניהול סטודיו</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════ 8: QUIZ ══════ -->
+  <div class="slide" data-slide="8">
+    <div class="stag">בדיקת ידע</div>
+    <div class="stitle">כמה זכרתם?</div>
+    <div class="qwrap" id="qwrap">
+      <div id="q-progress"></div>
+      <div id="qq" class="qq"></div>
+      <div id="qopts" class="qopts"></div>
+      <div id="qfb"></div>
+      <button id="qnext" onclick="nextQ()">שאלה הבאה ←</button>
+    </div>
+  </div>
+
+  <!-- ══════ 9: SUMMARY ══════ -->
+  <div class="slide" data-slide="9">
+    <div class="stag">סיכום אישי</div>
+    <div class="stitle" style="margin-bottom:14px">המכנים המשותפים שלנו</div>
+    <div id="sum-wrap" class="sum-wrap"></div>
+    <div class="ainote" style="margin-top:10px">
+      <span>פותח כמטלת פיתוח מהיר — קורס אפיון ופיתוח פתרונות למידה, HIT</span>
+      <img src="hit___holon_institute_of_technlogy_logo.jpeg" alt="HIT">
+      <span>כלי AI: Claude Sonnet 4.6 (Anthropic)</span>
+    </div>
+  </div>
+
+</div><!-- /slides -->
+
+<div id="nav">
+  <button class="nbtn" id="pbtn" onclick="prevSlide()" disabled>הקודם →</button>
+  <button class="nbtn primary" id="nbtn" onclick="nextSlide()">← הבא</button>
+</div>
+
+<script>
+/* ── NAVIGATION ── */
+var TOTAL = 9, cur = 1;
+
+function goTo(n) {
+  if (n < 1 || n > TOTAL || n === cur) return;
+  document.querySelector('[data-slide="' + cur + '"]').classList.remove('active');
+  cur = n;
+  document.querySelector('[data-slide="' + cur + '"]').classList.add('active');
+  if (n === 8) initQuiz();
+  if (n === 9) renderSummary();
+  hideTip();
+  updateUI();
+}
+function nextSlide() { goTo(cur + 1); }
+function prevSlide() { goTo(cur - 1); }
+
+function updateUI() {
+  document.getElementById('prog-fill').style.width = (cur / TOTAL * 100) + '%';
+  document.getElementById('counter').textContent = cur + ' / ' + TOTAL;
+  document.getElementById('pbtn').disabled = cur === 1;
+  var nb = document.getElementById('nbtn');
+  nb.disabled = cur === TOTAL;
+  nb.textContent = cur === TOTAL ? 'סיום' : '← הבא';
+}
+
+/* ── HOBBIES ── */
+function toggleH(card) {
+  var isOpen = card.classList.contains('open');
+  document.querySelectorAll('.hcard').forEach(function(c) { c.classList.remove('open'); });
+  if (!isOpen) card.classList.add('open');
+}
+
+/* ── ACCORDION ── */
+function toggleAcc(id) {
+  var hdr = document.getElementById('acc-hdr-' + id);
+  var body = document.getElementById('acc-body-' + id);
+  var isOpen = hdr.classList.contains('open');
+  document.querySelectorAll('.acc-hdr').forEach(function(h) { h.classList.remove('open'); });
+  document.querySelectorAll('.acc-body').forEach(function(b) { b.classList.remove('open'); });
+  if (!isOpen) { hdr.classList.add('open'); body.classList.add('open'); }
+}
+
+/* ── CONNECT SYSTEM ── */
+var selectedTags = new Set();
+
+var tagData = {
+  'netanya':      { cat:'personal', icon:'🌊', label:'נתניה',
+    topic:'שניינו מנתניה — יש לנו מה לדבר על העיר, הים, וחיים שם' },
+  'beersheva':    { cat:'personal', icon:'🏙️', label:'לימודים בבאר שבע',
+    topic:'שניינו מכירים את באר שבע — יש לנו מה לדבר על העיר הזאת' },
+  'ba-humanities':{ cat:'personal', icon:'📖', label:'רקע הומני',
+    topic:'שניינו מגיעים מצד הטקסטים והשפה — לא רק מהטכנולוגיה' },
+  'ma-ai':        { cat:'personal', icon:'🤖', label:'AI ולמידה',
+    topic:'שניינו עוקבים אחרי עולם ה-AI — שטח שמשתנה בקצב מסחרר' },
+  'married':      { cat:'personal', icon:'💑', label:'זוגיות / נישואין',
+    topic:'שניינו מבינים מה זה לבנות חיים משותפים עם מישהו' },
+  'dog':          { cat:'personal', icon:'🐕', label:'כלב',
+    topic:'אנשי כלבים מבינים אחד את השני בלי מילים' },
+  'family-close': { cat:'personal', icon:'🏠', label:'קשר חזק למשפחה',
+    topic:'שניינו מבינים ערך של שורשים ומשפחה' },
+  'piano':        { cat:'hobbies', icon:'🎹', label:'פסנתר',
+    topic:'שניינו מנגנים — מוזיקה היא שפה משותפת' },
+  'guitar':       { cat:'hobbies', icon:'🎸', label:'גיטרה',
+    topic:'שניינו מחזיקים גיטרה — יש לנו מה לדבר על מוזיקה' },
+  'drawing':      { cat:'hobbies', icon:'✏️', label:'ציור ורישום',
+    topic:'שניינו יצירתיים חזותית — אפשר לדבר על אסתטיקה ועיפרון' },
+  'tech':         { cat:'hobbies', icon:'💻', label:'טכנולוגיה',
+    topic:'שניינו פריקי טכנולוגיה — יש לנו שפה משותפת' },
+  'sea':          { cat:'hobbies', icon:'🏖️', label:'הים',
+    topic:'הים הוא שפה — שניינו מבינים את הקסם שבגלים' },
+  'writing':      { cat:'hobbies', icon:'📝', label:'כתיבה',
+    topic:'שניינו כותבים — אפשר לדבר על תהליך, השראה וסגנון' },
+  'idf-artillery':{ cat:'professional', icon:'💣', label:'שירות בתותחנים',
+    topic:'גם אתה/את שירת/ת בתותחנים — מסורת שדה אמיתית' },
+  'idf-medic':    { cat:'professional', icon:'⚕️', label:'חובש/ת בצבא',
+    topic:'גם אתה/את היית/ית חובש/ת — אנחנו מבינים מה זה אחריות על חיים' },
+  'pm':           { cat:'professional', icon:'📋', label:'ניהול מוצר',
+    topic:'ניהול מוצר + פיתוח למידה — שילוב שלא כולם מכירים' },
+  'ld':           { cat:'professional', icon:'🎯', label:'פיתוח למידה',
+    topic:'שניינו מבינים שלמידה טובה לא קורית מאליה — היא מתוכננת' },
+  'teaching':     { cat:'professional', icon:'📚', label:'הוראה',
+    topic:'שניינו מאמינים בכוח של הוראה טובה' },
+  'sk-storyline': { cat:'tools', icon:'🎓', label:'Articulate Storyline', topic:'' },
+  'sk-vyond':     { cat:'tools', icon:'🎬', label:'Vyond', topic:'' },
+  'sk-h5p':       { cat:'tools', icon:'🔗', label:'H5P', topic:'' },
+  'sk-canva':     { cat:'tools', icon:'🎨', label:'Canva', topic:'' },
+  'sk-gsites':    { cat:'tools', icon:'🌐', label:'Google Sites', topic:'' },
+  'sk-gemini':    { cat:'tools', icon:'✨', label:'Gemini Canvas', topic:'' },
+  'sk-claude':    { cat:'tools', icon:'🤖', label:'Claude Code', topic:'' },
+  'sk-ollama':    { cat:'tools', icon:'🧠', label:'Ollama + Gemma', topic:'' },
+  'sk-vibe':      { cat:'tools', icon:'⚡', label:'Vibe Coding', topic:'' },
+  'sk-local':     { cat:'tools', icon:'💾', label:'מודלים מקומיים', topic:'' },
+  'sk-wordwall':  { cat:'tools', icon:'🎮', label:'Wordwall', topic:'' },
+  'sk-kahoot':    { cat:'tools', icon:'🏆', label:'Kahoot', topic:'' },
+  'sk-blooket':   { cat:'tools', icon:'🎲', label:'Blooket', topic:'' },
+  'sk-quizlet':   { cat:'tools', icon:'📇', label:'Quizlet', topic:'' },
+  'sk-unity':     { cat:'tools', icon:'🕹️', label:'Unity', topic:'' },
+  'sk-davinci':   { cat:'tools', icon:'🎬', label:'DaVinci Resolve', topic:'' },
+  'sk-obs':       { cat:'tools', icon:'📹', label:'OBS Studio', topic:'' },
+  'sk-studio':    { cat:'tools', icon:'🎙️', label:'ניהול סטודיו', topic:'' }
+};
+
+var catMeta = {
+  personal:     { label:'🧍 אישי' },
+  hobbies:      { label:'🎨 תחביבים' },
+  professional: { label:'💼 מקצועי' },
+  tools:        { label:'🔧 כלים משותפים' }
+};
+
+function toggleConnect(el) {
+  var tag = el.dataset.tag;
+  if (selectedTags.has(tag)) {
+    selectedTags.delete(tag);
+    el.classList.remove('active');
+    el.querySelector('.cbh').textContent = '♡';
+  } else {
+    selectedTags.add(tag);
+    el.classList.add('active');
+    el.querySelector('.cbh').textContent = '♥';
+  }
+}
+
+function renderSummary() {
+  var wrap = document.getElementById('sum-wrap');
+  if (selectedTags.size === 0) {
+    wrap.innerHTML =
+      '<div class="sum-empty">' +
+      '<div class="se-ico">🤔</div>' +
+      '<p>טרם בחרתם פרטים שמתחברים אליכם.</p>' +
+      '<p style="font-size:12px;margin-top:5px">חיזרו על השקפים ולחצו ♡ על כל מה שמדבר אליכם</p>' +
+      '</div>' +
+      '<div class="sum-cta">' +
+      '<a href="mailto:benlevy834@gmail.com">📧 benlevy834@gmail.com</a>' +
+      '<a href="tel:0509131269">📞 050-913-1269</a>' +
+      '</div>';
+    return;
+  }
+  var groups = { personal:[], hobbies:[], professional:[], tools:[] };
+  selectedTags.forEach(function(id) {
+    var d = tagData[id]; if (!d) return;
+    groups[d.cat].push(d);
+  });
+  var sectionsHtml = '';
+  ['personal','hobbies','professional','tools'].forEach(function(cat) {
+    if (!groups[cat].length) return;
+    if (cat === 'tools') {
+      var chips = groups[cat].map(function(d) {
+        return '<span class="sum-tool-chip">' + d.label + '</span>';
+      }).join('');
+      sectionsHtml += '<div class="sum-cat"><div class="sum-cat-lbl">' + catMeta[cat].label + '</div><div class="sum-tools">' + chips + '</div></div>';
+    } else {
+      var items = groups[cat].map(function(d) {
+        return '<div class="sum-item"><span class="si-ico">' + d.icon + '</span>' +
+          '<div class="si-body"><strong>' + d.label + '</strong>' +
+          '<span>' + d.topic + '</span></div></div>';
+      }).join('');
+      sectionsHtml += '<div class="sum-cat"><div class="sum-cat-lbl">' + catMeta[cat].label + '</div>' + items + '</div>';
+    }
+  });
+  wrap.innerHTML =
+    '<div class="sum-cats">' + sectionsHtml + '</div>' +
+    '<div class="sum-cta">' +
+    '<a href="mailto:benlevy834@gmail.com">📧 benlevy834@gmail.com</a>' +
+    '<a href="tel:0509131269">📞 050-913-1269</a>' +
+    '</div>';
+}
+
+/* ── SKILLS TOOLTIP ── */
+var skillInfo = {
+  'Articulate Storyline': 'כלי הבנצ\'מארק לפיתוח לומדות אינטראקטיביות — הסתעפויות, שאלות וסימולציות מורכבות.',
+  'Vyond': 'הפקת סרטוני אנימציה מקצועיים לסרטוני הסבר, הדרכות וסרטוני תוכן.',
+  'H5P': 'תכנים אינטראקטיביים מוטמעים — קוויזים, גרירה ושחרור, כרטיסיות ועוד.',
+  'Canva': 'עיצוב חזותי מהיר — אינפוגרפיקות, מצגות ותכנים מותגיים.',
+  'Google Sites': 'בניית אתרי למידה ופורטלים ארגוניים ללא קוד.',
+  'Gemini Canvas': 'פיתוח ניסיוני עם AI גנרטיבי ליצירת תכנים חזותיים דינמיים.',
+  'Claude Code': 'vibe coding ישיר ב-VS Code — פיתוח לומדות ואתרים שלמים עם AI.',
+  'Ollama + Gemma': 'הרצת מודלי שפה מקומיים — פרטיות מלאה, ללא ענן וללא עלות API.',
+  'Vibe Coding': 'שיטת עבודה שמשלבת AI בכתיבה יצירתית של קוד — מהיר ואפקטיבי.',
+  'מודלים מקומיים': 'עבודה עם LLM על המחשב עצמו — מאובטח, מהיר ועצמאי לחלוטין.',
+  'Wordwall': 'פעילויות אינטראקטיביות מהירות — סיווג, השלמת משפטים, חידונים.',
+  'Kahoot': 'חידוני כיתה בזמן אמת עם לוח תוצאות ותחרות בין לומדים.',
+  'Blooket': 'גיימיפיקציה מבוססת RPG לחזרה על חומר — משחק עם תגמולים ומשימות.',
+  'Quizlet': 'כרטיסיות ומשחקי זיכרון לחזרה עצמאית ולמידה מחזורית.',
+  'Unity': 'פיתוח ניסיוני של משחקים חינוכיים עם מנוע משחקים תלת-ממדי.',
+  'DaVinci Resolve': 'עריכת וידאו מקצועית — גזירה, צבעיות, כתוביות וסאונד לסרטוני הדרכה.',
+  'OBS Studio': 'הקלטת מסך ווידאו איכותית בסטודיו לסרטוני הדרכה ודמו.',
+  'ניהול סטודיו': 'הפקה מלאה מקצה לקצה — תכנון, הקלטה, תאורה ועריכה.'
+};
+
+var skillTagMap = {
+  'Articulate Storyline':'sk-storyline','Vyond':'sk-vyond','H5P':'sk-h5p',
+  'Canva':'sk-canva','Google Sites':'sk-gsites','Gemini Canvas':'sk-gemini',
+  'Claude Code':'sk-claude','Ollama + Gemma':'sk-ollama','Vibe Coding':'sk-vibe',
+  'מודלים מקומיים':'sk-local','Wordwall':'sk-wordwall','Kahoot':'sk-kahoot',
+  'Blooket':'sk-blooket','Quizlet':'sk-quizlet','Unity':'sk-unity',
+  'DaVinci Resolve':'sk-davinci','OBS Studio':'sk-obs','ניהול סטודיו':'sk-studio'
+};
+
+var activeTipTag = null;
+function showTip(el) {
+  var tip = document.getElementById('tooltip');
+  if (activeTipTag === el) { hideTip(); return; }
+  if (activeTipTag) activeTipTag.classList.remove('active-tip');
+  var skillName = el.textContent.trim();
+  var text = skillInfo[skillName];
+  if (!text) return;
+  var tagId = skillTagMap[skillName];
+  var isConn = tagId && selectedTags.has(tagId);
+  activeTipTag = el; el.classList.add('active-tip');
+  var btnBg    = isConn ? '#F7FFFF'                  : 'transparent';
+  var btnBdr   = isConn ? '#F7FFFF'                  : 'rgba(247,255,255,0.13)';
+  var btnClr   = isConn ? '#020c0e'                  : 'rgba(247,255,255,0.48)';
+  tip.innerHTML =
+    '<div style="font-size:12px;line-height:1.6;margin-bottom:9px;color:#F7FFFF">' + text + '</div>' +
+    '<button id="tip-cb" onclick="connectSkill(\'' + tagId + '\',\'' + skillName.replace(/'/g,"\\'") + '\')" ' +
+    'style="display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:4px;' +
+    'border:1px solid ' + btnBdr + ';background:' + btnBg + ';color:' + btnClr + ';' +
+    'font-family:\'Assistant\',sans-serif;font-size:11px;font-weight:600;cursor:pointer;">' +
+    (isConn ? '♥' : '♡') + ' גם אני משתמש/ת</button>';
+  tip.style.visibility = 'hidden'; tip.style.display = 'block';
+  var tH = tip.offsetHeight;
+  var rect = el.getBoundingClientRect();
+  var left = Math.max(8, Math.min(rect.left, window.innerWidth - 272));
+  var top = rect.top - tH - 10;
+  if (top < 8) top = rect.bottom + 8;
+  tip.style.top = top + 'px'; tip.style.left = left + 'px';
+  tip.style.visibility = 'visible';
+}
+
+function connectSkill(tagId, name) {
+  if (selectedTags.has(tagId)) selectedTags.delete(tagId);
+  else selectedTags.add(tagId);
+  var isNow = selectedTags.has(tagId);
+  var btn = document.getElementById('tip-cb');
+  if (btn) {
+    btn.innerHTML = (isNow ? '♥' : '♡') + ' גם אני משתמש/ת';
+    btn.style.borderColor = isNow ? '#F7FFFF' : 'rgba(247,255,255,0.13)';
+    btn.style.background  = isNow ? '#F7FFFF' : 'transparent';
+    btn.style.color       = isNow ? '#020c0e' : 'rgba(247,255,255,0.48)';
+  }
+  document.querySelectorAll('.tag').forEach(function(t) {
+    if (skillTagMap[t.textContent.trim()] === tagId)
+      t.classList.toggle('skill-connected', isNow);
+  });
+}
+
+function hideTip() {
+  document.getElementById('tooltip').style.display = 'none';
+  if (activeTipTag) { activeTipTag.classList.remove('active-tip'); activeTipTag = null; }
+}
+document.addEventListener('click', function(e) {
+  var tip = document.getElementById('tooltip');
+  if (!e.target.classList.contains('tag') && !tip.contains(e.target)) hideTip();
+});
+
+/* ── QUIZ ── */
+var questions = [
+  { q: 'איך קוראים לכלבה של בן ונטע?',
+    opts: ['בלה','לונה','סוזי','רוקי'],
+    correct: 2,
+    fb:  'נכון! סוזי — "אין בית אמיתי בלי הכלבה הזאת."',
+    fbw: 'לא בדיוק — שמה סוזי!' },
+  { q: 'כמה שנים למד בן רישום?',
+    opts: ['שנתיים','ארבע שנים','שש שנים','שמונה שנים'],
+    correct: 2,
+    fb:  'נכון! שש שנות לימוד רישום.',
+    fbw: 'לא בדיוק — שש שנים.' },
+  { q: 'בן גדל בנתניה — אבל איפה הוא גר ולומד היום?',
+    opts: ['תל אביב','חולון','ירושלים','באר שבע'],
+    correct: 3,
+    fb:  'נכון! עבר לבאר שבע ללמוד, אבל הלב עדיין בנתניה.',
+    fbw: 'לא בדיוק — בן גר בבאר שבע.' }
+];
+var curQ = 0, score = 0, qAnswered = false;
+
+function initQuiz() {
+  curQ = 0; score = 0;
+  var w = document.getElementById('qwrap');
+  w.innerHTML = '<div id="q-progress"></div><div id="qq" class="qq"></div><div id="qopts" class="qopts"></div><div id="qfb"></div><button id="qnext" onclick="nextQ()">שאלה הבאה ←</button>';
+  renderQ();
+}
+
+function renderQ() {
+  var q = questions[curQ];
+  document.getElementById('q-progress').textContent = 'שאלה ' + (curQ + 1) + ' מתוך ' + questions.length;
+  document.getElementById('q-progress').style.cssText = 'font-size:11px;letter-spacing:1.5px;color:rgba(247,255,255,0.48);margin-bottom:12px;';
+  document.getElementById('qq').textContent = q.q;
+  var opts = document.getElementById('qopts');
+  opts.innerHTML = '';
+  q.opts.forEach(function(o, i) {
+    var b = document.createElement('button');
+    b.className = 'qbtn'; b.textContent = o;
+    b.onclick = (function(idx) { return function() { doAnswer(idx); }; })(i);
+    opts.appendChild(b);
+  });
+  document.getElementById('qfb').textContent = '';
+  document.getElementById('qfb').style.color = '';
+  document.getElementById('qnext').style.display = 'none';
+  qAnswered = false;
+}
+
+function doAnswer(idx) {
+  if (qAnswered) return;
+  qAnswered = true;
+  var q = questions[curQ];
+  var btns = document.querySelectorAll('.qbtn');
+  btns.forEach(function(b) { b.disabled = true; });
+  var fb = document.getElementById('qfb');
+  if (idx === q.correct) {
+    btns[idx].classList.add('correct'); score++;
+    fb.style.color = '#5CB8A0'; fb.textContent = '✅ ' + q.fb;
+  } else {
+    btns[idx].classList.add('wrong');
+    btns[q.correct].classList.add('correct');
+    fb.style.color = '#F87171'; fb.textContent = '❌ ' + q.fbw;
+  }
+  var nb = document.getElementById('qnext');
+  nb.style.display = 'inline-block';
+  nb.textContent = curQ === questions.length - 1 ? 'לסיכום ←' : 'שאלה הבאה ←';
+}
+
+function nextQ() {
+  curQ++;
+  if (curQ >= questions.length) {
+    var emoji = score === 3 ? '🏆' : score >= 2 ? '🎉' : '📚';
+    var msg = score === 3 ? 'מושלם — זכרתם הכל!' : score >= 2 ? 'כמעט מושלם!' : 'כדאי לחזור על החומר 😊';
+    document.getElementById('qwrap').innerHTML =
+      '<div style="text-align:center">' +
+      '<div style="font-size:48px;margin-bottom:12px">' + emoji + '</div>' +
+      '<div style="font-size:24px;font-weight:800;margin-bottom:5px;color:#FFFEFF">' + score + ' / ' + questions.length + '</div>' +
+      '<div style="font-size:14px;color:rgba(247,255,255,0.5);margin-bottom:22px">' + msg + '</div>' +
+      '<button onclick="goTo(TOTAL)" style="padding:9px 26px;background:#F7FFFF;border:none;border-radius:0;color:#020c0e;font-family:\'Assistant\',sans-serif;font-size:14px;font-weight:700;cursor:pointer;">המשך לסיכום ←</button>' +
+      '</div>';
+  } else {
+    renderQ();
+  }
+}
+
+/* ── KEYBOARD ── */
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'ArrowLeft')  nextSlide();
+  if (e.key === 'ArrowRight') prevSlide();
+  if (e.key === 'ArrowDown')  nextSlide();
+  if (e.key === 'ArrowUp')    prevSlide();
+  if (e.key === 'Escape')     hideTip();
+});
+
+/* ── INIT ── */
+updateUI();
+initQuiz();
+</script>
+</body>
+</html>
