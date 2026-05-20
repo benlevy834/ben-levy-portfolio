@@ -292,6 +292,17 @@
       25%      { transform:translateX(-5px); }
       75%      { transform:translateX(5px); } }
 
+    /* ── SIDE LOGO ── */
+    #side-logo { position:fixed; left:18px; top:50%;
+      transform:translateY(-50%);
+      display:flex; flex-direction:column; align-items:center; gap:7px;
+      z-index:200; opacity:0.55; transition:opacity .2s; }
+    #side-logo:hover { opacity:1; }
+    #side-logo img { width:36px; border-radius:0; display:block; }
+    #side-logo span { font-size:9px; letter-spacing:1.5px; color:var(--muted);
+      writing-mode:vertical-rl; text-orientation:mixed;
+      transform:rotate(180deg); font-weight:600; }
+
     /* ── SHARP CORNERS ── */
     .nbtn, .pill, .s1-hint kbd, .how-step, .how-num, .how-hint,
     .icard, .fcard, .hcard, .connect-btn, .acc-item, .tag,
@@ -311,6 +322,10 @@
 <div id="prog-track"><div id="prog-fill"></div></div>
 <div id="counter">1 / 9</div>
 <div id="tooltip"></div>
+<div id="side-logo">
+  <img src="hit___holon_institute_of_technlogy_logo.jpeg" alt="HIT">
+  <span>מכון טכנולוגי חולון</span>
+</div>
 
 <div id="slides">
 
