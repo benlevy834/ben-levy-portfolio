@@ -226,30 +226,7 @@
       color:var(--text); pointer-events:all;
       box-shadow:0 4px 20px rgba(0,0,0,.5); }
 
-    /* ══ SLIDE 8 — QUIZ ══ */
-    .qwrap { width:100%; max-width:560px; text-align:center; }
-    #q-progress { font-size:11px; letter-spacing:1.5px; color:var(--muted);
-      margin-bottom:12px; }
-    .qq { font-size:clamp(15px,2.3vw,18px); font-weight:700;
-      margin-bottom:20px; line-height:1.55; color:var(--heading); }
-    .qopts { display:grid; grid-template-columns:1fr 1fr;
-      gap:8px; margin-bottom:14px; }
-    .qbtn { padding:12px; background:var(--surface);
-      border:1px solid var(--border); border-radius:6px;
-      color:var(--text); font-family:'Rubik',sans-serif;
-      font-size:13.5px; font-weight:600; cursor:pointer;
-      transition:all .15s; line-height:1.4; }
-    .qbtn:hover:not(:disabled) { background:var(--surface); }
-    .qbtn.correct { background:rgba(92,184,160,0.15); border-color:var(--correct); color:var(--correct); }
-    .qbtn.wrong   { background:rgba(248,113,113,0.15); border-color:var(--wrong); color:var(--wrong); }
-    #qfb { min-height:26px; font-size:14px; font-weight:700; }
-    #qnext { display:none; margin-top:13px; padding:8px 24px;
-      background:var(--accent); border:none; border-radius:0;
-      color:var(--bg); font-family:'Rubik',sans-serif;
-      font-size:14px; font-weight:700; cursor:pointer; }
-    #qnext:hover { background:var(--text); color:var(--bg); }
-
-    /* ══ SLIDE 9 — SUMMARY ══ */
+    /* ══ SLIDE 8 — SUMMARY ══ */
     .sum-wrap { width:100%; max-width:760px;
       max-height:calc(100vh - 270px); overflow-y:auto; }
     .sum-wrap::-webkit-scrollbar { width:3px; }
@@ -614,21 +591,8 @@
     </div>
   </div>
 
-  <!-- ══════ 8: QUIZ ══════ -->
+  <!-- ══════ 8: SUMMARY ══════ -->
   <div class="slide" data-slide="8">
-    <div class="stag">בדיקת ידע</div>
-    <div class="stitle">כמה זכרתם?</div>
-    <div class="qwrap" id="qwrap">
-      <div id="q-progress"></div>
-      <div id="qq" class="qq"></div>
-      <div id="qopts" class="qopts"></div>
-      <div id="qfb"></div>
-      <button id="qnext" onclick="nextQ()">שאלה הבאה ←</button>
-    </div>
-  </div>
-
-  <!-- ══════ 9: SUMMARY ══════ -->
-  <div class="slide" data-slide="9">
     <div class="stag">סיכום אישי</div>
     <div class="stitle" style="margin-bottom:14px">המכנים המשותפים שלנו</div>
     <div id="sum-wrap" class="sum-wrap"></div>
@@ -648,15 +612,14 @@
 
 <script>
 /* ── NAVIGATION ── */
-var TOTAL = 9, cur = 1;
+var TOTAL = 8, cur = 1;
 
 function goTo(n) {
   if (n < 1 || n > TOTAL || n === cur) return;
   document.querySelector('[data-slide="' + cur + '"]').classList.remove('active');
   cur = n;
   document.querySelector('[data-slide="' + cur + '"]').classList.add('active');
-  if (n === 8) initQuiz();
-  if (n === 9) renderSummary();
+  if (n === 8) renderSummary();
   hideTip();
   updateUI();
 }
@@ -869,9 +832,11 @@ function showTip(el) {
   tip.style.visibility = 'hidden'; tip.style.display = 'block';
   var tH = tip.offsetHeight;
   var rect = el.getBoundingClientRect();
-  var left = Math.max(8, Math.min(rect.left, window.innerWidth - 272));
-  var top = rect.top - tH - 10;
-  if (top < 8) top = rect.bottom + 8;
+  var zoom = parseFloat(getComputedStyle(document.documentElement).zoom) || 1;
+  var rl = rect.left / zoom, rt = rect.top / zoom, rb = rect.bottom / zoom;
+  var left = Math.max(8, Math.min(rl, window.innerWidth / zoom - 272));
+  var top = rt - tH - 10;
+  if (top < 8) top = rb + 8;
   tip.style.top = top + 'px'; tip.style.left = left + 'px';
   tip.style.visibility = 'visible';
 }
@@ -902,89 +867,6 @@ document.addEventListener('click', function(e) {
   if (!e.target.classList.contains('tag') && !tip.contains(e.target)) hideTip();
 });
 
-/* ── QUIZ ── */
-var questions = [
-  { q: 'איך קוראים לכלבה של בן ונטע?',
-    opts: ['בלה','לונה','סוזי','רוקי'],
-    correct: 2,
-    fb:  'נכון! סוזי — "אין בית אמיתי בלי הכלבה הזאת."',
-    fbw: 'לא בדיוק — שמה סוזי!' },
-  { q: 'כמה שנים למד בן רישום?',
-    opts: ['שנתיים','ארבע שנים','שש שנים','שמונה שנים'],
-    correct: 2,
-    fb:  'נכון! שש שנות לימוד רישום.',
-    fbw: 'לא בדיוק — שש שנים.' },
-  { q: 'בן גדל בנתניה — אבל איפה הוא גר ולומד היום?',
-    opts: ['תל אביב','חולון','ירושלים','באר שבע'],
-    correct: 3,
-    fb:  'נכון! עבר לבאר שבע ללמוד, אבל הלב עדיין בנתניה.',
-    fbw: 'לא בדיוק — בן גר בבאר שבע.' }
-];
-var curQ = 0, score = 0, qAnswered = false;
-
-function initQuiz() {
-  curQ = 0; score = 0;
-  var w = document.getElementById('qwrap');
-  w.innerHTML = '<div id="q-progress"></div><div id="qq" class="qq"></div><div id="qopts" class="qopts"></div><div id="qfb"></div><button id="qnext" onclick="nextQ()">שאלה הבאה ←</button>';
-  renderQ();
-}
-
-function renderQ() {
-  var q = questions[curQ];
-  document.getElementById('q-progress').textContent = 'שאלה ' + (curQ + 1) + ' מתוך ' + questions.length;
-  document.getElementById('q-progress').style.cssText = 'font-size:11px;letter-spacing:1.5px;color:rgba(247,255,255,0.48);margin-bottom:12px;';
-  document.getElementById('qq').textContent = q.q;
-  var opts = document.getElementById('qopts');
-  opts.innerHTML = '';
-  q.opts.forEach(function(o, i) {
-    var b = document.createElement('button');
-    b.className = 'qbtn'; b.textContent = o;
-    b.onclick = (function(idx) { return function() { doAnswer(idx); }; })(i);
-    opts.appendChild(b);
-  });
-  document.getElementById('qfb').textContent = '';
-  document.getElementById('qfb').style.color = '';
-  document.getElementById('qnext').style.display = 'none';
-  qAnswered = false;
-}
-
-function doAnswer(idx) {
-  if (qAnswered) return;
-  qAnswered = true;
-  var q = questions[curQ];
-  var btns = document.querySelectorAll('.qbtn');
-  btns.forEach(function(b) { b.disabled = true; });
-  var fb = document.getElementById('qfb');
-  if (idx === q.correct) {
-    btns[idx].classList.add('correct'); score++;
-    fb.style.color = '#5CB8A0'; fb.textContent = '✅ ' + q.fb;
-  } else {
-    btns[idx].classList.add('wrong');
-    btns[q.correct].classList.add('correct');
-    fb.style.color = '#F87171'; fb.textContent = '❌ ' + q.fbw;
-  }
-  var nb = document.getElementById('qnext');
-  nb.style.display = 'inline-block';
-  nb.textContent = curQ === questions.length - 1 ? 'לסיכום ←' : 'שאלה הבאה ←';
-}
-
-function nextQ() {
-  curQ++;
-  if (curQ >= questions.length) {
-    var emoji = score === 3 ? '🏆' : score >= 2 ? '🎉' : '📚';
-    var msg = score === 3 ? 'מושלם — זכרתם הכל!' : score >= 2 ? 'כמעט מושלם!' : 'כדאי לחזור על החומר 😊';
-    document.getElementById('qwrap').innerHTML =
-      '<div style="text-align:center">' +
-      '<div style="font-size:48px;margin-bottom:12px">' + emoji + '</div>' +
-      '<div style="font-size:24px;font-weight:800;margin-bottom:5px;color:#FFFEFF">' + score + ' / ' + questions.length + '</div>' +
-      '<div style="font-size:14px;color:rgba(247,255,255,0.5);margin-bottom:22px">' + msg + '</div>' +
-      '<button onclick="goTo(TOTAL)" style="padding:9px 26px;background:#F7FFFF;border:none;border-radius:0;color:#020c0e;font-family:\'Assistant\',sans-serif;font-size:14px;font-weight:700;cursor:pointer;">המשך לסיכום ←</button>' +
-      '</div>';
-  } else {
-    renderQ();
-  }
-}
-
 /* ── KEYBOARD ── */
 document.addEventListener('keydown', function(e) {
   if (e.key === 'ArrowLeft')  nextSlide();
@@ -996,7 +878,6 @@ document.addEventListener('keydown', function(e) {
 
 /* ── INIT ── */
 updateUI();
-initQuiz();
 </script>
 </body>
 </html>
